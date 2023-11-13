@@ -1,0 +1,64 @@
+export const useGetRoutes = () => {
+  // Ruta global
+  const url = `http://${window.location.hostname}`;
+  const userNoPhoto = "../../public/usuario.png";
+
+  // Rutas externas
+  const getIp = "https://api.ipify.org?format=json";
+
+  // Rutas de autenticacion
+  const authLogin = `${url}/api/auth/login`;
+  const authRegister = `${url}/api/auth/register`;
+  const authLoginWithGoogle = `${url}/api/auth/login-with-google`;
+
+  // Rutas usuario
+  const userStat = `${url}/api/user/stats`;
+
+  // Rutas buscador
+  const searchLabel = `${url}/api/search/all/`; // luego va el elemento a buscar
+
+  // Rutas Label
+  const labelCreate = `${url}/api/label/create`;
+  const labelList = `${url}/api/label/list`;
+  const labelRemove = `${url}/api/label/remove`;
+  const labelDetails = `${url}/api/label/details/`;
+  const labelEdit = `${url}/api/label/edit`;
+  const labelBuild = `${url}/api/label/build-document`;
+
+  // Rutas poster
+  const posterCreate = `${url}/api/poster/create`;
+  const posterList = `${url}/api/poster/list`;
+  const posterBuild = `${url}/api/poster/build`;
+
+  // Rutas poster
+  const posterSmallCreate = `${url}/api/poster-small/create`;
+  const posterSmallList = `${url}/api/poster-small/list`;
+  const posterSmallBuild = `${url}/api/poster-small/build`;
+
+  // Rutas Email
+  const emailList = `${url}/api/email/list`;
+
+  return {
+    url,
+    authLogin,
+    authRegister,
+    authLoginWithGoogle,
+    getIp,
+    userStat,
+    userNoPhoto,
+    searchLabel,
+    labelCreate,
+    labelList,
+    labelRemove,
+    labelEdit,
+    labelDetails,
+    labelBuild,
+    emailList,
+    posterCreate,
+    posterList,
+    posterBuild,
+    posterSmallCreate,
+    posterSmallList,
+    posterSmallBuild
+  };
+};
