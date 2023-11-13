@@ -1,6 +1,6 @@
 export const useGetRoutes = () => {
   // Ruta global
-  const url = `http://${window.location.hostname}`;
+  const url = `https://procter.work`;
   const userNoPhoto = "../../public/usuario.png";
 
   // Rutas externas
