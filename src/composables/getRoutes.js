@@ -1,6 +1,7 @@
 export const useGetRoutes = () => {
   // Ruta global
   const url = `https://procter.work`;
+  //const url = `http://localhost`;
   const userNoPhoto = "../../public/usuario.png";
 
   // Rutas externas
@@ -13,6 +14,8 @@ export const useGetRoutes = () => {
 
   // Rutas usuario
   const userStat = `${url}/api/user/stats`;
+  const userMvc = `${url}/api/temp/mvc`;
+  const userUpdateToken = `${url}/api/temp/update-token`;
 
   // Rutas buscador
   const searchLabel = `${url}/api/search/all/`; // luego va el elemento a buscar
@@ -59,6 +62,8 @@ export const useGetRoutes = () => {
     posterBuild,
     posterSmallCreate,
     posterSmallList,
-    posterSmallBuild
+    posterSmallBuild,
+    userMvc,
+    userUpdateToken
   };
 };

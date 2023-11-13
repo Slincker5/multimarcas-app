@@ -5,11 +5,13 @@ import { useRouter } from "vue-router";
 import { useGetRoutes } from "@/composables/getRoutes";
 
 const router = useRouter();
-const { userStat, userNoPhoto } = useGetRoutes();
+const { userStat, userNoPhoto, userMvc, userUpdateToken } = useGetRoutes();
 
 const token = ref(localStorage.getItem("token"));
+const user_uuid = ref(localStorage.getItem("user_uuid"));
 const username = ref(localStorage.getItem("usuario"));
 const photo = ref(localStorage.getItem("photo"));
+const email = ref(localStorage.getItem("email"));
 
 const estadistica = ref([]);
 
@@ -26,6 +28,38 @@ const obtenerEstadisticas = async () => {
   }
 };
 
+const mvc = async () => {
+  try {
+    const param = {
+      "user_uuid": user_uuid.value
+    }
+    const { data: verificar } = await axios.post(userMvc, param);
+    if(verificar[0].mvc === null){
+      let param2;
+      if(!localStorage.getItem("email") && !localStorage.getItem("photo")){
+         param2 = {
+          "user_uuid": user_uuid.value,
+          "username": username.value,
+          "email": null,
+          "photo": null
+        }
+      }else {
+         param2 = {
+          "user_uuid": user_uuid.value,
+          "username": username.value,
+          "email": email.value,
+          "photo": photo.value
+        }
+      }
+      const { data: update } = await axios.post(userUpdateToken, param2);
+      localStorage.setItem('token', update.token)
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+mvc()
 obtenerEstadisticas();
 
 const salir = () => {
