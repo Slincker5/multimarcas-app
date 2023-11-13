@@ -31,35 +31,38 @@ const obtenerEstadisticas = async () => {
 const mvc = async () => {
   try {
     const param = {
-      "user_uuid": user_uuid.value
-    }
+      user_uuid: user_uuid.value,
+    };
     const { data: verificar } = await axios.post(userMvc, param);
-    if(verificar[0].mvc === null){
+    if (verificar[0].mvc === null) {
       let param2;
-      if(!localStorage.getItem("email") && !localStorage.getItem("photo")){
-         param2 = {
-          "user_uuid": user_uuid.value,
-          "username": username.value,
-          "email": null,
-          "photo": null
-        }
-      }else {
-         param2 = {
-          "user_uuid": user_uuid.value,
-          "username": username.value,
-          "email": email.value,
-          "photo": photo.value
-        }
+      if (!localStorage.getItem("email") && !localStorage.getItem("photo")) {
+        param2 = {
+          user_uuid: user_uuid.value,
+          username: username.value,
+          email: null,
+          photo: null,
+        };
+      } else {
+        param2 = {
+          user_uuid: user_uuid.value,
+          username: username.value,
+          email: email.value,
+          photo: photo.value,
+        };
       }
       const { data: update } = await axios.post(userUpdateToken, param2);
-      localStorage.setItem('token', update.token)
+      localStorage.setItem("token", update.token);
+      if (update.status === "OK") {
+        location.reload();
+      }
     }
   } catch (error) {
     console.log(error);
   }
 };
 
-mvc()
+mvc();
 obtenerEstadisticas();
 
 const salir = () => {
