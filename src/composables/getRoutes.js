@@ -2,7 +2,7 @@ export const useGetRoutes = () => {
   // Ruta global
   const url = `https://procter.work`;
   //const url = `http://localhost`;
-  const userNoPhoto = "../../public/usuario.png";
+  const userNoPhoto = "usuario.png";
 
   // Rutas externas
   const getIp = "https://api.ipify.org?format=json";
