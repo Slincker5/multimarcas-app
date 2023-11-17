@@ -60,7 +60,7 @@ onMounted(() => {
     .listVideoInputDevices()
     .then((videoInputDevices) => {
       selectedDeviceId =
-        videoInputDevices[videoInputDevices.length - 2].deviceId;
+        videoInputDevices[videoInputDevices.length - 1].deviceId;
     })
     .catch((err) => {
       console.error(err);
