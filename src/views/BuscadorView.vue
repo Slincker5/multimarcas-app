@@ -14,7 +14,6 @@ const ultimaBusquedaVal = ref(false);
 const scan = ref(false);
 const codeReader = new BrowserMultiFormatReader();
 let selectedDeviceId;
-const usuario = ref(localStorage.getItem("usuario"));
 const token = ref(localStorage.getItem("token"));
 const { searchLabel } = useGetRoutes()
 
@@ -22,7 +21,6 @@ const { searchLabel } = useGetRoutes()
 const useBusquedas = useBusquedasStore();
 const { resultados } = storeToRefs(useBusquedas);
 const { busquedasEncontradas } = useBusquedas;
-
 const resultadoKey = ref(0);
 
 watch(resultados, () => {
@@ -62,7 +60,7 @@ onMounted(() => {
     .listVideoInputDevices()
     .then((videoInputDevices) => {
       selectedDeviceId =
-        videoInputDevices[videoInputDevices.length - 1].deviceId;
+        videoInputDevices[videoInputDevices.length - 2].deviceId;
     })
     .catch((err) => {
       console.error(err);
@@ -76,6 +74,7 @@ const startScanner = async () => {
     "video",
     async (res, err) => {
       if (res) {
+        busqueda.value = res.text
         resetScanner();
       } else if (err && !(err instanceof NotFoundException)) {
         console.log(err);
