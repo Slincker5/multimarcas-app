@@ -20,8 +20,8 @@ const buttonRoute = computed(() => {
 </script>
 
 <template>
-  <header class="sticky top-0 flex items-center justify-between px-4 py-6 bg-[#26292B] text-[#ECF0F1] z-30">
-    <h1 class="font-bold text-[#ECF0F1]">MULTIMARCAS <span class="text-[#5F7ADB]">APP</span></h1>
+  <header class="sticky top-0 flex items-center justify-between px-4 py-6 bg-[#3498db] text-[#ECF0F1] z-30">
+    <h1 class="font-bold text-[#ECF0F1]">MULTIMARCAS</h1>
       <nav v-if="user_tmp !== null">
         <router-link to="/" class="mr-2" active-class="underline">Inicio</router-link>
       </nav>

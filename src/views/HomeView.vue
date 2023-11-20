@@ -115,7 +115,7 @@ const salir = () => {
         <div class="absolute top-0 left-0 w-full h-full b"></div>
       </div>
 
-      <div class="relative flex-1 p-4 text-white bg-neutral-800">
+      <div class="relative flex-1 p-4 text-white bg-[#383E42]">
         <h2>Crear Cintillos</h2>
         <p class="pt-2 text-xs">La posibilidad de crear hasta 448 etiquetas.</p>
         <router-link to="crear-cintillos" class="absolute bottom-0 right-0 p-4">
@@ -135,7 +135,7 @@ const salir = () => {
         <div class="absolute top-0 left-0 w-full h-full b"></div>
       </div>
 
-      <div class="relative flex-1 p-4 text-white bg-neutral-800">
+      <div class="relative flex-1 p-4 text-white bg-[#383E42]">
         <h2>Crear Rotulos</h2>
         <p class="pt-2 text-xs">La posibilidad de crear hasta 200 rotulos.</p>
         <router-link
@@ -157,7 +157,7 @@ const salir = () => {
         <div class="absolute top-0 left-0 w-full h-full b"></div>
       </div>
 
-      <div class="relative flex-1 p-4 text-white bg-neutral-800">
+      <div class="relative flex-1 p-4 text-white bg-[#383E42]">
         <h2>Buscar Internos</h2>
         <p class="pt-2 text-xs">
           Escanea o digita la descripcion, ideal para sacar el correlativo.
@@ -169,7 +169,7 @@ const salir = () => {
     </div>
   </div>
 
-  <div class="p-4 bg-green-200">
+  <div class="p-4 bg-gray-200">
     Si deseas que el correo de tu sala sea agregado a la aplicación, puedes
     compartirlo a nuestro correo para que lo agregamos.<br />
     Comparte el correo y el nombre de la sala de ventas.<br />
@@ -184,11 +184,11 @@ const salir = () => {
 
 <style>
 .b {
-  background: rgb(38, 38, 38);
+  background: rgb(56, 62, 66);
   background: linear-gradient(
     90deg,
-    rgba(38, 38, 38, 0.5) 0%,
-    rgba(38, 38, 38, 1) 100%
+    rgba(56, 62, 66, 0.5) 0%,
+    rgba(56, 62, 66, 1) 100%
   );
 }
 </style>

@@ -2,7 +2,6 @@
 import { ref } from "vue";
 import axios from "axios";
 import PaginateCintillos from "@/components/PaginateCintillos.vue";
-import { storeToRefs } from "pinia";
 import { useCintillosStore } from "@/stores/cintillos";
 import { useGetRoutes } from "@/composables/getRoutes";
 import dayjs from "dayjs";
@@ -15,15 +14,16 @@ dayjs.locale("es");
 dayjs.extend(relativeTime);
 
 const useProductos = useCintillosStore();
-const { listaCintillos } = storeToRefs(useProductos);
 const { agregarCintillos } = useProductos;
 const { labelList, labelRemove } = useGetRoutes();
 const token = ref(localStorage.getItem("token"));
 const datos = ref([]);
 const total = ref(null);
+const loading = ref(false);
 
 const getData = async () => {
   try {
+    loading.value = true;
     const headers = {
       Authorization: "Bearer " + token.value,
       "Content-Type": "application/json",
@@ -33,10 +33,17 @@ const getData = async () => {
     });
     agregarCintillos(data);
     total.value = data.length;
-    let uniqueItems = data.filter((map => item => !map.has(item.descripcion) && map.set(item.descripcion, true))(new Map()));
+    let uniqueItems = data.filter(
+      (
+        (map) => (item) =>
+          !map.has(item.descripcion) && map.set(item.descripcion, true)
+      )(new Map())
+    );
     datos.value = uniqueItems;
   } catch (error) {
     console.log(error);
+  } finally {
+    loading.value = false;
   }
 };
 getData();
@@ -52,21 +59,18 @@ const eliminar = async (uuid) => {
       uuid: uuid,
     };
 
-    let { data } = await axios.delete(
-      labelRemove,
-      {
-        headers: headers,
-        data: info,
-      }
-    );
+    let { data } = await axios.delete(labelRemove, {
+      headers: headers,
+      data: info,
+    });
 
     getData();
     toast.success(data.message, {
-        theme: "colored",
-        autoClose: 1500,
-        position: toast.POSITION.BOTTOM_LEFT,
-        transition: toast.TRANSITIONS.ZOOM,
-      });
+      theme: "colored",
+      autoClose: 1500,
+      position: toast.POSITION.BOTTOM_LEFT,
+      transition: toast.TRANSITIONS.ZOOM,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -87,7 +91,7 @@ const anterior = () => {
 </script>
 <template>
   <div>
-    <div class="bg-gray-100" v-if="listaCintillos.length > 0">
+    <div class="bg-gray-100" v-if="datos.length > 0">
       <h1
         class="flex items-center justify-between p-4 font-medium text-gray-800"
       >
@@ -120,50 +124,58 @@ const anterior = () => {
     </h1>
     <div
       class="flex items-center justify-center text-xl font-light text-gray-500 h-52"
-      v-if="datos.length === 0"
+      v-if="loading"
     >
-      <font-awesome-icon :icon="['fas', 'face-sad-cry']" /> Aun no has agregado
-      datos..
+    <font-awesome-icon :icon="['fas', 'circle-notch']" spin class="mr-2" /> Cargando datos ...
     </div>
-    <!-- component -->
-    <div
-      v-for="item in datos.slice(inicio, fin)"
-      :key="item.id"
-      class="border-b border-[#dddddd] border-solid"
-    >
-      <div class="flex items-start justify-between p-4">
-        <span class="flex-[1]">{{ item.descripcion }}</span>
-        <button class="text-gray-900" @click.prevent="eliminar(item.uuid)">
-          <font-awesome-icon :icon="['fas', 'trash-can']" />
-        </button>
+    <div v-else>
+      <div
+        class="flex items-center justify-center text-xl font-light text-gray-500 h-52"
+        v-if="datos.length === 0"
+      >
+        <font-awesome-icon :icon="['fas', 'face-sad-cry']" /> Aun no has
+        agregado datos..
       </div>
-      <div class="flex p-4 pt-0">
-        <router-link
-          :to="`/editar/${item.uuid}`"
-          v-if="item.uuid"
-          class="flex items-center mr-2 text-sm font-medium text-blue-600 underline uppercase"
-        >
-          Editar</router-link
-        >
-        <div class="flex items-center mr-2 text-sm">${{ item.precio }}</div>
-        <div class="flex items-center mr-2">
-          <span v-if="item.cantidad < 2" class="text-sm"
-            >({{ item.cantidad }} cintillo)</span
+      <!-- component -->
+      <div
+        v-for="item in datos.slice(inicio, fin)"
+        :key="item.id"
+        class="border-b border-[#dddddd] border-solid"
+      >
+        <div class="flex items-start justify-between p-4">
+          <span class="flex-[1]">{{ item.descripcion }}</span>
+          <button class="text-gray-900" @click.prevent="eliminar(item.uuid)">
+            <font-awesome-icon :icon="['fas', 'trash-can']" />
+          </button>
+        </div>
+        <div class="flex p-4 pt-0">
+          <router-link
+            :to="`/editar/${item.uuid}`"
+            v-if="item.uuid"
+            class="flex items-center mr-2 text-sm font-medium text-blue-600 underline uppercase"
           >
-          <span v-else class="text-sm">({{ item.cantidad }} cintillos)</span>
-        </div>
-        <div class="text-sm text-gray-500">
-          {{ dayjs(item.fecha).fromNow() }}
+            Editar</router-link
+          >
+          <div class="flex items-center mr-2 text-sm">${{ item.precio }}</div>
+          <div class="flex items-center mr-2">
+            <span v-if="item.cantidad < 2" class="text-sm"
+              >({{ item.cantidad }} cintillo)</span
+            >
+            <span v-else class="text-sm">({{ item.cantidad }} cintillos)</span>
+          </div>
+          <div class="text-sm text-gray-500">
+            {{ dayjs(item.fecha).fromNow() }}
+          </div>
         </div>
       </div>
+      <!-- aqui btn -->
+      <PaginateCintillos
+        :inicio="inicio"
+        :fin="fin"
+        :maxLength="datos.length"
+        @siguiente="siguiente"
+        @anterior="anterior"
+      ></PaginateCintillos>
     </div>
-    <!-- aqui btn -->
-    <PaginateCintillos
-      :inicio="inicio"
-      :fin="fin"
-      :maxLength="datos.length"
-      @siguiente="siguiente"
-      @anterior="anterior"
-    ></PaginateCintillos>
   </div>
 </template>
