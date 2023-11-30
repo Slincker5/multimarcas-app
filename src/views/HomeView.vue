@@ -76,6 +76,7 @@ const salir = () => {
 </script>
 <template>
   <div>
+    <div class="p-4 text-white bg-red-400"><img src="../../public/sled.gif" class="w-[30px] h-[30px] rounded-full align-middle inline-block mr-2 text-sm">Debido a la baja de usuarios y el coste de recursos en servidores, el mes de diciembre nuesta app estara fuera de servicio, reanudando actividades hasta enero 2024</div>
     <h1
       class="flex items-center justify-between col-span-1 p-4 pb-4 font-medium text-gray-900 border-b border-solid border-[#ddd]"
     >
