@@ -73,10 +73,37 @@ const salir = () => {
   localStorage.removeItem("email");
   router.push("/login");
 };
+
+
+
+function calcularDiferencia() {
+  const second = 1000,
+      minute = second * 60,
+      hour = minute * 60,
+      day = hour * 24;
+
+let countDown = new Date('Jan 05, 2024 00:00:00').getTime(),
+    x = setInterval(function() {
+
+      let now = new Date().getTime(),
+          distance = countDown - now;
+
+      let dia = Math.floor(distance / (day))
+      let hora = Math.floor((distance % (day)) / (hour))
+      let minuto = Math.floor((distance % (hour)) / (minute))
+      let segundo = Math.floor((distance % (minute)) / second);
+      cuentaRegresiva.innerHTML = `Restan ${dia} dias, ${hora}h, ${minuto}m, ${segundo}s`
+
+    }, second)
+}
+
+
+calcularDiferencia()
 </script>
 <template>
   <div>
-    <div class="p-4 text-white bg-red-400"><img src="../../public/sled.gif" class="w-[30px] h-[30px] rounded-full align-middle inline-block mr-2 text-sm">Debido a la baja de usuarios y el coste de recursos en servidores, el mes de diciembre nuesta app estara fuera de servicio, reanudando actividades hasta enero 2024</div>
+    
+    <div class="p-4 text-white bg-red-400" id="cuentaRegresiva"></div>
     <h1
       class="flex items-center justify-between col-span-1 p-4 pb-4 font-medium text-gray-900 border-b border-solid border-[#ddd]"
     >
