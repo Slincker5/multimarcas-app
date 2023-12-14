@@ -6,7 +6,7 @@ import { useGetRoutes } from "@/composables/getRoutes";
 
   const datos = ref([])
   const total = ref(null)
-  const { posterSmallList } =  useGetRoutes()
+  const { posterSmallBajaList } =  useGetRoutes()
 
   
   
@@ -17,7 +17,7 @@ import { useGetRoutes } from "@/composables/getRoutes";
         'Authorization': 'Bearer ' + token.value,
         'Content-Type': 'application/json'
 }
-      const { data } = await axios.get(posterSmallList, { headers })
+      const { data } = await axios.get(posterSmallBajaList, { headers })
       total.value = data.length
       let uniqueData = data.filter((v,i,a)=>a.findIndex(t=>(t.descripcion === v.descripcion))===i);
       datos.value = uniqueData
@@ -51,7 +51,7 @@ import { useGetRoutes } from "@/composables/getRoutes";
       
       <div class="flex items-center justify-between mb-3">
         <div class="text-sm text-gray-400"><font-awesome-icon :icon="['fas', 'gear']" class="fa-spin"/>Llevas {{ total }}/<span class="text-red-400">90</span></div>
-        <router-link to="/enviar-afiches-mini"
+        <router-link to="/enviar-afiches-baja-mini"
         class="inline-flex items-center px-4 py-2 text-sm font-medium rounded text-white bg-[#2E3239] hover:bg-[#37474F] border border-solid border-[#303E46] shadow-lg">
         <font-awesome-icon :icon="['fas', 'download']" />
         ENVIAR CORREO

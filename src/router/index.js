@@ -49,6 +49,15 @@ const router = createRouter({
       }
     },
     {
+      path: '/crear-afiches-baja-mini',
+      name: 'crearafichesbajamini',
+      component: () => import('../views/CrearAfichesBajaMiniView.vue'),
+      meta: {
+        requiresAuth: true,
+        title: "Crear Afiche Baja de Precio | Formato 1x9"
+      }
+    },
+    {
       path: '/afiches-seleccion',
       name: 'afiches-seleccion',
       component: () => import('../views/AfichesSeleccionView.vue'),
@@ -76,6 +85,15 @@ const router = createRouter({
       }
     },
     {
+      path: '/lista-afiches-baja-mini',
+      name: 'listaafichesbajamini',
+      component: () => import('../views/ListaAfichesBajaMiniView.vue'),
+      meta: {
+        requiresAuth: true,
+        title: "Lista Baja de Precio | Formato 1x9"
+      }
+    },
+    {
       path: '/enviar-afiches',
       name: 'enviarafiches',
       component: () => import('../views/EnviarAfichesView.vue'),
@@ -91,6 +109,15 @@ const router = createRouter({
       meta: {
         requiresAuth: true,
         title: "Envio de Afiches | Formato 1x9"
+      }
+    },
+    {
+      path: '/enviar-afiches-baja-mini',
+      name: 'enviarafichesbajamini',
+      component: () => import('../views/EnviarAfichesBajaMini.vue'),
+      meta: {
+        requiresAuth: true,
+        title: "Envio de Afiches Baja | Formato 1x9"
       }
     },
     {

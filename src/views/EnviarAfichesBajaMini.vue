@@ -7,7 +7,7 @@ import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
 const router = useRouter();
-const { url, emailList, labelBuild } = useGetRoutes();
+const { url, emailList, posterSmallBajaBuild } = useGetRoutes();
 
 const token = ref(localStorage.getItem("token"));
 
@@ -51,7 +51,7 @@ const enviar = async () => {
         Authorization: "Bearer " + token.value,
         "Content-Type": "application/json",
       };
-      const { data } = await axios.post(labelBuild, datos, { headers });
+      const { data } = await axios.post(posterSmallBajaBuild, datos, { headers });
       archivoGenerado.value = data
     }
   } catch (error) {
@@ -156,13 +156,13 @@ async function copyToClipboard(text) {
           </div>
           <div class="p-4">
             <span class="font-medium text-gray-800"
-              >Cantidad de cintillos:</span
+              >Cantidad de afiches:</span
             >
             {{ archivoGenerado.cantidad }}
           </div>
         </div>
         <div class="p-4 bg-gray-100 border-b border-solid border-[#ddd]">
-          Ahora puedes pedir tus cintillos en computo usando el siguiente codigo
+          Ahora puedes pedir tus afiches en computo usando el siguiente codigo
 
           <div
             class="flex items-center justify-between border border-solid border-[#ddd] p-3 bg-white"
