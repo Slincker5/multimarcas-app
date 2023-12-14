@@ -41,7 +41,7 @@ export const useGetRoutes = () => {
   // Rutas poster mini
   const posterSmallBajaCreate = `${url}/api/poster-low-price-small/create`;
   const posterSmallBajaList = `${url}/api/poster-low-price-small/list`;
-  const posterSmallBajaBuild = `${url}/api/poster-low-price-smalll/build`;
+  const posterSmallBajaBuild = `${url}/api/poster-low-price-small/build`;
   // Rutas Email
   const emailList = `${url}/api/email/list`;
 
