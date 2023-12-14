@@ -246,7 +246,7 @@ const cerrarPreview = () => {
         A EDITAR</a
       >
       <div class="w-[90%] lg:w-[60%] mx-auto">
-        <div class="bg-[#5eb163] flex items-center p-4 lg:p-6">
+        <div class="bg-[#667362] flex items-center p-4 lg:p-6">
           <img
             src="../../public/logos.png"
             alt="marca"

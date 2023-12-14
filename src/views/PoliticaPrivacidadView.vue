@@ -51,7 +51,7 @@
       <h2 class="mb-4 text-2xl font-semibold">Cómo utilizamos tus datos</h2>
       <ul class="pl-5 list-disc">
         <li class="mb-2">
-          Para proporcionarte los servicios de [Nombre de tu sitio web].
+          Para proporcionarte los servicios de multimarcas.
         </li>
         <li class="mb-2">
           Para comunicarnos contigo y responder a tus consultas.
