@@ -8,20 +8,20 @@
     <span>TIPOS DE AFICHES</span>
   </h1>
 
-  <div class="flex items-center justify-between bg-gray-100">
+  <div class="flex flex-wrap items-center justify-between bg-gray-100">
     <div class="p-4">
-       <img src="../../public/rotulo-uno.png" alt="afiche-uno" class="block"> 
+       <img src="../../public/rotulo-uno.png" alt="afiche-uno" class="block w-[120px]"> 
        <router-link to="/crear-afiches" class="mt-4 flex justify-between text-sm sm:text-base w-full px-4 py-2 font-bold text-white border rounded bg-[#2E3239] hover:bg-[#37474F] border-[#303E46] shadow-md">COMENZAR <font-awesome-icon :icon="['fas', 'arrow-right']" /></router-link>
        
     </div>
     <div class="p-4">
-        <img src="../../public/rotulo-dos.png" alt="afiche-dos" class="block">
+        <img src="../../public/rotulo-dos.png" alt="afiche-dos" class="block w-[120px]">
         
        <router-link to="/crear-afiches-mini" class="mt-4 flex justify-between text-sm sm:text-base w-full px-4 py-2 font-bold text-white border rounded bg-[#2E3239] hover:bg-[#37474F] border-[#303E46] shadow-md">COMENZAR <font-awesome-icon :icon="['fas', 'arrow-right']" /></router-link> 
     </div>
 
     <div class="p-4">
-        <img src="../../public/baja.jpg" alt="afiche-dos" class="block">
+        <img src="../../public/baja.jpg" alt="afiche-dos" class="block w-[120px]">
         
        <router-link to="/crear-afiches-baja-mini" class="mt-4 flex justify-between text-sm sm:text-base w-full px-4 py-2 font-bold text-white border rounded bg-[#2E3239] hover:bg-[#37474F] border-[#303E46] shadow-md">COMENZAR <font-awesome-icon :icon="['fas', 'arrow-right']" /></router-link> 
     </div>
