@@ -122,8 +122,8 @@ calcularDiferencia()
         <span class="font-medium">{{ username }}</span
         ><br />
         <div class="text-sm font-light text-gray-700">
-          <b class="text-sm uppercase">Cintillos creados:</b>
-          {{ estadistica["totalCintillosGenerados"] }}
+          <b class="text-sm">Cintillos creados: {{ estadistica["totalCintillosGenerados"] }}</b><br>
+          <b class="text-sm">Rotulos creados: {{ estadistica["totalRotulosGenerados"] }}</b>
         </div>
       </div>
       <a href="#" @click.prevent="salir" class="ml-auto text-blue-600"
