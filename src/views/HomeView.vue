@@ -122,8 +122,10 @@ calcularDiferencia()
         <span class="font-medium">{{ username }}</span
         ><br />
         <div class="text-sm font-light text-gray-700">
-          <b class="text-sm">Cintillos creados: {{ estadistica["totalCintillosGenerados"] }}</b><br>
-          <b class="text-sm">Rotulos creados: {{ estadistica["totalRotulosGenerados"] }}</b>
+          <b class="text-sm">Cintillos creados: <span v-if="estadistica['totalCintillosGenerados']">{{ estadistica["totalCintillosGenerados"] }}</span>
+          <font-awesome-icon v-else :icon="['fas', 'circle-notch']" spin /></b><br>
+          <b class="text-sm">Rotulos creados: <span v-if="estadistica['totalRotulosGenerados']">{{ estadistica["totalRotulosGenerados"] }}</span>
+          <font-awesome-icon v-else :icon="['fas', 'circle-notch']" spin /></b>
         </div>
       </div>
       <a href="#" @click.prevent="salir" class="ml-auto text-blue-600"
