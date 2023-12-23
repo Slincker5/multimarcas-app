@@ -89,7 +89,7 @@ const buttonRoute = computed(() => {
 </div>
 </template>
 <style>
-  body{background:#f1f1f1;overflow:hidden;}
+  body{background:#f1f1f1;overflow:scroll;}
 
 @-moz-keyframes nieve{	
 	from{top:-40px;}
