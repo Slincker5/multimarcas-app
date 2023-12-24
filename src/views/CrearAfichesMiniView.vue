@@ -143,7 +143,7 @@ const cerrarPreview = () => {
 };
 </script>
 <template>
-  <div class="grid grid-cols-1 lg:grid-cols-2">
+  <div class="grid grid-cols-1 sm:grid-cols-2">
     <h1
       class="flex items-center justify-between col-span-1 p-4 pb-4 font-medium text-gray-900"
     >
@@ -313,7 +313,7 @@ const cerrarPreview = () => {
     </form>
 
     <div
-      class="fixed top-0 z-50 justify-center w-full h-full pb-4 bg-black md:static sm:items-start sm:hidden md:flex lg:pb-8 md:z-0"
+      class="fixed top-0 z-50 justify-center w-full h-full pb-4 bg-black sm:items-start sm:static sm:flex lg:pb-8 sm:z-0"
       :class="afichePreview"
     >
       <a
@@ -323,7 +323,7 @@ const cerrarPreview = () => {
         ><font-awesome-icon :icon="['fas', 'arrow-left']" class="mr-1" /> VOLVER
         A EDITAR</a
       >
-      <div class="w-[90%] lg:w-[70%] mx-auto lg:sticky lg:top-[70px]">
+      <div class="w-[90%] lg:w-[70%] mx-auto sm:sticky sm:top-[70px]">
         <div class="bg-[#CEB16D] flex items-center justify-center pb-4">
           <div class="w-[85%] sm:w-[75%]">
             <div class="flex items-start justify-center w-full bg-[#9c564c]">
