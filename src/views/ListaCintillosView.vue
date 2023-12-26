@@ -111,8 +111,8 @@ const anterior = () => {
           to="/descargas"
           class="inline-flex items-center px-4 py-2 text-sm font-medium rounded text-white bg-[#2E3239] hover:bg-[#37474F] border border-solid border-[#303E46] shadow-lg"
         >
-          <font-awesome-icon :icon="['fas', 'download']" class="mr-2" />
-          Descargas
+          <font-awesome-icon :icon="['fas', 'share']" class="mr-3" />
+          Compartir
         </router-link>
       </div>
     </div>
@@ -126,7 +126,8 @@ const anterior = () => {
       class="flex items-center justify-center text-xl font-light text-gray-500 h-52"
       v-if="loading"
     >
-    <font-awesome-icon :icon="['fas', 'circle-notch']" spin class="mr-2" /> Cargando datos ...
+      <font-awesome-icon :icon="['fas', 'circle-notch']" spin class="mr-2" />
+      Cargando datos ...
     </div>
     <div v-else>
       <div

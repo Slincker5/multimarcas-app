@@ -81,7 +81,7 @@ const abrirModalCorreos = () => {
         </div>
       </div>
       <h1 class="flex items-center justify-between p-4 pb-0 font-medium text-gray-800"><router-link to="/cintillos"><font-awesome-icon :icon="['fas', 'chevron-left']" /> VOLVER</router-link> <span>DESCARGAS</span></h1>
-    <div class="p-4 border-b border-gray-400 border-dashed">
+    <div class="hidden p-4 border-b border-gray-400 border-dashed">
         <h1 class="pb-4 font-medium text-gray-800"><font-awesome-icon :icon="['fas', 'circle']" /> OPCION 1 (Descargar archivo)</h1>
         <p class="py-4 pt-0 text-gray-800"><font-awesome-icon :icon="['fas', 'circle-info']" /> Esta opcion guarda en tu dispositivo un archivo excel con todos los cintillos que has creado. Este lo puedes compartir posteriormente.</p>
         <div class="py-4 pt-0 text-sm font-medium text-black"><font-awesome-icon :icon="['fas', 'file-excel']" /> {{ nombreCintillo() }}</div>
@@ -91,7 +91,7 @@ const abrirModalCorreos = () => {
     </div>
     <div class="p-4 border-b border-gray-400 border-dashed">
         <h1 class="mb-4 font-medium text-gray-800"><font-awesome-icon :icon="['fas', 'circle']" /> OPCION 2 (Enviar por correo)</h1>
-        <p class="py-4 pt-0 text-gray-800"><font-awesome-icon :icon="['fas', 'circle-info']" /> Con esta opcion podras enviar tus cintillos directamente al operador(computo), por el momento el envio por correo esta disponible para  <b class="font-extrabold text-black">41 SALAS</b>.</p>
+        <p class="py-4 pt-0 text-gray-800"><font-awesome-icon :icon="['fas', 'circle-info']" /> Con esta opcion podras enviar tus cintillos directamente al operador(computo), por el momento el envio por correo esta disponible para  <b class="font-extrabold text-black">71 SALAS</b>.</p>
         <router-link to="/enviar-cintillos" class="inline-flex items-center px-4 py-2 text-sm font-medium rounded text-white bg-[#2E3239] hover:bg-[#37474F] border border-solid border-[#303E46] shadow-lg"><font-awesome-icon :icon="['fas', 'envelope']" class="mr-2" /> Enviar por correo</router-link>
     </div>
 

@@ -200,13 +200,13 @@ const cerrarPreview = () => {
           required
         />
       </div>
-
-      <div class="p-4">
+      <div class="flex items-center justify-between">
+        <div class="w-full p-4">
         <label
           class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
           for="precio"
         >
-          PRECIO DEL PRODUCTO:
+          PRECIO:
         </label>
         <input
           class="block w-full px-4 py-3 mb-3 text-gray-700 bg-gray-200 border rounded-l appearance-none focus:outline-none focus:bg-white"
@@ -217,11 +217,30 @@ const cerrarPreview = () => {
           v-model="precio"
           required
         />
-        <p class="text-xs font-light text-gray-600">
-          <font-awesome-icon :icon="['fas', 'info-circle']" class="mr-1" />
-          Ingresá el precio correcto para este producto
-        </p>
+        
       </div>
+
+      <div class="w-full p-4">
+        <label
+          class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
+          for="cantidad"
+        >
+          CANTIDAD:
+        </label>
+        <input
+          class="block w-full px-4 py-3 mb-3 text-gray-700 bg-gray-200 border rounded-l appearance-none focus:outline-none focus:bg-white"
+          id="cantidad"
+          type="number"
+          placeholder="CANTIDAD"
+          min="1"
+          max="200"
+          autocomplete="off"
+          v-model="cantidad"
+          required
+        />
+      </div>
+      </div>
+      
 
       <div class="p-4">
         <label
@@ -270,30 +289,6 @@ const cerrarPreview = () => {
             :icon="['fas', 'info-circle']"
             class="mr-1"
           />Ingresa una fecha de fin veridica.
-        </p>
-      </div>
-
-      <div class="p-4">
-        <label
-          class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-          for="cantidad"
-        >
-          CANTIDAD:
-        </label>
-        <input
-          class="block w-full px-4 py-3 mb-3 text-gray-700 bg-gray-200 border rounded-l appearance-none focus:outline-none focus:bg-white"
-          id="cantidad"
-          type="number"
-          placeholder="CANTIDAD"
-          min="1"
-          max="200"
-          autocomplete="off"
-          v-model="cantidad"
-          required
-        />
-        <p class="text-xs font-light text-gray-600">
-          <font-awesome-icon :icon="['fas', 'info-circle']" /> Ingresá la
-          cantidad de rotulos que necesitas para este producto
         </p>
       </div>
 

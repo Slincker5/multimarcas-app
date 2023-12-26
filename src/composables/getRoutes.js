@@ -36,6 +36,7 @@ export const useGetRoutes = () => {
   // Rutas poster mini
   const posterSmallCreate = `${url}/api/poster-small/create`;
   const posterSmallList = `${url}/api/poster-small/list`;
+  const posterSmallRemoveList = `${url}/api/poster-small/remove`;
   const posterSmallBuild = `${url}/api/poster-small/build`;
 
   // Rutas poster mini
@@ -66,6 +67,7 @@ export const useGetRoutes = () => {
     posterBuild,
     posterSmallCreate,
     posterSmallList,
+    posterSmallRemoveList,
     posterSmallBuild,
     userMvc,
     userUpdateToken,

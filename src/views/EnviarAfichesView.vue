@@ -12,7 +12,7 @@ const { url, emailList, posterBuild } = useGetRoutes();
 const token = ref(localStorage.getItem("token"));
 
 const correos = ref([]);
-const archivoGenerado = ref(false)
+const archivoGenerado = ref(false);
 const obtenerCorreos = async () => {
   try {
     const headers = {
@@ -52,7 +52,7 @@ const enviar = async () => {
         "Content-Type": "application/json",
       };
       const { data } = await axios.post(posterBuild, datos, { headers });
-      archivoGenerado.value = data
+      archivoGenerado.value = data;
     }
   } catch (error) {
     console.log(error);
@@ -77,12 +77,11 @@ async function copyToClipboard(text) {
     console.error("No se pudo copiar el texto:", err);
   }
 }
-
 </script>
 <template>
   <div class="bg-white">
     <h1 class="flex items-center justify-between p-4 font-bold text-gray-800">
-      <router-link to="/cintillos"
+      <router-link to="/afiches-mini"
         ><font-awesome-icon :icon="['fas', 'chevron-left']" />
         VOLVER</router-link
       >
@@ -140,7 +139,8 @@ async function copyToClipboard(text) {
       </div>
 
       <div
-        class="fixed top-0 left-0 z-50 w-full h-full text-xl text-black bg-white" v-if="archivoGenerado"
+        class="fixed top-0 left-0 z-50 w-full h-full text-xl text-black bg-white"
+        v-if="archivoGenerado"
       >
         <h2
           class="flex items-center justify-between p-4 pb-0 font-medium text-gray-800 uppercase"
@@ -155,9 +155,7 @@ async function copyToClipboard(text) {
             <span class="text-xs">{{ archivoGenerado.path_name }}</span>
           </div>
           <div class="p-4">
-            <span class="font-medium text-gray-800"
-              >Cantidad de afiches:</span
-            >
+            <span class="font-medium text-gray-800">Cantidad de afiches:</span>
             {{ archivoGenerado.cantidad }}
           </div>
         </div>
@@ -193,7 +191,10 @@ async function copyToClipboard(text) {
               </svg>
               <span>Descargar</span>
             </a>
-            <button class="px-4 py-2 font-bold text-blue-400 uppercase" @click="volver">
+            <button
+              class="px-4 py-2 font-bold text-blue-400 uppercase"
+              @click="volver"
+            >
               Volver
             </button>
           </div>
