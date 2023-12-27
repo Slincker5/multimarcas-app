@@ -23,7 +23,7 @@
     <div class="p-4">
         <img src="../../public/precio_bajo.png" alt="afiche-dos" class="block w-[120px]">
         
-       <button class="mt-4 flex justify-between text-sm sm:text-base w-full px-4 py-2 font-bold text-white border rounded bg-[#2E3239] hover:bg-[#37474F] border-[#303E46] shadow-md">Próximamente</button> 
+        <router-link to="/crear-afiches-baja-mini" class="mt-4 flex justify-between text-sm sm:text-base w-full px-4 py-2 font-bold text-white border rounded bg-[#2E3239] hover:bg-[#37474F] border-[#303E46] shadow-md">COMENZAR <font-awesome-icon :icon="['fas', 'arrow-right']" /></router-link>
     </div>
   </div>
 
