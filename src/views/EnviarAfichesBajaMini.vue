@@ -82,7 +82,7 @@ async function copyToClipboard(text) {
 <template>
   <div class="bg-white">
     <h1 class="flex items-center justify-between p-4 font-bold text-gray-800">
-      <router-link to="/cintillos"
+      <router-link to="/crear-afiches-baja-mini"
         ><font-awesome-icon :icon="['fas', 'chevron-left']" />
         VOLVER</router-link
       >
