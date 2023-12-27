@@ -219,6 +219,9 @@ const resetScanner = () => {
         <video id="video" width="300" height="200"></video>
       </div>
     </div>
+    <div class="p-4 bg-gray-200">
+      hemos agregado el escaner, recuerda verificar siempre mantener una descripcion valida.
+    </div>
     <h1
       class="flex items-center justify-between col-span-1 p-4 pb-4 font-medium text-gray-900"
     >
