@@ -1,13 +1,14 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import axios from "axios";
+import { BrowserMultiFormatReader, NotFoundException } from "@zxing/library";
 import { useGetRoutes } from "@/composables/getRoutes";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
 const token = ref(localStorage.getItem("token"));
 const user_uuid = ref(localStorage.getItem("user_uuid"));
-const { posterSmallCreate, posterSmallList } = useGetRoutes();
+const { searchLabel, posterSmallCreate, posterSmallList } = useGetRoutes();
 // variables reactivas del formulario
 const enviando = ref(false);
 const barra = ref("");
@@ -141,9 +142,83 @@ const abrirPreview = () => {
 const cerrarPreview = () => {
   afichePreview.value = "hidden";
 };
+
+// variables reactivas del escaner
+const codeReader = new BrowserMultiFormatReader();
+let selectedDeviceId;
+const scan = ref(false);
+const encontrado = ref(false);
+
+onMounted(() => {
+  codeReader
+    .listVideoInputDevices()
+    .then((videoInputDevices) => {
+      selectedDeviceId =
+        videoInputDevices[videoInputDevices.length - 1].deviceId;
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
+
+const startScanner = async () => {
+  scan.value = true;
+  codeReader.decodeFromVideoDevice(
+    selectedDeviceId,
+    "video",
+    async (res, err) => {
+      if (res) {
+        resetScanner();
+        try {
+          const { data } = await axios.get(`${searchLabel}${res.text}`, {
+            headers: {
+              Authorization: `Bearer ${token.value}`,
+            },
+          });
+          audioPlayer.play();
+          barra.value = res.text;
+          if (data.length === 0) {
+            encontrado.value = true;
+            descripcion.value = "";
+          } else {
+            encontrado.value = false;
+            descripcion.value = formatearDescription(data[0].descripcion);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      } else if (err && !(err instanceof NotFoundException)) {
+        console.log(err);
+      }
+    }
+  );
+};
+
+const resetScanner = () => {
+  scan.value = false;
+  codeReader.reset();
+};
 </script>
 <template>
   <div class="grid grid-cols-1 sm:grid-cols-2">
+    <audio class="hidden" id="audioPlayer">
+      <source src="../../public/beep.mp3" type="audio/mp3" />
+      Tu navegador no soporta el elemento de audio.
+    </audio>
+    <div
+      class="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50"
+      v-if="scan"
+    >
+      <div class="relative p-4 bg-white">
+        <div class="flex items-center justify-between pb-4">
+          <h2 class="text-xl">Escanear Producto</h2>
+          <button @click.prevent="resetScanner">
+            <font-awesome-icon :icon="['fas', 'xmark']" />
+          </button>
+        </div>
+        <video id="video" width="300" height="200"></video>
+      </div>
+    </div>
     <h1
       class="flex items-center justify-between col-span-1 p-4 pb-4 font-medium text-gray-900"
     >
@@ -162,24 +237,34 @@ const cerrarPreview = () => {
       @submit.prevent="agregarAfiches"
     >
       <div class="p-4">
+
+
         <label
           class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
           for="barra"
         >
           CODIGO DE BARRA:
         </label>
-        <input
-          class="block w-full px-4 py-3 mb-3 text-gray-700 bg-gray-200 border rounded-l appearance-none focus:outline-none focus:bg-white"
-          id="barra"
-          type="text"
-          placeholder="Ej. 1234567890123"
-          autocomplete="off"
-          v-model="barra"
-        />
-        <p class="text-xs font-light text-gray-600">
-          <font-awesome-icon :icon="['fas', 'info-circle']" class="mr-1" />El
-          código de barra es opcional
-        </p>
+        <div
+          class="flex items-stretch justify-between border border-solid border-[#ddd] focus:border-gray-500"
+        >
+          <input
+            class="flex-grow px-4 py-3 leading-tight text-gray-700 border-0 rounded-l appearance-none focus:outline-none focus:bg-white"
+            id="barra"
+            type="text"
+            placeholder="Ej. 1234567890123"
+            autocomplete="off"
+            v-model="barra"
+          />
+          <div>
+            <a
+              class="flex items-center justify-center h-full px-4 leading-tight text-gray-700 bg-gray-300 border rounded-r"
+              @click.prevent="startScanner"
+            >
+              <img src="../../public/barcode.png" class="w-[25px] block" />
+            </a>
+          </div>
+        </div>
       </div>
 
       <div class="p-4">
@@ -201,46 +286,44 @@ const cerrarPreview = () => {
         />
       </div>
       <div class="flex items-center justify-between">
-        <div class="w-full p-4">
-        <label
-          class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-          for="precio"
-        >
-          PRECIO:
-        </label>
-        <input
-          class="block w-full px-4 py-3 mb-3 text-gray-700 bg-gray-200 border rounded-l appearance-none focus:outline-none focus:bg-white"
-          id="precio"
-          type="text"
-          placeholder="PRECIO"
-          autocomplete="off"
-          v-model="precio"
-          required
-        />
-        
-      </div>
+        <div class="w-full px-4">
+          <label
+            class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
+            for="precio"
+          >
+            PRECIO:
+          </label>
+          <input
+            class="block w-full px-4 py-3 mb-3 text-gray-700 bg-gray-200 border rounded-l appearance-none focus:outline-none focus:bg-white"
+            id="precio"
+            type="text"
+            placeholder="PRECIO"
+            autocomplete="off"
+            v-model="precio"
+            required
+          />
+        </div>
 
-      <div class="w-full p-4">
-        <label
-          class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-          for="cantidad"
-        >
-          CANTIDAD:
-        </label>
-        <input
-          class="block w-full px-4 py-3 mb-3 text-gray-700 bg-gray-200 border rounded-l appearance-none focus:outline-none focus:bg-white"
-          id="cantidad"
-          type="number"
-          placeholder="CANTIDAD"
-          min="1"
-          max="200"
-          autocomplete="off"
-          v-model="cantidad"
-          required
-        />
+        <div class="w-full px-4">
+          <label
+            class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
+            for="cantidad"
+          >
+            CANTIDAD:
+          </label>
+          <input
+            class="block w-full px-4 py-3 mb-3 text-gray-700 bg-gray-200 border rounded-l appearance-none focus:outline-none focus:bg-white"
+            id="cantidad"
+            type="number"
+            placeholder="CANTIDAD"
+            min="1"
+            max="200"
+            autocomplete="off"
+            v-model="cantidad"
+            required
+          />
+        </div>
       </div>
-      </div>
-      
 
       <div class="p-4">
         <label
@@ -372,12 +455,12 @@ const cerrarPreview = () => {
   </div>
 
   <div
-      class="fixed w-full h-full flex items-center justify-center text-white bg-[#263238] p-4 text-xl top-0 left-0 z-50"
-      v-if="enviando"
-    >
-      <font-awesome-icon :icon="['fas', 'spinner']" class="fa-pulse" />
-      Agregando Rotulos...
-    </div>
+    class="fixed w-full h-full flex items-center justify-center text-white bg-[#263238] p-4 text-xl top-0 left-0 z-50"
+    v-if="enviando"
+  >
+    <font-awesome-icon :icon="['fas', 'spinner']" class="fa-pulse" />
+    Agregando Rotulos...
+  </div>
 </template>
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Caveat+Brush&display=swap");
