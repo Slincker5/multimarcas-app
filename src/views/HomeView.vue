@@ -99,6 +99,7 @@ function calcularDiferencia() {
 
   let countDown = new Date("Jan 01, 2024 00:00:00").getTime(),
     x = setInterval(function () {
+      let ok = new Date()
       let now = new Date().getTime(),
         distance = countDown - now;
 
@@ -106,7 +107,11 @@ function calcularDiferencia() {
       let hora = Math.floor((distance % day) / hour);
       let minuto = Math.floor((distance % hour) / minute);
       let segundo = Math.floor((distance % minute) / second);
-      cuentaRegresiva.innerHTML = `${hora}h, ${minuto}m, ${segundo}s para 2024`;
+      if (ok.getFullYear() === 2024) {
+        cuentaRegresiva.innerHTML = "Feliz 2024";
+      } else {
+        cuentaRegresiva.innerHTML = `${hora}h, ${minuto}m, ${segundo}s para 2024`;
+      }
     }, second);
 }
 
@@ -173,7 +178,8 @@ const crearPublicacion = async () => {
     <div
       class="flex items-stretch w-full gap-1 p-4 overflow-x-auto bg-gray-100 whitespace-nowrap acciones border-b border-solid border-[#ddd]"
     >
-      <router-link to="/buscador" 
+      <router-link
+        to="/buscador"
         class="py-3 rounded-lg border border-solid border-[#e4e3e3] b bg-[#383E42]"
       >
         <div class="flex justify-center px-2 py-4">
@@ -182,7 +188,8 @@ const crearPublicacion = async () => {
         <span class="p-2 pt-0 text-xs text-white">Buscar Internos</span>
       </router-link>
 
-      <router-link to="crear-cintillos"
+      <router-link
+        to="crear-cintillos"
         class="py-3 rounded-lg border border-solid border-[#e4e3e3] b bg-[#383E42]"
       >
         <div class="flex justify-center px-2 py-4">
@@ -191,7 +198,8 @@ const crearPublicacion = async () => {
         <span class="p-2 pt-0 text-xs text-white">Crear Cintillos</span>
       </router-link>
 
-      <router-link to="/crear-afiches"
+      <router-link
+        to="/crear-afiches"
         class="py-3 rounded-lg border border-solid border-[#e4e3e3] b bg-[#383E42]"
       >
         <div class="flex justify-center px-2 py-4">
@@ -200,7 +208,8 @@ const crearPublicacion = async () => {
         <span class="p-2 pt-0 text-xs text-white">Crear Afiches</span>
       </router-link>
 
-      <router-link to="/crear-afiches-mini"
+      <router-link
+        to="/crear-afiches-mini"
         class="py-3 rounded-lg border border-solid border-[#e4e3e3] b bg-[#383E42]"
       >
         <div class="flex justify-center px-2 py-4">
@@ -209,7 +218,8 @@ const crearPublicacion = async () => {
         <span class="p-2 pt-0 text-xs text-white">Crear Afiches</span>
       </router-link>
 
-      <router-link to="/crear-afiches-baja-mini"
+      <router-link
+        to="/crear-afiches-baja-mini"
         class="py-3 rounded-lg border border-solid border-[#e4e3e3] b bg-[#383E42]"
       >
         <div class="flex justify-center px-2 py-4">
@@ -220,7 +230,13 @@ const crearPublicacion = async () => {
     </div>
 
     <form class="p-4" @submit.prevent="crearPublicacion">
-      <h3 class="flex items-center justify-between pb-4 font-medium">PUBLICACIONES <div class="text-sm font-light text-gray-400" id="cuentaRegresiva"></div></h3>
+      <h3 class="flex items-center justify-between pb-4 font-medium">
+        PUBLICACIONES
+        <div
+          class="text-sm font-light text-gray-400"
+          id="cuentaRegresiva"
+        ></div>
+      </h3>
       <div class="flex justify-between">
         <div class="mr-2">
           <div v-if="photo !== null">
