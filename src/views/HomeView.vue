@@ -258,16 +258,15 @@ const crearPublicacion = async () => {
       >
         <div class="flex items-center p-4">
           <div class="mr-2">
-            <div v-if="photo !== null">
+            <div v-if="photo !== NULL">
               <img
                 :src="post.photo"
                 :alt="post.username"
                 class="w-[35px] rounded shadow"
               />
             </div>
-
             <div v-else>
-              <img src="https://cintillos-plazamundo.netlify.app/usuario.png" :alt="post.username" class="w-[35px]" />
+              <img :src="userNoPhoto" :alt="post.username" class="w-[35px]" />
             </div>
           </div>
           <div>
