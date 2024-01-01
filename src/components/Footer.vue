@@ -5,7 +5,7 @@
     <div
       class="px-4 pb-4 text-sm font-medium uppercase border-b border-dashed border-[#0f1011]"
     >
-      Multimarcas app | 2023
+      Multimarcas app | 2024
     </div>
     <div class="block px-4 pt-4 sm:flex">
       <router-link to="/politica-y-privacidad" class="block text-sm sm:pr-2">°Política de privacidad</router-link>
