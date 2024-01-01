@@ -258,7 +258,7 @@ const crearPublicacion = async () => {
       >
         <div class="flex items-center p-4">
           <div class="mr-2">
-            <div v-if="post.photo !== NULL">
+            <div v-if="post.photo !== null">
               <img
                 :src="post.photo"
                 :alt="post.username"
