@@ -74,36 +74,62 @@ const salir = () => {
   router.push("/login");
 };
 
-
-
 function calcularDiferencia() {
   const second = 1000,
-      minute = second * 60,
-      hour = minute * 60,
-      day = hour * 24;
+    minute = second * 60,
+    hour = minute * 60,
+    day = hour * 24;
 
-let countDown = new Date('Jan 05, 2024 00:00:00').getTime(),
-    x = setInterval(function() {
-
+  let countDown = new Date("Jan 05, 2024 00:00:00").getTime(),
+    x = setInterval(function () {
       let now = new Date().getTime(),
-          distance = countDown - now;
+        distance = countDown - now;
 
-      let dia = Math.floor(distance / (day))
-      let hora = Math.floor((distance % (day)) / (hour))
-      let minuto = Math.floor((distance % (hour)) / (minute))
-      let segundo = Math.floor((distance % (minute)) / second);
-      cuentaRegresiva.innerHTML = `Restan ${dia} dias, ${hora}h, ${minuto}m, ${segundo}s`
-
-    }, second)
+      let dia = Math.floor(distance / day);
+      let hora = Math.floor((distance % day) / hour);
+      let minuto = Math.floor((distance % hour) / minute);
+      let segundo = Math.floor((distance % minute) / second);
+      cuentaRegresiva.innerHTML = `Restan ${dia} dias, ${hora}h, ${minuto}m, ${segundo}s`;
+    }, second);
 }
 
-
-calcularDiferencia()
+calcularDiferencia();
 </script>
 <template>
   <div>
-    
     <div class="p-4 text-white bg-red-400" id="cuentaRegresiva"></div>
+
+    <div
+      class="flex items-stretch w-full gap-1 p-4 overflow-x-auto bg-gray-100 whitespace-nowrap acciones border border-solid border-[#ddd]"
+    >
+      <div class="py-3 bg-white rounded-lg">
+        <div class="flex justify-center p-4">
+          <img src="../../public/price-tag.png" class="block w-[50px]" />
+        </div>
+        <span class="p-4 pt-0 text-sm text-black">Crear Cintillos</span>
+      </div>
+
+      <div class="py-3 bg-white rounded-lg">
+        <div class="flex justify-center p-4">
+          <img src="../../public/rotulo-uno.png" class="block w-[50px]" />
+        </div>
+        <span class="p-4 pt-0 text-sm text-black">Crear Afiches</span>
+      </div>
+
+      <div class="py-3 bg-white rounded-lg">
+        <div class="flex justify-center p-4">
+          <img src="../../public/rotulo-dos.png" class="block w-[50px]" />
+        </div>
+        <span class="p-4 pt-0 text-sm text-black">Crear Afiches</span>
+      </div>
+
+      <div class="py-3 bg-white rounded-lg">
+        <div class="flex justify-center p-4">
+          <img src="../../public/precio_bajo.png" class="block w-[50px]" />
+        </div>
+        <span class="p-4 pt-0 text-sm text-black">Crear Afiches</span>
+      </div>
+    </div>
     <h1
       class="flex items-center justify-between col-span-1 p-4 pb-4 font-medium text-gray-900 border-b border-solid border-[#ddd]"
     >
@@ -122,10 +148,20 @@ calcularDiferencia()
         <span class="font-medium">{{ username }}</span
         ><br />
         <div class="text-sm font-light text-gray-700">
-          <b class="text-sm">Cintillos creados: <span v-if="estadistica['totalCintillosGenerados']">{{ estadistica["totalCintillosGenerados"] }}</span>
-          <font-awesome-icon v-else :icon="['fas', 'circle-notch']" spin /></b><br>
-          <b class="text-sm">Rotulos creados: <span v-if="estadistica['totalRotulosGenerados']">{{ estadistica["totalRotulosGenerados"] }}</span>
-          <font-awesome-icon v-else :icon="['fas', 'circle-notch']" spin /></b>
+          <b class="text-sm"
+            >Cintillos creados:
+            <span v-if="estadistica['totalCintillosGenerados']">{{
+              estadistica["totalCintillosGenerados"]
+            }}</span>
+            <font-awesome-icon v-else :icon="['fas', 'circle-notch']" spin /></b
+          ><br />
+          <b class="text-sm"
+            >Rotulos creados:
+            <span v-if="estadistica['totalRotulosGenerados']">{{
+              estadistica["totalRotulosGenerados"]
+            }}</span>
+            <font-awesome-icon v-else :icon="['fas', 'circle-notch']" spin
+          /></b>
         </div>
       </div>
       <a href="#" @click.prevent="salir" class="ml-auto text-blue-600"
@@ -220,5 +256,9 @@ calcularDiferencia()
     rgba(56, 62, 66, 0.5) 0%,
     rgba(56, 62, 66, 1) 100%
   );
+}
+
+.acciones::-webkit-scrollbar {
+  display: none; /* Oculta la barra de desplazamiento en navegadores WebKit (como Chrome/Safari) */
 }
 </style>
