@@ -46,6 +46,10 @@ export const useGetRoutes = () => {
   // Rutas Email
   const emailList = `${url}/api/email/list`;
 
+  // Rutas Publicacion
+  const postCreate = `${url}/api/post/create`;
+  const postList = `${url}/api/post/list`;
+
   return {
     url,
     authLogin,
@@ -73,6 +77,8 @@ export const useGetRoutes = () => {
     userUpdateToken,
     posterSmallBajaCreate,
     posterSmallBajaList,
-    posterSmallBajaBuild
+    posterSmallBajaBuild,
+    postCreate,
+    postList
   };
 };
