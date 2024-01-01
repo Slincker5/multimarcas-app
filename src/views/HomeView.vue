@@ -97,39 +97,67 @@ calcularDiferencia();
 </script>
 <template>
   <div>
-    <div class="p-4 text-white bg-red-400" id="cuentaRegresiva"></div>
+    <!--<div class="p-4 text-white bg-red-400" id="cuentaRegresiva"></div>-->
 
     <div
-      class="flex items-stretch w-full gap-1 p-4 overflow-x-auto bg-gray-100 whitespace-nowrap acciones border border-solid border-[#ddd]"
+      class="flex items-stretch w-full gap-1 p-4 overflow-x-auto bg-gray-100 whitespace-nowrap acciones border-b border-solid border-[#ddd]"
     >
-      <div class="py-3 bg-white rounded-lg">
+      <div
+        class="py-3 bg-white rounded-lg border border-solid border-[#e4e3e3]"
+      >
         <div class="flex justify-center p-4">
           <img src="../../public/price-tag.png" class="block w-[50px]" />
         </div>
         <span class="p-4 pt-0 text-sm text-black">Crear Cintillos</span>
       </div>
 
-      <div class="py-3 bg-white rounded-lg">
+      <div
+        class="py-3 bg-white rounded-lg border border-solid border-[#e4e3e3]"
+      >
         <div class="flex justify-center p-4">
           <img src="../../public/rotulo-uno.png" class="block w-[50px]" />
         </div>
         <span class="p-4 pt-0 text-sm text-black">Crear Afiches</span>
       </div>
 
-      <div class="py-3 bg-white rounded-lg">
+      <div
+        class="py-3 bg-white rounded-lg border border-solid border-[#e4e3e3]"
+      >
         <div class="flex justify-center p-4">
           <img src="../../public/rotulo-dos.png" class="block w-[50px]" />
         </div>
         <span class="p-4 pt-0 text-sm text-black">Crear Afiches</span>
       </div>
 
-      <div class="py-3 bg-white rounded-lg">
+      <div
+        class="py-3 bg-white rounded-lg border border-solid border-[#e4e3e3]"
+      >
         <div class="flex justify-center p-4">
           <img src="../../public/precio_bajo.png" class="block w-[50px]" />
         </div>
         <span class="p-4 pt-0 text-sm text-black">Crear Afiches</span>
       </div>
     </div>
+
+    <form class="p-4">
+      <div class="flex justify-between">
+        <div class="mr-2">
+          <div v-if="photo !== null">
+            <img :src="photo" :alt="username" class="w-[35px] rounded shadow" />
+          </div>
+
+          <div v-else>
+            <img :src="userNoPhoto" :alt="username" class="w-[35px]" />
+          </div>
+        </div>
+        <textarea
+          class="flex-1 w-full h-10 px-3 py-1 text-sm border border-[#ddd] rounded-lg outline-none resize-none placeholder:text-sm"
+          placeholder="Haz una publicacion"
+        ></textarea>
+      </div>
+    </form>
+
+    <!--
     <h1
       class="flex items-center justify-between col-span-1 p-4 pb-4 font-medium text-gray-900 border-b border-solid border-[#ddd]"
     >
@@ -245,7 +273,8 @@ calcularDiferencia();
       ><font-awesome-icon :icon="['fas', 'paper-plane']" class="mr-2" />
       Enviarnos mensaje</a
     >
-  </div>
+
+  --></div>
 </template>
 
 <style>

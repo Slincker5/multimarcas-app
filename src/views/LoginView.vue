@@ -26,6 +26,7 @@ const loginDirect = async () => {
       localStorage.setItem("token", data.token);
       localStorage.setItem("user_uuid", data.user_uuid);
       localStorage.setItem("usuario", data.username);
+      localStorage.setItem("photo", data.photo);
       router.push("/");
     } else {
       enviando.value = false;
