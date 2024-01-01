@@ -267,7 +267,7 @@ const crearPublicacion = async () => {
             </div>
 
             <div v-else>
-              <img :src="userNoPhoto" :alt="post.username" class="w-[35px]" />
+              <img src="https://cintillos-plazamundo.netlify.app/usuario.png" :alt="post.username" class="w-[35px]" />
             </div>
           </div>
           <div>
