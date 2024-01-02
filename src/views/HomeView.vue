@@ -102,9 +102,8 @@ function calcularDiferencia() {
     hour = minute * 60,
     day = hour * 24;
 
-  let countDown = new Date("Jan 01, 2024 00:00:00").getTime(),
+  let countDown = new Date("Jan 05, 2024 00:00:00").getTime(),
     x = setInterval(function () {
-      let ok = new Date();
       let now = new Date().getTime(),
         distance = countDown - now;
 
@@ -112,11 +111,7 @@ function calcularDiferencia() {
       let hora = Math.floor((distance % day) / hour);
       let minuto = Math.floor((distance % hour) / minute);
       let segundo = Math.floor((distance % minute) / second);
-      if (ok.getFullYear() === 2024) {
-        cuentaRegresiva.innerHTML = "Feliz 2024";
-      } else {
-        cuentaRegresiva.innerHTML = `${hora}h, ${minuto}m, ${segundo}s para 2024`;
-      }
+        cuentaRegresiva.innerHTML = ` En ${dia}d, ${hora}h, ${minuto}m, ${segundo}s se apaga la app`;
     }, second);
 }
 
@@ -242,7 +237,7 @@ const eliminarPost = async (post_uuid) => {
 </script>
 <template>
   <div>
-    <!--<div class="p-4 text-white bg-red-400" id="cuentaRegresiva"></div>-->
+    <div class="flex p-4 text-white bg-red-400"><font-awesome-icon :icon="['fas', 'bell']" class="mr-2 text-sm"/><div class="text-sm font-light text-white" id="cuentaRegresiva"></div></div>
 
     <div
       class="flex items-stretch w-full gap-1 p-4 overflow-x-auto bg-gray-100 whitespace-nowrap acciones border-b border-solid border-[#ddd]"
@@ -299,12 +294,8 @@ const eliminarPost = async (post_uuid) => {
     </div>
 
     <form class="p-4" @submit.prevent="crearPublicacion">
-      <h3 class="flex items-center justify-between pb-4 font-medium">
+      <h3 class="pb-4 font-medium">
         PUBLICACIONES
-        <div
-          class="text-sm font-light text-gray-400"
-          id="cuentaRegresiva"
-        ></div>
       </h3>
       <div class="flex justify-between">
         <div class="mr-2">
