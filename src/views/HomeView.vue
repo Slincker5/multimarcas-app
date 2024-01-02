@@ -21,6 +21,8 @@ const {
   postCreate,
   postList,
   postRemove,
+  likePost,
+  likeList,
 } = useGetRoutes();
 
 const token = ref(localStorage.getItem("token"));
@@ -31,6 +33,7 @@ const email = ref(localStorage.getItem("email"));
 const rol = ref(localStorage.getItem("rol"));
 const publicacion = ref("");
 const posts = ref([]);
+const likes = ref([]);
 const estadistica = ref([]);
 const enviando = ref(false);
 
@@ -121,6 +124,22 @@ calcularDiferencia();
 
 // HACER PUBLICACION
 
+const getLikes = async () => {
+  try {
+    const headers = {
+      Authorization: "Bearer " + token.value,
+      "Content-Type": "application/json",
+    };
+    let { data } = await axios.get(likeList, {
+      headers,
+    });
+    console.log(data);
+    likes.value = data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const getData = async () => {
   try {
     const headers = {
@@ -134,9 +153,29 @@ const getData = async () => {
     posts.value = data;
   } catch (error) {
     console.log(error);
+  } finally {
+    getLikes();
   }
 };
 getData();
+
+const darlike = async (post_uuid) => {
+  try {
+    const headers = {
+      Authorization: "Bearer " + token.value,
+      "Content-Type": "application/json",
+    };
+
+    const param = {
+      post_uuid: post_uuid,
+    };
+
+    let { data } = await axios.post(likePost, param, { headers });
+    if(data.status === "OK") getData()
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const crearPublicacion = async () => {
   try {
@@ -318,7 +357,11 @@ const eliminarPost = async (post_uuid) => {
           <div class="flex-1">
             <div class="font-medium text-black align-middle">
               {{ post.username }}
-              <span v-if="post.username === 'Multimarcas'"><img src="../../public/checklist.png" class="inline-block w-[15px]"></span>
+              <span v-if="post.username === 'Multimarcas'"
+                ><img
+                  src="../../public/checklist.png"
+                  class="inline-block w-[15px]"
+              /></span>
             </div>
             <div class="text-xs text-gray-400">
               {{ dayjs(post.fecha).fromNow() }}
@@ -339,6 +382,36 @@ const eliminarPost = async (post_uuid) => {
           <div v-if="post.archivo !== null" class="pt-2">
             <img :src="post.archivo" class="block w-full" />
           </div>
+        </div>
+        <div
+          class="px-4 py-2 border-t border-dashed border-[#ddd] flex items-center justify-between"
+        >
+          
+
+          <button
+            class="text-sm text-gray-600 text-light"
+            :class="{
+              'text-[#3498db]': likes.find(
+                (like) =>
+                  like.post_uuid === post.post_uuid &&
+                  like.user_uuid === user_uuid
+              ),
+            }"
+            @click="darlike(post.post_uuid)"
+            :disabled="
+              likes.find(
+                (like) =>
+                  like.post_uuid === post.post_uuid &&
+                  like.user_uuid === user_uuid
+              )
+            "
+          >
+            <font-awesome-icon :icon="['fas', 'thumbs-up']" />
+          </button>
+
+          <span class="text-sm text-gray-600 text-light"
+            >{{ post.num_likes }} Me gusta</span
+          >
         </div>
       </div>
     </div>

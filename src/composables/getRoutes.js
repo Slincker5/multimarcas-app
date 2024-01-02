@@ -50,6 +50,8 @@ export const useGetRoutes = () => {
   const postCreate = `${url}/api/post/create`;
   const postList = `${url}/api/post/list`;
   const postRemove = `${url}/api/post/remove`;
+  const likePost = `${url}/api/post/like`;
+  const likeList = `${url}/api/post/list-like`;
 
   return {
     url,
@@ -82,5 +84,7 @@ export const useGetRoutes = () => {
     postCreate,
     postList,
     postRemove,
+    likePost,
+    likeList,
   };
 };
