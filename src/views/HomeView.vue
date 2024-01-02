@@ -20,6 +20,7 @@ const {
   userUpdateToken,
   postCreate,
   postList,
+  postRemove,
 } = useGetRoutes();
 
 const token = ref(localStorage.getItem("token"));
@@ -27,6 +28,7 @@ const user_uuid = ref(localStorage.getItem("user_uuid"));
 const username = ref(localStorage.getItem("usuario"));
 const photo = ref(localStorage.getItem("photo"));
 const email = ref(localStorage.getItem("email"));
+const rol = ref(localStorage.getItem("rol"));
 const publicacion = ref("");
 const posts = ref([]);
 const estadistica = ref([]);
@@ -99,7 +101,7 @@ function calcularDiferencia() {
 
   let countDown = new Date("Jan 01, 2024 00:00:00").getTime(),
     x = setInterval(function () {
-      let ok = new Date()
+      let ok = new Date();
       let now = new Date().getTime(),
         distance = countDown - now;
 
@@ -168,6 +170,34 @@ const crearPublicacion = async () => {
   } finally {
     publicacion.value = "";
     enviando.value = false;
+  }
+};
+
+const eliminarPost = async (post_uuid) => {
+  try {
+    const headers = {
+      Authorization: "Bearer " + token.value,
+      "Content-Type": "application/json",
+    };
+
+    const info = {
+      post_uuid: post_uuid,
+    };
+
+    let { data } = await axios.delete(postRemove, {
+      headers: headers,
+      data: info,
+    });
+
+    getData();
+    toast.success(data.message, {
+      theme: "colored",
+      autoClose: 1500,
+      position: toast.POSITION.BOTTOM_LEFT,
+      transition: toast.TRANSITIONS.ZOOM,
+    });
+  } catch (error) {
+    console.log(error);
   }
 };
 </script>
@@ -285,19 +315,28 @@ const crearPublicacion = async () => {
               <img :src="userNoPhoto" :alt="post.username" class="w-[35px]" />
             </div>
           </div>
-          <div>
-            <div class="font-medium text-black">
+          <div class="flex-1">
+            <div class="font-medium text-black align-middle">
               {{ post.username }}
+              <span v-if="post.username === 'Multimarcas'"><img src="../../public/checklist.png" class="inline-block w-[15px]"></span>
             </div>
             <div class="text-xs text-gray-400">
               {{ dayjs(post.fecha).fromNow() }}
             </div>
           </div>
+
+          <button
+            @click="eliminarPost(`${post.post_uuid}`)"
+            v-if="post.user_uuid === user_uuid || rol === 'Admin'"
+            class="text-xs text-gray-700"
+          >
+            <font-awesome-icon :icon="['fas', 'trash']" />
+          </button>
         </div>
 
         <div class="p-4 pt-0">
           {{ post.post }}
-          <div v-if="post.archivo !== NULL" class="pt-2">
+          <div v-if="post.archivo !== null" class="pt-2">
             <img :src="post.archivo" class="block w-full" />
           </div>
         </div>
@@ -311,124 +350,7 @@ const crearPublicacion = async () => {
       <font-awesome-icon :icon="['fas', 'spinner']" class="fa-pulse" />
       Creando Publicacion...
     </div>
-    <!--
-    <h1
-      class="flex items-center justify-between col-span-1 p-4 pb-4 font-medium text-gray-900 border-b border-solid border-[#ddd]"
-    >
-      MI CUENTA
-      <font-awesome-icon :icon="['fas', 'user']" />
-    </h1>
-    <div class="flex p-4 gap-x-4">
-      <div v-if="photo !== null">
-        <img :src="photo" :alt="username" class="w-[50px] rounded shadow" />
-      </div>
-
-      <div v-else>
-        <img :src="userNoPhoto" :alt="username" class="w-[50px]" />
-      </div>
-      <div>
-        <span class="font-medium">{{ username }}</span
-        ><br />
-        <div class="text-sm font-light text-gray-700">
-          <b class="text-sm"
-            >Cintillos creados:
-            <span v-if="estadistica['totalCintillosGenerados']">{{
-              estadistica["totalCintillosGenerados"]
-            }}</span>
-            <font-awesome-icon v-else :icon="['fas', 'circle-notch']" spin /></b
-          ><br />
-          <b class="text-sm"
-            >Rotulos creados:
-            <span v-if="estadistica['totalRotulosGenerados']">{{
-              estadistica["totalRotulosGenerados"]
-            }}</span>
-            <font-awesome-icon v-else :icon="['fas', 'circle-notch']" spin
-          /></b>
-        </div>
-      </div>
-      <a href="#" @click.prevent="salir" class="ml-auto text-blue-600"
-        >salir <font-awesome-icon :icon="['fas', 'right-from-bracket']"
-      /></a>
-    </div>
   </div>
-  <div class="grid grid-cols-1 sm:grid-cols-2">
-    <div
-      class="flex items-stretch justify-between border-b border-black border-solid"
-    >
-      <div class="relative bg-black">
-        <img
-          src="../../public/market.jpg"
-          class="w-[100px] h-[125px] object-cover"
-        />
-        <div class="absolute top-0 left-0 w-full h-full b"></div>
-      </div>
-
-      <div class="relative flex-1 p-4 text-white bg-[#383E42]">
-        <h2>Crear Cintillos</h2>
-        <p class="pt-2 text-xs">La posibilidad de crear hasta 448 etiquetas.</p>
-        <router-link to="crear-cintillos" class="absolute bottom-0 right-0 p-4">
-          Comenzar <font-awesome-icon :icon="['fas', 'arrow-right']" />
-        </router-link>
-      </div>
-    </div>
-
-    <div
-      class="flex items-stretch justify-between border-b border-black border-solid"
-    >
-      <div class="relative bg-black">
-        <img
-          src="../../public/afiches.jpg"
-          class="w-[100px] h-[125px] object-cover"
-        />
-        <div class="absolute top-0 left-0 w-full h-full b"></div>
-      </div>
-
-      <div class="relative flex-1 p-4 text-white bg-[#383E42]">
-        <h2>Crear Rotulos</h2>
-        <p class="pt-2 text-xs">La posibilidad de crear hasta 200 rotulos.</p>
-        <router-link
-          to="/afiches-seleccion"
-          class="absolute bottom-0 right-0 p-4"
-          >Comenzar <font-awesome-icon :icon="['fas', 'arrow-right']"
-        /></router-link>
-      </div>
-    </div>
-
-    <div
-      class="flex items-stretch justify-between border-b border-black border-solid"
-    >
-      <div class="relative bg-black">
-        <img
-          src="../../public/buscador.jpg"
-          class="w-[100px] h-[125px] object-cover"
-        />
-        <div class="absolute top-0 left-0 w-full h-full b"></div>
-      </div>
-
-      <div class="relative flex-1 p-4 text-white bg-[#383E42]">
-        <h2>Buscar Internos</h2>
-        <p class="pt-2 text-xs">
-          Escanea o digita la descripcion, ideal para sacar el correlativo.
-        </p>
-        <router-link to="/buscador" class="absolute bottom-0 right-0 p-4"
-          >Comenzar <font-awesome-icon :icon="['fas', 'arrow-right']"
-        /></router-link>
-      </div>
-    </div>
-  </div>
-
-  <div class="p-4 bg-gray-200">
-    Si deseas que el correo de tu sala sea agregado a la aplicación, puedes
-    compartirlo a nuestro correo para que lo agregamos.<br />
-    Comparte el correo y el nombre de la sala de ventas.<br />
-    <a
-      href="mailto: multimarcasapp@outlook.com?subject=COMPARTO CORREO"
-      class="mt-4 inline-flex items-center px-4 py-2 text-sm font-medium rounded text-white bg-[#2E3239] hover:bg-[#37474F] border border-solid border-[#303E46] shadow-lg"
-      ><font-awesome-icon :icon="['fas', 'paper-plane']" class="mr-2" />
-      Enviarnos mensaje</a
-    >
-
-  --></div>
 </template>
 
 <style>

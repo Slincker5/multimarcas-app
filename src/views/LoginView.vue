@@ -27,6 +27,7 @@ const loginDirect = async () => {
       localStorage.setItem("user_uuid", data.user_uuid);
       localStorage.setItem("usuario", data.username);
       localStorage.setItem("photo", data.photo);
+      localStorage.setItem("rol", data.rol);
       router.push("/");
     } else {
       enviando.value = false;
@@ -87,6 +88,7 @@ const login = async () => {
       localStorage.setItem("usuario", data.username);
       localStorage.setItem("email", data.email);
       localStorage.setItem("photo", data.photo);
+      localStorage.setItem("rol", data.rol);
       router.push("/");
     }
   } catch (error) {

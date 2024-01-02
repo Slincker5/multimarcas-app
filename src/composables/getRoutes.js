@@ -49,6 +49,7 @@ export const useGetRoutes = () => {
   // Rutas Publicacion
   const postCreate = `${url}/api/post/create`;
   const postList = `${url}/api/post/list`;
+  const postRemove = `${url}/api/post/remove`;
 
   return {
     url,
@@ -79,6 +80,7 @@ export const useGetRoutes = () => {
     posterSmallBajaList,
     posterSmallBajaBuild,
     postCreate,
-    postList
+    postList,
+    postRemove,
   };
 };
