@@ -171,7 +171,7 @@ const darlike = async (post_uuid) => {
     };
 
     let { data } = await axios.post(likePost, param, { headers });
-    if(data.status === "OK") getData()
+    if (data.status === "OK") getData();
   } catch (error) {
     console.log(error);
   }
@@ -386,11 +386,14 @@ const eliminarPost = async (post_uuid) => {
         <div
           class="px-4 py-2 border-t border-dashed border-[#ddd] flex items-center justify-between"
         >
-          
-
           <button
-            class="text-sm text-gray-600 text-light"
+            class="text-sm text-light"
             :class="{
+              'text-gray-600': !likes.find(
+                (like) =>
+                  like.post_uuid === post.post_uuid &&
+                  like.user_uuid === user_uuid
+              ),
               'text-[#3498db]': likes.find(
                 (like) =>
                   like.post_uuid === post.post_uuid &&
