@@ -156,6 +156,7 @@ getData();
 
 const darlike = async (post_uuid) => {
   try {
+    audioPlayer.play()
     const headers = {
       Authorization: "Bearer " + token.value,
       "Content-Type": "application/json",
@@ -238,7 +239,10 @@ const eliminarPost = async (post_uuid) => {
 <template>
   <div>
     <div class="flex p-4 text-white bg-red-400"><font-awesome-icon :icon="['fas', 'bell']" class="mr-2 text-sm"/><div class="text-sm font-light text-white" id="cuentaRegresiva"></div></div>
-
+    <audio class="hidden" id="audioPlayer">
+      <source src="../../public/tap-like.mp3" type="audio/mp3" />
+      Tu navegador no soporta el elemento de audio.
+    </audio>
     <div
       class="flex items-stretch w-full gap-1 p-4 overflow-x-auto bg-gray-100 whitespace-nowrap acciones border-b border-solid border-[#ddd]"
     >
