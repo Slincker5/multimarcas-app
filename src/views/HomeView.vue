@@ -111,7 +111,7 @@ function calcularDiferencia() {
       let hora = Math.floor((distance % day) / hour);
       let minuto = Math.floor((distance % hour) / minute);
       let segundo = Math.floor((distance % minute) / second);
-        cuentaRegresiva.innerHTML = ` En ${dia}d, ${hora}h, ${minuto}m, ${segundo}s se apaga la app`;
+      cuentaRegresiva.innerHTML = ` En ${dia}d, ${hora}h, ${minuto}m, ${segundo}s se apaga la app`;
     }, second);
 }
 
@@ -156,7 +156,7 @@ getData();
 
 const darlike = async (post_uuid) => {
   try {
-    audioPlayer.play()
+    audioPlayer.play();
     const headers = {
       Authorization: "Bearer " + token.value,
       "Content-Type": "application/json",
@@ -238,7 +238,10 @@ const eliminarPost = async (post_uuid) => {
 </script>
 <template>
   <div>
-    <div class="flex p-4 text-white bg-red-400"><font-awesome-icon :icon="['fas', 'bell']" class="mr-2 text-sm"/><div class="text-sm font-light text-white" id="cuentaRegresiva"></div></div>
+    <div class="flex p-4 text-white bg-red-400">
+      <font-awesome-icon :icon="['fas', 'bell']" class="mr-2 text-sm" />
+      <div class="text-sm font-light text-white" id="cuentaRegresiva"></div>
+    </div>
     <audio class="hidden" id="audioPlayer">
       <source src="../../public/tap-like.mp3" type="audio/mp3" />
       Tu navegador no soporta el elemento de audio.
@@ -298,9 +301,7 @@ const eliminarPost = async (post_uuid) => {
     </div>
 
     <form class="p-4" @submit.prevent="crearPublicacion">
-      <h3 class="pb-4 font-medium">
-        PUBLICACIONES
-      </h3>
+      <h3 class="pb-4 font-medium">PUBLICACIONES</h3>
       <div class="flex justify-between">
         <div class="mr-2">
           <div v-if="photo !== null">
@@ -407,9 +408,12 @@ const eliminarPost = async (post_uuid) => {
             <font-awesome-icon :icon="['fas', 'thumbs-up']" />
           </button>
 
-          <span class="text-sm text-gray-600 text-light"
-            >{{ post.num_likes }} Me gusta</span
-          >
+          <div>
+            <router-link :to="`/publicacion/${post.post_uuid}`" class="mr-2 text-sm text-gray-600 underline text-light">{{ post.num_comments }} Comentar</router-link>
+            <span class="text-sm text-gray-600 text-light"
+              >{{ post.num_likes }} Me gusta</span
+            >
+          </div>
         </div>
       </div>
     </div>

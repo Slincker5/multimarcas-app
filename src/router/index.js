@@ -130,6 +130,15 @@ const router = createRouter({
       }
     },
     {
+      path: '/publicacion/:post_uuid',
+      name: 'publicacion',
+      component: () => import('../views/PublicacionView.vue'),
+      meta: {
+        requiresAuth: true,
+        title: "Publicacion"
+      }
+    },
+    {
       path: '/enviar-cintillos',
       name: 'enviarCintillos',
       component: () => import('../views/EnviarCintillosView.vue'),

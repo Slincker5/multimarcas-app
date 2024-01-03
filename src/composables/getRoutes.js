@@ -2,7 +2,7 @@ export const useGetRoutes = () => {
   // Ruta global
   const url = `https://procter.work`;
   //const url = `http://localhost`;
-  const userNoPhoto = "usuario.png";
+  const userNoPhoto = "https://cintillos-plazamundo.netlify.app/usuario.png";
 
   // Rutas externas
   const getIp = "https://api.ipify.org?format=json";
@@ -52,6 +52,9 @@ export const useGetRoutes = () => {
   const postRemove = `${url}/api/post/remove`;
   const likePost = `${url}/api/post/like`;
   const likeList = `${url}/api/post/list-like`;
+  const selectPost = `${url}/api/post/select-post/`;
+  const commentCreate = `${url}/api/comment/create`;
+  const commentList = `${url}/api/comment/list/`;
 
   return {
     url,
@@ -86,5 +89,8 @@ export const useGetRoutes = () => {
     postRemove,
     likePost,
     likeList,
+    selectPost,
+    commentCreate,
+    commentList,
   };
 };
