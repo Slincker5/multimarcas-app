@@ -56,6 +56,9 @@ export const useGetRoutes = () => {
   const commentCreate = `${url}/api/comment/create`;
   const commentList = `${url}/api/comment/list/`;
 
+  // Cupones
+  const canjearCupon = `${url}/api/premiun/canjear-cupon`;
+
   return {
     url,
     authLogin,
@@ -92,5 +95,6 @@ export const useGetRoutes = () => {
     selectPost,
     commentCreate,
     commentList,
+    canjearCupon,
   };
 };

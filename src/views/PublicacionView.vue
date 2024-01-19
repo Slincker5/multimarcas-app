@@ -1,7 +1,7 @@
 <script setup>
 import { useGetRoutes } from "@/composables/getRoutes";
 import { ref } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
@@ -12,6 +12,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.locale("es");
 dayjs.extend(relativeTime);
 const route = useRoute();
+const router = useRouter();
 
 const {
   userNoPhoto,
@@ -118,14 +119,16 @@ const eliminarPost = async (post_uuid) => {
       headers: headers,
       data: info,
     });
-
-    getData();
     toast.success(data.message, {
       theme: "colored",
       autoClose: 1500,
       position: toast.POSITION.BOTTOM_LEFT,
       transition: toast.TRANSITIONS.ZOOM,
     });
+
+    setTimeout(() => {
+      router.push("/");
+    }, 2000);
   } catch (error) {
     console.log(error);
   }

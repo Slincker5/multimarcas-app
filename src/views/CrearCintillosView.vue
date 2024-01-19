@@ -2,7 +2,7 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useMethodLabel } from "@/composables/methodLabel";
-import { useGetRoutes } from "@/composables/getRoutes";
+import { useGetRoutes } from "../composables/getRoutes";
 import { v4 as uuidv4 } from "uuid";
 import { BrowserMultiFormatReader, NotFoundException } from "@zxing/library";
 import dayjs from "dayjs";
@@ -58,6 +58,7 @@ const getData = async () => {
     let { data } = await axios.get(labelList, {
       headers,
     });
+    console.log(data)
     total.value = data.length;
   } catch (error) {
     console.log(error);

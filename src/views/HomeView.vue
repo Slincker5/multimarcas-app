@@ -14,7 +14,6 @@ dayjs.extend(relativeTime);
 
 const router = useRouter();
 const {
-  userStat,
   userNoPhoto,
   userMvc,
   userUpdateToken,
@@ -37,18 +36,6 @@ const likes = ref([]);
 const estadistica = ref([]);
 const enviando = ref(false);
 
-const obtenerEstadisticas = async () => {
-  try {
-    const headers = {
-      Authorization: "Bearer " + token.value,
-      "Content-Type": "application/json",
-    };
-    const { data } = await axios.get(userStat, { headers });
-    estadistica.value = data;
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 const mvc = async () => {
   try {
@@ -85,7 +72,6 @@ const mvc = async () => {
 };
 
 mvc();
-obtenerEstadisticas();
 
 const salir = () => {
   localStorage.removeItem("token");
@@ -96,7 +82,7 @@ const salir = () => {
   router.push("/login");
 };
 
-function calcularDiferencia() {
+/*function calcularDiferencia() {
   const second = 1000,
     minute = second * 60,
     hour = minute * 60,
@@ -115,7 +101,7 @@ function calcularDiferencia() {
     }, second);
 }
 
-calcularDiferencia();
+calcularDiferencia();*/
 
 // HACER PUBLICACION
 
@@ -238,10 +224,10 @@ const eliminarPost = async (post_uuid) => {
 </script>
 <template>
   <div>
-    <div class="flex p-4 text-white bg-red-400">
+    <!--<div class="flex p-4 text-white bg-red-400">
       <font-awesome-icon :icon="['fas', 'bell']" class="mr-2 text-sm" />
       <div class="text-sm font-light text-white" id="cuentaRegresiva"></div>
-    </div>
+    </div>-->
     <audio class="hidden" id="audioPlayer">
       <source src="../../public/tap-like.mp3" type="audio/mp3" />
       Tu navegador no soporta el elemento de audio.
@@ -251,52 +237,52 @@ const eliminarPost = async (post_uuid) => {
     >
       <router-link
         to="/buscador"
-        class="py-3 rounded-lg border border-solid border-[#e4e3e3] b bg-[#383E42]"
+        class="py-3 rounded-lg bg"
       >
         <div class="flex justify-center px-2 py-4">
           <img src="../../public/dairy-products.png" class="block w-[40px]" />
         </div>
-        <span class="p-2 pt-0 text-xs text-white">Buscar Internos</span>
+        <span class="p-2 pt-0 text-xs font-medium text-black">Buscar Internos</span>
       </router-link>
 
       <router-link
         to="crear-cintillos"
-        class="py-3 rounded-lg border border-solid border-[#e4e3e3] b bg-[#383E42]"
+        class="py-3 rounded-lg bg"
       >
         <div class="flex justify-center px-2 py-4">
           <img src="../../public/price-tag.png" class="block w-[40px]" />
         </div>
-        <span class="p-2 pt-0 text-xs text-white">Crear Cintillos</span>
+        <span class="p-2 pt-0 text-xs font-medium text-black">Crear Cintillos</span>
       </router-link>
 
       <router-link
         to="/crear-afiches"
-        class="py-3 rounded-lg border border-solid border-[#e4e3e3] b bg-[#383E42]"
+        class="py-3 rounded-lg bg"
       >
         <div class="flex justify-center px-2 py-4">
           <img src="../../public/rotulo-uno.png" class="block w-[40px]" />
         </div>
-        <span class="p-2 pt-0 text-xs text-white">Crear Afiches</span>
+        <span class="p-2 pt-0 text-xs font-medium text-black">Crear Afiches</span>
       </router-link>
 
       <router-link
         to="/crear-afiches-mini"
-        class="py-3 rounded-lg border border-solid border-[#e4e3e3] b bg-[#383E42]"
+        class="py-3 rounded-lg bg"
       >
         <div class="flex justify-center px-2 py-4">
           <img src="../../public/rotulo-dos.png" class="block w-[40px]" />
         </div>
-        <span class="p-2 pt-0 text-xs text-white">Crear Afiches</span>
+        <span class="p-2 pt-0 text-xs font-medium text-black">Crear Afiches</span>
       </router-link>
 
       <router-link
         to="/crear-afiches-baja-mini"
-        class="py-3 rounded-lg border border-solid border-[#e4e3e3] b bg-[#383E42]"
+        class="py-3 rounded-lg bg"
       >
         <div class="flex justify-center px-2 py-4">
           <img src="../../public/precio_bajo.png" class="block w-[40px]" />
         </div>
-        <span class="p-2 pt-0 text-xs text-white">Crear Afiches</span>
+        <span class="p-2 pt-0 text-xs font-medium text-black">Crear Afiches</span>
       </router-link>
     </div>
 
@@ -325,7 +311,7 @@ const eliminarPost = async (post_uuid) => {
         </div>
         <input
           type="submit"
-          class="h-9 w-[120px] bg-amber-500 text-sm text-white rounded-lg transition-all cursor-pointer hover:bg-blue-600"
+          class="h-9 w-[120px] bg-[#4A4878] text-sm text-white rounded-lg transition-all cursor-pointer hover:bg-blue-600"
           value="Publicar"
         />
       </div>
@@ -440,5 +426,19 @@ const eliminarPost = async (post_uuid) => {
 
 .acciones::-webkit-scrollbar {
   display: none; /* Oculta la barra de desplazamiento en navegadores WebKit (como Chrome/Safari) */
+}
+
+.bg {
+  background-image: url("../../public/bg.png");
+  background-repeat: repeat;
+  background-size: contain;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  color: #000;
+  transition: all ease 1s;
+}
+
+.bg:focus {
+  background-image: #383E42;
 }
 </style>
