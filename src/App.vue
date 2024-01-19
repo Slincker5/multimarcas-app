@@ -203,9 +203,9 @@ const canjeCupon = async () => {
 
   <RouterView />
   <Footer></Footer>
-  <div class="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full text-lg text-white bg-gray-900">
-   <div><img src="../public/sled.gif" class="w-[30px] h-[30px] rounded-full align-middle inline-block mr-2 text-sm z-50"> App en mantenimiento<br>
-  <div>Lamentamos las interrupciones, en breves reactivaremos el servicio.</div></div> 
+  <div class="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full text-lg text-white bg-zinc-950">
+   <div class="p-6 font-medium"><img src="../public/sled.gif" class="w-[30px] h-[30px] rounded-full align-middle inline-block mr-2 text-sm z-50"> App en mantenimiento<br>
+  <div class="text-sm">Lamentamos las interrupciones, en breves reactivaremos el servicio.</div></div> 
   
  </div>
 </template>
