@@ -58,6 +58,8 @@ export const useGetRoutes = () => {
 
   // Cupones
   const canjearCupon = `${url}/api/premiun/canjear-cupon`;
+  const generarCupon = `${url}/api/premiun/cupon`;
+  const crearCupon = `${url}/api/premiun/nuevo-cupon`;
 
   return {
     url,
@@ -96,5 +98,7 @@ export const useGetRoutes = () => {
     commentCreate,
     commentList,
     canjearCupon,
+    generarCupon,
+    crearCupon,
   };
 };

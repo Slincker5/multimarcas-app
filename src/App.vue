@@ -10,9 +10,15 @@ const token = ref(localStorage.getItem("token"));
 const photo = ref(localStorage.getItem("photo"));
 const username = ref(localStorage.getItem("usuario"));
 const estadistica = ref(null);
+const loading = ref("hidden");
+const vipModal = ref("hidden");
 const route = useRoute();
 const router = useRouter();
-const { userNoPhoto, userStat, canjearCupon } = useGetRoutes();
+const message = ref("");
+const nCupon = ref("");
+const nUsos = ref("");
+const { userNoPhoto, userStat, canjearCupon, generarCupon, crearCupon } =
+  useGetRoutes();
 
 const obtenerEstadisticas = async () => {
   try {
@@ -54,24 +60,72 @@ const codigo = ref("");
 const codigoLength = computed(() => codigo.value.length);
 
 const classCupon = ref("hidden");
+const classCrearCupon = ref("hidden");
 const closeCupon = () => {
   classCupon.value = "hidden";
 };
 const openCupon = () => {
   classCupon.value = "flex";
 };
+const openCrearCupon = () => {
+  classCrearCupon.value = "flex";
+};
+const closeCrearCupon = () => {
+  classCrearCupon.value = "hidden";
+};
 
 const canjeCupon = async () => {
-  const param = {
-    cupon: codigo.value,
-  };
-  const headers = {
-    Authorization: "Bearer " + token.value,
-    "Content-Type": "application/json",
-  };
-  const { data } = await axios.post(canjearCupon, param, { headers });
-  alert(data.message);
-  console.log(data);
+  try {
+    loading.value = "flex";
+    const param = {
+      cupon: codigo.value,
+    };
+    const headers = {
+      Authorization: "Bearer " + token.value,
+      "Content-Type": "application/json",
+    };
+    const { data } = await axios.post(canjearCupon, param, { headers });
+    message.value = data;
+    if (data.status === "OK") vipModal.value = "block";
+  } catch (error) {
+    console.error(error);
+  } finally {
+    loading.value = "hidden";
+  }
+};
+
+const genCupon = async () => {
+  try {
+    const headers = {
+      Authorization: "Bearer " + token.value,
+      "Content-Type": "application/json",
+    };
+    const { data } = await axios.get(generarCupon, { headers });
+    nCupon.value = data.cupon;
+  } catch (error) {
+    console.error(error);
+  }
+};
+const refresh = () => {
+  window.location.reload();
+};
+
+const agregarCupon = async () => {
+  try {
+    const param = {
+      cupon: nCupon.value,
+      limite_cupon: nUsos.value,
+    };
+    const headers = {
+      Authorization: "Bearer " + token.value,
+      "Content-Type": "application/json",
+    };
+
+    const { data } = await axios.post(crearCupon, param, { headers });
+    alert(data.message);
+  } catch (error) {
+    console.log(error);
+  }
 };
 </script>
 
@@ -86,7 +140,7 @@ const canjeCupon = async () => {
         <div>
           <div v-if="photo !== null">
             <img
-              :src="photo"
+              :src="`${estadistica.profile[0].photo}`"
               :alt="username"
               class="w-[25px] rounded-full shadow align-middle"
             />
@@ -104,7 +158,7 @@ const canjeCupon = async () => {
           class="flex items-center pl-1 text-sm font-medium text-black"
           v-if="estadistica"
         >
-          {{ username
+          {{ estadistica.profile[0].username
           }}<span v-if="estadistica.profile[0].suscripcion === 1"
             ><img src="../public/vip.gif" alt="vip"
           /></span>
@@ -120,7 +174,7 @@ const canjeCupon = async () => {
       </div>
       <button
         class="p-4 text-sm border-t border-solid border-[#ddd] text-gray-800 w-full block"
-        @click.prevent="openCupon"
+        @click.prevent="openCrearCupon"
         v-if="estadistica.profile[0].rol === 'Admin'"
       >
         <font-awesome-icon :icon="['fas', 'gift']" /> Generar cupon
@@ -144,7 +198,32 @@ const canjeCupon = async () => {
     class="fixed z-50 items-center justify-center w-full h-full bg-black/25"
     :class="`${classCupon}`"
   >
-    <div class="bg-white w-[90%]">
+    <div class="bg-white w-[90%] relative">
+      <div
+        class="absolute top-0 left-0 items-center justify-center w-full h-full text-white transition-all bg-white"
+        :class="`${vipModal}`"
+      >
+        <div class="p-4 bg-white">
+          <img src="../public/canje_vip.gif" class="w-[100px] m-auto" />
+          <p class="py-4 text-sm text-gray-950">
+            !En hora buena! tu cuenta ahora es vip
+          </p>
+          <button
+            to="/login"
+            class="mb-4 flex justify-center items-center text-center w-full h-9 bg-[#4A4878] text-sm text-white rounded transition-all cursor-pointer"
+            @click.prevent="refresh"
+          >
+            Continuar navegando
+          </button>
+        </div>
+      </div>
+      <div
+        class="absolute w-full h-full bg-[#4844AB] text-white flex items-center justify-center transition-all"
+        :class="`${loading}`"
+      >
+        <font-awesome-icon :icon="['fas', 'gear']" spin spin-reverse />
+        Validando codigo...
+      </div>
       <h2
         class="flex items-center justify-between p-4 text-sm font-medium text-black uppercase"
       >
@@ -156,6 +235,12 @@ const canjeCupon = async () => {
         </button>
       </h2>
       <form class="w-full p-4 pt-0" @submit.prevent="canjeCupon">
+        <div
+          class="px-4 py-3 text-sm text-red-500"
+          v-if="message.status === 'error'"
+        >
+          {{ message.message }}
+        </div>
         <div
           class="flex items-center justify-between border border-solid border-[#dd]"
         >
@@ -177,6 +262,77 @@ const canjeCupon = async () => {
           type="submit"
           class="w-full h-9 mt-4 bg-[#4A4878] text-sm text-white rounded transition-all cursor-pointer"
           value="Canjear cupon"
+        />
+      </form>
+    </div>
+  </div>
+
+  <div
+    class="fixed z-50 items-center justify-center w-full h-full bg-black/25"
+    :class="`${classCrearCupon}`"
+  >
+    <div class="bg-white w-[90%] relative">
+      <div
+        class="absolute w-full h-full bg-[#4844AB] text-white flex items-center justify-center transition-all"
+        :class="`${loading}`"
+      >
+        <font-awesome-icon :icon="['fas', 'gear']" spin spin-reverse />
+        Agregando cupon...
+      </div>
+      <h2
+        class="flex items-center justify-between p-4 text-sm font-medium text-black uppercase"
+      >
+        <span><font-awesome-icon :icon="['fas', 'gift']" /> Craer cupones</span>
+        <button @click.prevent="closeCrearCupon">
+          <font-awesome-icon :icon="['fas', 'xmark']" />
+        </button>
+      </h2>
+      <form class="w-full p-4 pt-0" @submit.prevent="agregarCupon">
+        <div
+          class="px-4 py-3 text-sm text-red-500"
+          v-if="message.status === 'error'"
+        >
+          {{ message.message }}
+        </div>
+        <div
+          class="flex items-center justify-between border border-solid border-[#dd] mb-4"
+        >
+          <div class="px-4 py-3 text-sm text-gray-600">
+            <font-awesome-icon :icon="['fas', 'ticket']" />
+          </div>
+          <input
+            type="text"
+            maxlength="8"
+            placeholder="Ingresa el codigo"
+            class="block w-full px-0 py-3 text-sm outline-none"
+            v-model="nCupon"
+          />
+          <button
+            class="px-4 py-3 text-sm text-gray-400"
+            @click.prevent="genCupon"
+          >
+            <font-awesome-icon :icon="['fas', 'arrows-rotate']" />
+          </button>
+        </div>
+
+        <div
+          class="flex items-center justify-between border border-solid border-[#dd]"
+        >
+          <div class="px-4 py-3 text-sm text-gray-600">
+            <font-awesome-icon :icon="['fas', 'hashtag']" />
+          </div>
+          <input
+            type="text"
+            maxlength="8"
+            placeholder="Numero de usos"
+            class="block w-full px-0 py-3 text-sm outline-none"
+            v-model="nUsos"
+          />
+        </div>
+        <input
+          type="submit"
+          class="w-full h-9 mt-4 bg-[#4A4878] text-sm text-white rounded transition-all cursor-pointer"
+          value="Agregar cupon"
         />
       </form>
     </div>
@@ -203,9 +359,9 @@ const canjeCupon = async () => {
 
   <RouterView />
   <Footer></Footer>
-  <div class="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full text-lg text-white bg-zinc-950">
+  <!--<div class="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full text-lg text-white bg-zinc-950">
    <div class="p-6 font-medium"><img src="../public/sled.gif" class="w-[30px] h-[30px] rounded-full align-middle inline-block mr-2 text-sm z-50"> App en mantenimiento<br>
   <div class="text-sm">Lamentamos las interrupciones, en breves reactivaremos el servicio.</div></div> 
   
- </div>
+ </div>-->
 </template>
