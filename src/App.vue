@@ -181,7 +181,7 @@ const agregarCupon = async () => {
       </button>
       <button
         class="p-4 text-sm border-t border-solid border-[#ddd] text-gray-800 w-full block"
-        @click.prevent="openCupon"
+        @click.prevent="openCupon" v-if="estadistica.profile[0].suscripcion === 0"
       >
         <font-awesome-icon :icon="['fas', 'gift']" /> Canjear cupon
       </button>
