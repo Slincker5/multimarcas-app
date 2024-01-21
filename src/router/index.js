@@ -201,7 +201,7 @@ const router = createRouter({
     {
       path: "/pago-exitoso",
       name: "pagoexitoso",
-      component: () => import("../views/PagoExitosoView.vue"),
+      component: () => import("../views/PagoCompletadoView.vue"),
       meta: {
         requiresAuth: true,
         title: "Pago Exitoso",
