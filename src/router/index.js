@@ -22,15 +22,6 @@ const router = createRouter({
       },
     },
     {
-      path: "/pago-exitoso",
-      name: "pagoexitoso",
-      component: () => import("../views/PagoExitosoView.vue"),
-      meta: {
-        requiresAuth: true,
-        title: "Pago Exitoso",
-      },
-    },
-    {
       path: "/cintillos",
       name: "cintillos",
       component: () => import("../views/ListaCintillosView.vue"),
@@ -208,11 +199,12 @@ const router = createRouter({
       },
     },
     {
-      path: "/suscribe",
-      name: "suscribe",
-      component: () => import("../views/EscanerView.vue"),
+      path: "/pago-exitoso",
+      name: "pagoexitoso",
+      component: () => import("../views/PagoExitosoView.vue"),
       meta: {
         requiresAuth: true,
+        title: "Pago Exitoso",
       },
     },
   ],
