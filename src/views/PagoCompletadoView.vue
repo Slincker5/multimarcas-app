@@ -7,7 +7,6 @@ const route = useRoute();
 const idTransaccion = route.query.idTransaccion;
 const monto = route.query.monto;
 
-alert(monto)
 const enviarTransaccion = async () => {
   try {
     const params = {
