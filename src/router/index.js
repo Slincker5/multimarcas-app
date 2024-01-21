@@ -23,7 +23,7 @@ const router = createRouter({
     },
     {
       path: "/pago-exitoso",
-      name: "crearcintillos",
+      name: "pago-exitoso",
       component: () => import("../views/PagoExitosoView.vue"),
       meta: {
         requiresAuth: true,
