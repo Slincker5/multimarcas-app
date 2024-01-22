@@ -127,6 +127,26 @@ const agregarCupon = async () => {
     console.log(error);
   }
 };
+
+function calcularDiferencia(fecha) {
+  const second = 1000,
+    minute = second * 60,
+    hour = minute * 60,
+    day = hour * 24;
+
+  let countDown = new Date(`${fecha} 00:00:00`).getTime();
+
+  let now = new Date().getTime(),
+    distance = countDown - now;
+
+  let dia = Math.floor(distance / day);
+  let hora = Math.floor((distance % day) / hour);
+  let minuto = Math.floor((distance % hour) / minute);
+  let segundo = Math.floor((distance % minute) / second);
+  return `${dia}d, ${hora}h, ${minuto}m`;
+}
+
+calcularDiferencia();
 </script>
 
 <template>
@@ -172,6 +192,13 @@ const agregarCupon = async () => {
           >Premium</b
         ><b class="text-xs text-amber-500" v-else>Basica</b>
       </div>
+      <div
+        class="px-4 py-2 text-xs text-gray-500 border-t border-solid border-[#ddd]"
+        v-if="estadistica.profile[0].suscripcion === 1"
+      >
+        Vence en:
+        <b class="text-xs font-light text-amber-500">{{ calcularDiferencia(estadistica.profile[0].fin_suscripcion) }}</b>
+      </div>
       <button
         class="p-4 text-sm border-t border-solid border-[#ddd] text-gray-800 w-full block"
         @click.prevent="openCrearCupon"
@@ -181,7 +208,8 @@ const agregarCupon = async () => {
       </button>
       <button
         class="p-4 text-sm border-t border-solid border-[#ddd] text-gray-800 w-full block"
-        @click.prevent="openCupon" v-if="estadistica.profile[0].suscripcion === 0"
+        @click.prevent="openCupon"
+        v-if="estadistica.profile[0].suscripcion === 0"
       >
         <font-awesome-icon :icon="['fas', 'gift']" /> Canjear cupon
       </button>
