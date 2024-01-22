@@ -215,7 +215,6 @@ onMounted(() => {
   const script = document.createElement("script");
   script.src = "https://pagos.wompi.sv/js/wompi.pagos.js";
   document.head.appendChild(script);
-  window.location.reload();
 });
 </script>
 <template>
