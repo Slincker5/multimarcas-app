@@ -206,7 +206,6 @@ const obtenerEstadisticas = async () => {
     };
     const { data } = await axios.get(userStat, { headers });
     estadistica.value = data;
-    window.location.reload()
   } catch (error) {
     console.log(error);
   }
@@ -216,6 +215,7 @@ onMounted(() => {
   const script = document.createElement("script");
   script.src = "https://pagos.wompi.sv/js/wompi.pagos.js";
   document.head.appendChild(script);
+  window.location.reload();
 });
 </script>
 <template>
@@ -240,9 +240,12 @@ onMounted(() => {
       </p>
 
       <div>
-        <div class="border border-b-0 border-solid border-[#ddd] p-4 flex items-center justify-between">
+        <div
+          class="border border-b-0 border-solid border-[#ddd] p-4 flex items-center justify-between"
+        >
           <div class="text-sm font-light">Suscripcion Premium</div>
-        <div class="text-sm font-semibold">$1.10</div></div>
+          <div class="text-sm font-semibold">$1.10</div>
+        </div>
         <div
           class="flex items-center justify-between border border-solid border-[#ddd] p-4"
         >
