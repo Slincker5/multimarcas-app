@@ -239,6 +239,9 @@ onMounted(() => {
       </p>
 
       <div>
+        <div class="border border-b-0 border-solid border-[#ddd] p-4 flex items-center justify-between">
+          <div class="text-sm font-light">Suscripcion Premiun</div>
+        <div class="text-sm font-semibold">$1.10</div></div>
         <div
           class="flex items-center justify-between border border-solid border-[#ddd] p-4"
         >
