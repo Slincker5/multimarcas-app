@@ -138,10 +138,10 @@ const agregarCupon = async () => {
     <div class="inline-block bg-gray-200" v-if="estadistica">
       <div class="p-4 border-b border-solid border-[#ddd] flex items-center">
         <div>
-          <div v-if="photo !== null">
+          <div v-if="estadistica.profile[0].photo !== null">
             <img
               :src="`${estadistica.profile[0].photo}`"
-              :alt="username"
+              :alt="`${estadistica.profile[0].username}`"
               class="w-[25px] rounded-full shadow align-middle"
             />
           </div>
@@ -149,7 +149,7 @@ const agregarCupon = async () => {
           <div v-else>
             <img
               :src="userNoPhoto"
-              :alt="username"
+              :alt="`${estadistica.profile[0].username}`"
               class="w-[25px] rounded-full align-middle"
             />
           </div>
