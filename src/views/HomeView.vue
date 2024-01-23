@@ -242,7 +242,8 @@ onMounted(() => {
         <div
           class="border border-b-0 border-solid border-[#ddd] p-4 flex items-center justify-between"
         >
-          <div class="text-sm font-light">Suscripcion Premium</div>
+          <div class="text-sm font-light">Suscripcion Premium<br>
+          <span class="text-xs text-gray-400">(Duracion por 30 dias)</span></div>
           <div class="text-sm font-semibold">$1.10</div>
         </div>
         <div
