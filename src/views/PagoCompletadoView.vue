@@ -56,10 +56,8 @@ enviarTransaccion();
         empezando desde ahora.
       </div>
       <div class="flex items-center justify-center">
-        <router-link
-          to="/"
-          class="px-6 py-2 mt-4 text-green-500 bg-white rounded-2xl"
-          >Ir a mi cuenta</router-link
+        <a href="/" class="px-6 py-2 mt-4 text-green-500 bg-white rounded-2xl"
+          >Ir a mi cuenta</a
         >
       </div>
     </div>
