@@ -422,6 +422,34 @@ async function copyToClipboard(text) {
     </div>
     <div v-if="estadistica">
       <div
+        class="flex items-start justify-between border-indigo-700 border-l-4  bg-indigo-400 border-solid"
+      >
+        <img
+          src="../../public/support.png"
+          alt="atención al cliente"
+          class="w-[75px] block p-4"
+        />
+        <div class="w-full p-4 pl-0">
+          <h3 class="text-sm font-medium text-white uppercase">
+            Atención al cliente
+          </h3>
+          <p class="text-sm font-light text-white">
+            Tienes problemas con la app puedes contactarnos.
+          </p>
+          <div class="flex justify-end p-1">
+            <a href="https://wa.me/+50374329014"
+              class="px-4 py-2 text-xs font-medium text-indigo-400 bg-white rounded-lg"
+        
+            >
+              Escribir mensaje
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div v-if="estadistica">
+      <div
         class="flex items-center justify-between bg-green-500 border-l-4 border-green-800 border-solid"
         v-if="estadistica.profile[0].suscripcion === 0"
       >
@@ -448,7 +476,6 @@ async function copyToClipboard(text) {
         </div>
       </div>
     </div>
-
     <h3 class="p-4 font-medium">HISTORIAL CINTILLOS</h3>
     <div class="p-4 text-sm bg-amber-50 text-neutral-800">
       Aqui encontraras los ultimos 10 archivos enviados a computo.
