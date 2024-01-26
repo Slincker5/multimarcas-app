@@ -1,8 +1,11 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import axios from "axios";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+
+import { RecaptchaVerifier } from "firebase/auth";
+import { signInWithPhoneNumber } from "firebase/auth";
 import { useGetRoutes } from "@/composables/getRoutes";
 import { useRouter } from "vue-router";
 
@@ -106,8 +109,54 @@ const login = async () => {
     console.log(error);
   }
 };
+
+onMounted(() => {
+  var numberButton = document.getElementById("numberButton");
+  signinbutton.addEventListener("click", function () {
+    var number = document.getElementById("number").value;
+    window.recaptchaVerifier = new RecaptchaVerifier(auth, "signinbutton", {
+      size: "invisible",
+      callback: (response) => {
+        // reCAPTCHA solved, allow signInWithPhoneNumber.
+        onSignInSubmit();
+      },
+    });
+    var appVerifier = window.recaptchaVerifier;
+    signInWithPhoneNumber(auth, number, appVerifier)
+      .then((confirmationResult) => {
+        // SMS sent. Prompt user to type the code from the message, then sign the
+        // user in with confirmationResult.confirm(code).
+        window.confirmationResult = confirmationResult;
+
+        const verificationCode = prompt(
+          "Please enter the verification code sent to your phone:"
+        );
+        return confirmationResult.confirm(verificationCode);
+      })
+      .then((userCredential) => {
+        // Se ejecuta si la confirmación es exitosa
+        const user = userCredential.user;
+        console.log("User signed in:", user);
+        // Realizar acciones adicionales si es necesario
+      })
+      .catch((error) => {
+        window.recaptchaVerifier.render().then(function (widgetId) {
+          grecaptcha.reset(widgetId);
+        });
+      });
+  });
+});
 </script>
 <template>
+  <div class="hidden">
+    <input type="text" id="number" placeholder="number" value="" />
+    <button class="number" id="signinbutton">LogIn Number</button>
+    <p id="recaptcha-container"></p>
+  </div>
+  <div class="hidden validate">
+    <input type="text" id="code" placeholder="code" />
+    <button class="validatebtn" id="validate">Validate</button>
+  </div>
   <div
     class="fixed w-full h-full bg-black/[.5] top-0 left-0 flex items-center justify-center"
     v-if="enviando"

@@ -23,6 +23,7 @@ export const useGetRoutes = () => {
   // Rutas Label
   const labelCreate = `${url}/api/label/create`;
   const labelList = `${url}/api/label/list`;
+  const labelListGenerated = `${url}/api/label/list-generated`;
   const labelRemove = `${url}/api/label/remove`;
   const labelDetails = `${url}/api/label/details/`;
   const labelEdit = `${url}/api/label/edit`;
@@ -77,6 +78,7 @@ export const useGetRoutes = () => {
     labelDetails,
     labelBuild,
     emailList,
+    labelListGenerated,
     posterCreate,
     posterList,
     posterBuild,

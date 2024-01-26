@@ -14,11 +14,13 @@ dayjs.extend(relativeTime);
 
 const router = useRouter();
 const {
+  url,
   userNoPhoto,
   userStat,
   userUpdateToken,
   postCreate,
   postList,
+  labelListGenerated,
   postRemove,
   likePost,
   likeList,
@@ -36,6 +38,7 @@ const likes = ref([]);
 const estadistica = ref(null);
 const enviando = ref(false);
 const modalPagos = ref("top-[-100%]");
+const generados = ref([]);
 
 const updateToken = async () => {
   try {
@@ -110,6 +113,22 @@ const getData = async () => {
 };
 getData();
 
+const getGenerados = async () => {
+  try {
+    const headers = {
+      Authorization: "Bearer " + token.value,
+      "Content-Type": "application/json",
+    };
+    let { data } = await axios.get(labelListGenerated, {
+      headers,
+    });
+    console.log(data);
+    generados.value = data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+getGenerados();
 const darlike = async (post_uuid) => {
   try {
     audioPlayer.play();
@@ -216,6 +235,20 @@ onMounted(() => {
   script.src = "https://pagos.wompi.sv/js/wompi.pagos.js";
   document.head.appendChild(script);
 });
+
+async function copyToClipboard(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    toast.success("Enlace copiado al portapapeles.", {
+      theme: "colored",
+      autoClose: 1500,
+      position: toast.POSITION.BOTTOM_LEFT,
+      transition: toast.TRANSITIONS.ZOOM,
+    });
+  } catch (err) {
+    console.error("No se pudo copiar el texto:", err);
+  }
+}
 </script>
 <template>
   <div>
@@ -242,8 +275,10 @@ onMounted(() => {
         <div
           class="border border-b-0 border-solid border-[#ddd] p-4 flex items-center justify-between"
         >
-          <div class="text-sm font-light">Suscripcion Premium<br>
-          <span class="text-xs text-gray-400">(Duracion por 30 dias)</span></div>
+          <div class="text-sm font-light">
+            Suscripcion Premium<br />
+            <span class="text-xs text-gray-400">(Duracion por 30 dias)</span>
+          </div>
           <div class="text-sm font-semibold">$1.10</div>
         </div>
         <div
@@ -369,125 +404,73 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <form class="p-4" @submit.prevent="crearPublicacion">
-      <h3 class="pb-4 font-medium">PUBLICACIONES</h3>
-      <div class="flex justify-between">
-        <div class="mr-2">
-          <div v-if="photo !== null">
-            <img :src="photo" :alt="username" class="w-[35px] rounded shadow" />
-          </div>
 
-          <div v-else>
-            <img :src="userNoPhoto" :alt="username" class="w-[35px]" />
-          </div>
-        </div>
-        <textarea
-          class="flex-1 w-full h-10 px-3 py-1 text-sm border border-[#ddd] rounded-lg outline-none resize-none placeholder:text-sm"
-          placeholder="Haz una publicacion"
-          maxlength="2000"
-          v-model="publicacion"
-        ></textarea>
-      </div>
-      <div class="flex items-center justify-between px-4 py-2 pb-0">
-        <div class="text-sm text-gray-400">
-          Caracteres {{ publicacion.length }}/2000
-        </div>
-        <input
-          type="submit"
-          class="h-9 w-[120px] bg-[#4A4878] text-sm text-white rounded-lg transition-all cursor-pointer hover:bg-blue-600"
-          value="Publicar"
-        />
-      </div>
-    </form>
-
-    <div class="p-4 bg-white">
+    <h3 class="p-4 font-medium">HISTORIAL CINTILLOS</h3>
+    <div class="p-4 text-sm bg-amber-50 text-neutral-800">
+      Aqui encontraras los ultimos 10 archivos enviados a computo.
+    </div>
+    <div
+      class="grid grid-cols-1 gap-2 p-4 sm:grid-cols-2 md:grid-cols-3 bg-gray-50"
+      v-if="generados.length > 0"
+    >
       <div
-        class="border border-solid border-[#ddd] mb-3"
-        v-for="post in posts"
-        :key="post.id"
+        class="bg-white border border-solid border-[#e9e8e8] mb-4"
+        v-for="generado in generados"
       >
-        <div class="flex items-center p-4">
-          <div class="mr-2">
-            <div v-if="post.photo !== null">
-              <img
-                :src="post.photo"
-                :alt="post.username"
-                class="w-[35px] rounded shadow"
-              />
-            </div>
-            <div v-else>
-              <img :src="userNoPhoto" :alt="post.username" class="w-[35px]" />
-            </div>
-          </div>
-          <div class="flex-1">
-            <div class="font-medium text-black align-middle">
-              {{ post.username }}
-              <span v-if="post.username === 'Multimarcas'"
-                ><img
-                  src="../../public/checklist.png"
-                  class="inline-block w-[15px]"
-              /></span>
-            </div>
-            <div class="text-xs text-gray-400">
-              {{ dayjs(post.fecha).fromNow() }}
-            </div>
-          </div>
-
-          <button
-            @click="eliminarPost(`${post.post_uuid}`)"
-            v-if="post.user_uuid === user_uuid || rol === 'Admin'"
-            class="text-xs text-gray-700"
-          >
-            <font-awesome-icon :icon="['fas', 'trash']" />
-          </button>
+        <div class="p-4 text-sm font-light text-neutral-700">
+          <img
+            src="../../public/excel.png"
+            class="w-[16px] inline-block align-middle"
+          />
+          {{ generado.path_name }}
         </div>
-
+        <div class="border-t border-solid border-[#ddd] p-4">
+          <div class="overflow-hidden">
+            <b class="pr-1 text-sm font-medium">Enviado:</b
+            ><span class="text-sm text-gray-500" v-if="generado.email === null">
+              {{ generado.receptor }}</span
+            ><span class="text-sm text-gray-500" v-else>{{
+              generado.email
+            }}</span>
+          </div>
+        </div>
         <div class="p-4 pt-0">
-          {{ post.post }}
-          <div v-if="post.archivo !== null" class="pt-2">
-            <img :src="post.archivo" class="block w-full" />
+          <div class="flex items-center justify-between">
+            <div>
+              <b class="pr-1 text-sm font-medium">Codigo ref:</b
+              ><span class="text-sm text-green-500"> #{{ generado.code }}</span>
+            </div>
+            <button
+              @click="copyToClipboard(generado.code)"
+              class="text-sm text-neutral-500"
+            >
+              <font-awesome-icon :icon="['fas', 'clipboard']" /> COPIAR
+            </button>
           </div>
         </div>
-        <div
-          class="px-4 py-2 border-t border-dashed border-[#ddd] flex items-center justify-between"
-        >
-          <button
-            class="text-sm text-light"
-            :class="{
-              'text-gray-600': !likes.find(
-                (like) =>
-                  like.post_uuid === post.post_uuid &&
-                  like.user_uuid === user_uuid
-              ),
-              'text-[#3498db]': likes.find(
-                (like) =>
-                  like.post_uuid === post.post_uuid &&
-                  like.user_uuid === user_uuid
-              ),
-            }"
-            @click="darlike(post.post_uuid)"
-            :disabled="
-              likes.find(
-                (like) =>
-                  like.post_uuid === post.post_uuid &&
-                  like.user_uuid === user_uuid
-              )
-            "
+        <div class="p-4 pt-0">
+          <b class="pr-1 text-sm font-medium">Generado:</b>
+          <span class="text-sm text-gray-500">{{
+            dayjs(generado.fecha).fromNow()
+          }}</span>
+        </div>
+        <div class="p-4 border-t border-dashed border-[#ddd]">
+          <a
+            :href="`${url}/${generado.path}`"
+            download
+            class="block w-full px-4 py-2 text-xs font-medium leading-6 text-center text-black uppercase transition bg-gray-100 rounded shadow focus:bg-gray-300 hover:bg-gray-300 ripple hover:shadow-lg hover:bg-gray-200 focus:outline-none"
           >
-            <font-awesome-icon :icon="['fas', 'thumbs-up']" />
-          </button>
-
-          <div>
-            <router-link
-              :to="`/publicacion/${post.post_uuid}`"
-              class="mr-2 text-sm text-gray-600 underline text-light"
-              >{{ post.num_comments }} Comentar</router-link
-            >
-            <span class="text-sm text-gray-600 text-light"
-              >{{ post.num_likes }} Me gusta</span
-            >
-          </div>
+            DESCARGAR
+          </a>
         </div>
+      </div>
+    </div>
+    <div class="flex items-center justify-center p-4 h-52" v-else>
+      <div class="text-xl text-neutral-700">
+        <img
+          src="../../public/sad.gif"
+          class="w-[27px] inline-block align-middle"
+        />Esto parece un desierto.
       </div>
     </div>
 
