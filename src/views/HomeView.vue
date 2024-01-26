@@ -38,6 +38,7 @@ const likes = ref([]);
 const estadistica = ref(null);
 const enviando = ref(false);
 const modalPagos = ref("top-[-100%]");
+const modalTuto = ref("top-[-100%]");
 const generados = ref([]);
 
 const updateToken = async () => {
@@ -217,6 +218,16 @@ const cerrarModalPagos = () => {
   modalPagos.value = "top-[-100%]";
 };
 
+const abrirModalTuto = () => {
+  modalTuto.value = "top-0";
+};
+const cerrarModalTuto = () => {
+  modalTuto.value = "top-[-100%]";
+};
+
+const reproducir = () => {
+  videoTuto.play()
+}
 const obtenerEstadisticas = async () => {
   try {
     const headers = {
@@ -249,6 +260,7 @@ async function copyToClipboard(text) {
     console.error("No se pudo copiar el texto:", err);
   }
 }
+
 </script>
 <template>
   <div>
@@ -256,9 +268,20 @@ async function copyToClipboard(text) {
       <font-awesome-icon :icon="['fas', 'bell']" class="mr-2 text-sm" />
       <div class="text-sm font-light text-white" id="cuentaRegresiva"></div>
     </div>-->
-
     <div
       class="fixed left-0 z-50 w-full h-full p-4 transition-all bg-white"
+      :class="`${modalTuto}`"
+    >
+    <div class="flex items-center justify-between py-4">
+     <button class="inline-block px-5 py-2 text-sm text-white bg-green-500 rounded-md shadow-md" @click.prevent="reproducir">Reproducir</button> 
+     <button class="inline-block px-5 py-2 text-sm text-white rounded-md shadow-md bg-amber-500" @click.prevent="cerrarModalTuto">Volver a mi compra</button> 
+    </div>
+    <video controls class="block w-[90%] m-auto" id="videoTuto">
+     <source src="../../public/tutorial.mp4" type="video/mp4"> 
+    </video>
+    </div>
+    <div
+      class="fixed left-0 z-40 w-full h-full p-4 transition-all bg-white"
       :class="`${modalPagos}`"
     >
       <h3 class="flex items-center justify-between pb-4 font-medium text-black">
@@ -267,7 +290,8 @@ async function copyToClipboard(text) {
           <font-awesome-icon :icon="['fas', 'xmark']" />
         </button>
       </h3>
-      <p class="pb-4 text-sm font-light text-gray-500">
+   <div class="flex items-center justify-between p-4 text-sm font-medium rounded-md text-neutral-700 bg-amber-100">¿Como pagar? <button class="px-4 py-1 text-sm text-white bg-blue-500 rounded-md" @click.prevent="abrirModalTuto">Ver tutorial</button> </div> 
+      <p class="p-4 text-sm font-light text-gray-500">
         Todas las transacciones son seguras y estan encriptadas.
       </p>
 
