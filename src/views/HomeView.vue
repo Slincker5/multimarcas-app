@@ -15,7 +15,6 @@ dayjs.extend(relativeTime);
 const router = useRouter();
 const {
   url,
-  userNoPhoto,
   userStat,
   userUpdateToken,
   postCreate,
@@ -27,14 +26,7 @@ const {
 } = useGetRoutes();
 
 const token = ref(localStorage.getItem("token"));
-const user_uuid = ref(localStorage.getItem("user_uuid"));
-const username = ref(localStorage.getItem("usuario"));
-const photo = ref(localStorage.getItem("photo"));
-const email = ref(localStorage.getItem("email"));
-const rol = ref(localStorage.getItem("rol"));
 const publicacion = ref("");
-const posts = ref([]);
-const likes = ref([]);
 const estadistica = ref(null);
 const enviando = ref(false);
 const modalPagos = ref("top-[-100%]");
@@ -77,42 +69,6 @@ updateToken();
 
 calcularDiferencia();*/
 
-// HACER PUBLICACION
-
-const getLikes = async () => {
-  try {
-    const headers = {
-      Authorization: "Bearer " + token.value,
-      "Content-Type": "application/json",
-    };
-    let { data } = await axios.get(likeList, {
-      headers,
-    });
-    console.log(data);
-    likes.value = data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const getData = async () => {
-  try {
-    const headers = {
-      Authorization: "Bearer " + token.value,
-      "Content-Type": "application/json",
-    };
-    let { data } = await axios.get(postList, {
-      headers,
-    });
-    console.log(data);
-    posts.value = data;
-  } catch (error) {
-    console.log(error);
-  } finally {
-    getLikes();
-  }
-};
-getData();
 
 const getGenerados = async () => {
   try {
@@ -130,87 +86,7 @@ const getGenerados = async () => {
   }
 };
 getGenerados();
-const darlike = async (post_uuid) => {
-  try {
-    audioPlayer.play();
-    const headers = {
-      Authorization: "Bearer " + token.value,
-      "Content-Type": "application/json",
-    };
 
-    const param = {
-      post_uuid: post_uuid,
-    };
-
-    let { data } = await axios.post(likePost, param, { headers });
-    if (data.status === "OK") getData();
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const crearPublicacion = async () => {
-  try {
-    enviando.value = true;
-    const param = {
-      message: publicacion.value,
-    };
-    const headers = {
-      Authorization: "Bearer " + token.value,
-      "Content-Type": "application/json",
-    };
-    const { data } = await axios.post(postCreate, param, { headers });
-    if (data.status === "OK") {
-      getData();
-      toast.success(data.message, {
-        theme: "colored",
-        autoClose: 1500,
-        position: toast.POSITION.BOTTOM_LEFT,
-        transition: toast.TRANSITIONS.ZOOM,
-      });
-    } else {
-      toast.error(data.message, {
-        theme: "colored",
-        autoClose: 1500,
-        position: toast.POSITION.BOTTOM_LEFT,
-        transition: toast.TRANSITIONS.ZOOM,
-      });
-    }
-  } catch (error) {
-    console.log(error);
-  } finally {
-    publicacion.value = "";
-    enviando.value = false;
-  }
-};
-
-const eliminarPost = async (post_uuid) => {
-  try {
-    const headers = {
-      Authorization: "Bearer " + token.value,
-      "Content-Type": "application/json",
-    };
-
-    const info = {
-      post_uuid: post_uuid,
-    };
-
-    let { data } = await axios.delete(postRemove, {
-      headers: headers,
-      data: info,
-    });
-
-    getData();
-    toast.success(data.message, {
-      theme: "colored",
-      autoClose: 1500,
-      position: toast.POSITION.BOTTOM_LEFT,
-      transition: toast.TRANSITIONS.ZOOM,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
 const abrirModalPagos = () => {
   modalPagos.value = "top-0";
 };
@@ -219,10 +95,10 @@ const cerrarModalPagos = () => {
 };
 
 const abrirModalTuto = () => {
-  modalTuto.value = "top-0";
+  modalTuto.value = "block";
 };
 const cerrarModalTuto = () => {
-  modalTuto.value = "top-[-100%]";
+  modalTuto.value = "hidden";
   videoTuto.pause();
 };
 
@@ -242,16 +118,12 @@ const obtenerEstadisticas = async () => {
   }
 };
 obtenerEstadisticas();
-onMounted(() => {
-  const script = document.createElement("script");
-  script.src = "https://pagos.wompi.sv/js/wompi.pagos.js";
-  document.head.appendChild(script);
-});
+
 
 async function copyToClipboard(text) {
   try {
     await navigator.clipboard.writeText(text);
-    toast.success("Enlace copiado al portapapeles.", {
+    toast.success("Codigo copiado al portapapeles.", {
       theme: "colored",
       autoClose: 1500,
       position: toast.POSITION.BOTTOM_LEFT,
@@ -261,15 +133,16 @@ async function copyToClipboard(text) {
     console.error("No se pudo copiar el texto:", err);
   }
 }
+onMounted(() => {
+  const script = document.createElement("script");
+  script.src = "https://pagos.wompi.sv/js/wompi.pagos.js";
+  document.head.appendChild(script);
+});
 </script>
 <template>
   <div>
-    <!--<div class="flex p-4 text-white bg-red-400">
-      <font-awesome-icon :icon="['fas', 'bell']" class="mr-2 text-sm" />
-      <div class="text-sm font-light text-white" id="cuentaRegresiva"></div>
-    </div>-->
     <div
-      class="fixed left-0 z-50 w-full h-full p-4 transition-all bg-white"
+      class="fixed top-0 left-0 z-50 w-full h-full p-4 overflow-hidden transition-all bg-white"
       :class="`${modalTuto}`"
     >
       <div class="flex items-center justify-between py-4">
@@ -286,7 +159,7 @@ async function copyToClipboard(text) {
           Volver a mi compra
         </button>
       </div>
-      <video controls class="block w-[90%] m-auto" id="videoTuto">
+      <video controls class="block m-auto w-[90%] sm:w-[150px] md:w-[300px]" id="videoTuto">
         <source src="../../public/tutorial.mp4" type="video/mp4" />
       </video>
     </div>
@@ -420,9 +293,9 @@ async function copyToClipboard(text) {
         >
       </router-link>
     </div>
-    <div v-if="estadistica">
+    <div>
       <div
-        class="flex items-start justify-between border-indigo-700 border-l-4  bg-indigo-400 border-solid"
+        class="flex items-start justify-between bg-indigo-400 border-l-4 border-indigo-700 border-solid"
       >
         <img
           src="../../public/support.png"
@@ -477,18 +350,16 @@ async function copyToClipboard(text) {
       </div>
     </div>
     <h3 class="p-4 font-medium">HISTORIAL CINTILLOS</h3>
-    <div class="p-4 text-sm bg-amber-50 text-neutral-800">
-      Aqui encontraras los ultimos 10 archivos enviados a computo.
-    </div>
+    
     <div
-      class="grid grid-cols-1 gap-2 p-4 sm:grid-cols-2 md:grid-cols-3 bg-gray-50"
+      class="grid grid-cols-1 gap-1 p-4 sm:gap-2 sm:grid-cols-2 md:grid-cols-3"
       v-if="generados.length > 0"
     >
       <div
-        class="bg-white border border-solid border-[#e9e8e8] mb-4"
+        class="bg-white border border-solid border-[#ddd] mb-4"
         v-for="generado in generados"
       >
-        <div class="p-4 text-sm font-light text-neutral-700">
+        <div class="p-4 text-sm font-medium text-neutral-700">
           <img
             src="../../public/excel.png"
             class="w-[16px] inline-block align-middle"
