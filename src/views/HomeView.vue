@@ -8,22 +8,13 @@ import "vue3-toastify/dist/index.css";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { Client } from "@pusher/push-notifications-web";
 
 dayjs.locale("es");
 dayjs.extend(relativeTime);
 
 const router = useRouter();
-const {
-  url,
-  userStat,
-  userUpdateToken,
-  postCreate,
-  postList,
-  labelListGenerated,
-  postRemove,
-  likePost,
-  likeList,
-} = useGetRoutes();
+const { url, userStat, userUpdateToken, labelListGenerated } = useGetRoutes();
 
 const token = ref(localStorage.getItem("token"));
 const publicacion = ref("");
@@ -69,7 +60,6 @@ updateToken();
 
 calcularDiferencia();*/
 
-
 const getGenerados = async () => {
   try {
     const headers = {
@@ -113,12 +103,26 @@ const obtenerEstadisticas = async () => {
     };
     const { data } = await axios.get(userStat, { headers });
     estadistica.value = data;
+    console.log(data);
+    const beamsClient = new Client({
+      instanceId: "b963f891-0b89-4e01-84a8-698b97373219",
+    });
+    if (estadistica.value.profile[0].suscripcion === 1) {
+      beamsClient
+        .start()
+        .then(() =>
+          beamsClient.addDeviceInterest(
+            `${estadistica.value.profile[0].user_uuid}`
+          )
+        )
+        .then(() => console.log("Successfully registered and subscribed!"))
+        .catch(console.error);
+    }
   } catch (error) {
     console.log(error);
   }
 };
 obtenerEstadisticas();
-
 
 async function copyToClipboard(text) {
   try {
@@ -159,7 +163,11 @@ onMounted(() => {
           Volver a mi compra
         </button>
       </div>
-      <video controls class="block m-auto w-[90%] sm:w-[150px] md:w-[300px]" id="videoTuto">
+      <video
+        controls
+        class="block m-auto w-[90%] sm:w-[150px] md:w-[300px]"
+        id="videoTuto"
+      >
         <source src="../../public/tutorial.mp4" type="video/mp4" />
       </video>
     </div>
@@ -310,9 +318,9 @@ onMounted(() => {
             Tienes problemas con la app puedes contactarnos.
           </p>
           <div class="flex justify-end p-1">
-            <a href="https://wa.me/+50374329014"
+            <a
+              href="https://wa.me/+50374329014"
               class="px-4 py-2 text-xs font-medium text-indigo-400 bg-white rounded-lg"
-        
             >
               Escribir mensaje
             </a>
@@ -321,7 +329,7 @@ onMounted(() => {
       </div>
     </div>
 
-  <div v-if="estadistica">
+    <div v-if="estadistica">
       <div
         class="flex items-center justify-between bg-green-500 border-l-4 border-green-800 border-solid"
         v-if="estadistica.profile[0].suscripcion === 0"
@@ -350,7 +358,7 @@ onMounted(() => {
       </div>
     </div>
     <h3 class="p-4 font-medium">HISTORIAL CINTILLOS</h3>
-    
+
     <div
       class="grid grid-cols-1 gap-1 p-4 sm:gap-2 sm:grid-cols-2 md:grid-cols-3"
       v-if="generados.length > 0"
@@ -400,7 +408,7 @@ onMounted(() => {
           <a
             :href="`${url}/${generado.path}`"
             download
-            class="block w-full px-4 py-2 text-xs font-medium leading-6 text-center text-black uppercase transition bg-gray-100 rounded shadow focus:bg-gray-300 hover:bg-gray-300 ripple hover:shadow-lg hover:bg-gray-200 focus:outline-none"
+            class="block w-full px-4 py-2 text-xs font-medium leading-6 text-center text-black uppercase transition bg-gray-100 rounded shadow focus:bg-gray-300 hover:bg-gray-300 ripple hover:shadow-lg focus:outline-none"
           >
             DESCARGAR
           </a>

@@ -7,8 +7,6 @@ import { useGetRoutes } from "@/composables/getRoutes";
 import axios from "axios";
 
 const token = ref(localStorage.getItem("token"));
-const photo = ref(localStorage.getItem("photo"));
-const username = ref(localStorage.getItem("usuario"));
 const estadistica = ref(null);
 const loading = ref("hidden");
 const vipModal = ref("hidden");
@@ -28,6 +26,7 @@ const obtenerEstadisticas = async () => {
     };
     const { data } = await axios.get(userStat, { headers });
     estadistica.value = data;
+    console.log(data)
   } catch (error) {
     console.log(error);
   }
