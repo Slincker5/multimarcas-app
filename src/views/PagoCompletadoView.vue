@@ -6,7 +6,6 @@ import axios from "axios";
 const token = localStorage.getItem("token");
 const route = useRoute();
 const idTransaccion = route.query.idTransaccion;
-const monto = route.query.monto;
 
 const esconderLoading = ref("top-0");
 const enviarTransaccion = async () => {
@@ -21,7 +20,7 @@ const enviarTransaccion = async () => {
     };
 
     const { data } = await axios.post(
-      "https://procter.work/api/pagos/after-pay",
+      "https://api.multimarcas.app/api/pagos/after-pay",
       params,
       {
         headers,

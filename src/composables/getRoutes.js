@@ -1,6 +1,6 @@
 export const useGetRoutes = () => {
   // Ruta global
-  const url = `https://procter.work`;
+  const url = `https://api.multimarcas.app`;
   //const url = `http://localhost`;
   const userNoPhoto = "https://cintillos-plazamundo.netlify.app/usuario.png";
 
@@ -10,7 +10,10 @@ export const useGetRoutes = () => {
   // Rutas de autenticacion
   const authLogin = `${url}/api/auth/login`;
   const authRegister = `${url}/api/auth/register`;
+  const authRegisterN = `${url}/api/auth/register-nuevo`;
   const authLoginWithGoogle = `${url}/api/auth/login-with-google`;
+  const authValidarEmail = `${url}/api/auth/validar-email`;
+  const authValidarTelefono = `${url}/api/auth/validar-telefono`;
 
   // Rutas usuario
   const userStat = `${url}/api/user/stats`;
@@ -66,7 +69,10 @@ export const useGetRoutes = () => {
     url,
     authLogin,
     authRegister,
+    authRegisterN,
     authLoginWithGoogle,
+    authValidarEmail,
+    authValidarTelefono,
     getIp,
     userStat,
     userNoPhoto,

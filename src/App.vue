@@ -18,6 +18,9 @@ const nUsos = ref("");
 const { userNoPhoto, userStat, canjearCupon, generarCupon, crearCupon } =
   useGetRoutes();
 
+const redireccionar = (url) => {
+  window.location.href = url;
+};
 const obtenerEstadisticas = async () => {
   try {
     const headers = {
@@ -26,21 +29,19 @@ const obtenerEstadisticas = async () => {
     };
     const { data } = await axios.get(userStat, { headers });
     estadistica.value = data;
-    console.log(data)
+    console.log(data);
   } catch (error) {
     console.log(error);
   }
 };
-obtenerEstadisticas();
+if (token.value !== null) obtenerEstadisticas();
 const buttonText = computed(() => {
   if (route.path === "/register") return "Inicio";
   if (route.path === "/login") return "Crear Cuenta";
-  return "Inicio"; // valor predeterminado, por si acaso
 });
 const buttonRoute = computed(() => {
   if (route.path === "/register") return "/login";
   if (route.path === "/login") return "/register";
-  return "/"; // ruta por defecto
 });
 
 const options = ref("top-[-100%] right-[-100%]");
@@ -53,7 +54,7 @@ const optionHidden = () => {
 };
 const cerarrSesion = () => {
   localStorage.clear();
-  router.push("/login");
+  redireccionar("/login");
 };
 const codigo = ref("");
 const codigoLength = computed(() => codigo.value.length);
@@ -105,9 +106,6 @@ const genCupon = async () => {
     console.error(error);
   }
 };
-const refresh = () => {
-  window.location.reload();
-};
 
 const agregarCupon = async () => {
   try {
@@ -126,26 +124,17 @@ const agregarCupon = async () => {
     console.log(error);
   }
 };
+const countdownValue = computed(() => {
+  const finSuscripcion = estadistica.value.profile[0].fin_suscripcion;
+  const diferencia = new Date(finSuscripcion) - new Date();
 
-function calcularDiferencia(fecha) {
-  const second = 1000,
-    minute = second * 60,
-    hour = minute * 60,
-    day = hour * 24;
+  const segundos = Math.floor(diferencia / 1000);
+  const minutos = Math.floor(segundos / 60);
+  const horas = Math.floor(minutos / 60);
+  const dias = Math.floor(horas / 24);
 
-  let countDown = new Date(`${fecha} 00:00:00`).getTime();
-
-  let now = new Date().getTime(),
-    distance = countDown - now;
-
-  let dia = Math.floor(distance / day);
-  let hora = Math.floor((distance % day) / hour);
-  let minuto = Math.floor((distance % hour) / minute);
-  let segundo = Math.floor((distance % minute) / second);
-  return `${dia}d, ${hora}h, ${minuto}m`;
-}
-
-calcularDiferencia();
+  return `${dias}d, ${horas % 24}h, ${minutos % 60}m`;
+});
 </script>
 
 <template>
@@ -154,7 +143,7 @@ calcularDiferencia();
     :class="`${options}`"
     @click="optionHidden"
   >
-    <div class="inline-block bg-gray-200" v-if="estadistica">
+    <div class="inline-block bg-gray-200 shadow-2xl" v-if="estadistica">
       <div class="p-4 border-b border-solid border-[#ddd] flex items-center">
         <div>
           <div v-if="estadistica.profile[0].photo !== null">
@@ -177,7 +166,12 @@ calcularDiferencia();
           class="flex items-center pl-1 text-sm font-medium text-black"
           v-if="estadistica"
         >
-          {{ estadistica.profile[0].username
+          {{
+            estadistica.profile[0].username === null
+              ? estadistica.profile[0].nombre +
+                " " +
+                estadistica.profile[0].apellido
+              : estadistica.profile[0].username
           }}<span v-if="estadistica.profile[0].suscripcion === 1"
             ><img src="../public/vip.gif" alt="vip"
           /></span>
@@ -196,7 +190,9 @@ calcularDiferencia();
         v-if="estadistica.profile[0].suscripcion === 1"
       >
         Vence en:
-        <b class="text-xs font-light text-amber-500">{{ calcularDiferencia(estadistica.profile[0].fin_suscripcion) }}</b>
+        <b class="text-xs font-light text-amber-500" id="vence">{{
+          countdownValue
+        }}</b>
       </div>
       <button
         class="p-4 text-sm border-t border-solid border-[#ddd] text-gray-800 w-full block"
@@ -238,7 +234,7 @@ calcularDiferencia();
           <button
             to="/login"
             class="mb-4 flex justify-center items-center text-center w-full h-9 bg-[#4A4878] text-sm text-white rounded transition-all cursor-pointer"
-            @click.prevent="refresh"
+            @click.prevent="redireccionar('/')"
           >
             Continuar navegando
           </button>
@@ -277,6 +273,7 @@ calcularDiferencia();
           <input
             type="text"
             maxlength="8"
+            inputmode="numeric"
             placeholder="Ingresa el codigo"
             class="block w-full px-0 py-3 text-sm outline-none"
             v-model="codigo"
@@ -365,22 +362,16 @@ calcularDiferencia();
     </div>
   </div>
   <header
-    class="sticky top-0 flex items-center justify-between px-4 py-6 bg-[#4844AB] text-[#ECF0F1] z-30"
+    v-if="token !== null"
+    class="sticky top-0 flex items-center justify-between px-4 py-6 bgheader text-[#ECF0F1] z-30"
   >
     <router-link to="/" class="font-medium text-[#ECF0F1] logo"
       >MULTIMARCAS APP</router-link
     >
-    <nav v-if="token !== null">
+    <nav>
       <button class="mr-2" active-class="underline" @click.prevent="optionShow">
         <font-awesome-icon :icon="['fas', 'ellipsis-vertical']" />
       </button>
-    </nav>
-    <nav v-else>
-      <router-link
-        :to="buttonRoute"
-        class="p-2 rounded-md bg-[#5F7ADB] hover:bg-[#3f539c] transition-all"
-        >{{ buttonText }}</router-link
-      >
     </nav>
   </header>
 
@@ -392,3 +383,12 @@ calcularDiferencia();
   
  </div>-->
 </template>
+<style>
+.bgheader {
+  background: linear-gradient(
+    60deg,
+    rgba(84, 58, 183, 1) 0%,
+    rgba(0, 172, 193, 1) 100%
+  );
+}
+</style>

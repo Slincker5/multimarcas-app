@@ -95,8 +95,8 @@ const anterior = () => {
       <h1
         class="flex items-center justify-between p-4 font-medium text-gray-800"
       >
-        <a href="/crear-cintillos"
-          ><font-awesome-icon :icon="['fas', 'chevron-left']" /> VOLVER</a
+        <router-link to="/crear-cintillos"
+          ><font-awesome-icon :icon="['fas', 'chevron-left']" /> VOLVER</router-link
         >
         <span>GENERAR DOCUMENTO</span>
       </h1>
