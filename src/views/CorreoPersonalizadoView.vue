@@ -11,7 +11,7 @@ const { url, labelBuild } = useGetRoutes();
 
 const token = ref(localStorage.getItem("token"));
 
-const archivoGenerado = ref(false)
+const archivoGenerado = ref(false);
 
 const correo = ref("");
 const enviando = ref(false);
@@ -29,15 +29,15 @@ const enviar = async () => {
       enviando.value = true;
       const datos = {
         receptor: correo.value,
-        nombreReceptor: 'Desconocido',
-        comentarios: '',
+        nombreReceptor: "Desconocido",
+        comentarios: "",
       };
       const headers = {
         Authorization: "Bearer " + token.value,
         "Content-Type": "application/json",
       };
       const { data } = await axios.post(labelBuild, datos, { headers });
-      archivoGenerado.value = data
+      archivoGenerado.value = data;
     }
   } catch (error) {
     console.log(error);
@@ -63,6 +63,22 @@ async function copyToClipboard(text) {
   }
 }
 
+const slides = ref([
+  "Redacta bien tu correo electronico de lo contrario no se enviara.",
+  "A veces los correos caen en la bandeja de spam, siempre es buena dar un vistazo",
+  // Añade más textos según necesites
+]);
+const currentSlideIndex = ref(0); // Índice de la diapositiva actual
+const currentSlide = ref(slides.value[currentSlideIndex.value]); // Texto de la diapositiva actual
+
+// Función para actualizar la diapositiva actual
+const updateSlide = () => {
+  currentSlideIndex.value = (currentSlideIndex.value + 1) % slides.value.length;
+  currentSlide.value = slides.value[currentSlideIndex.value];
+};
+
+// Establecer el intervalo para cambiar de diapositiva cada 4 segundos
+setInterval(updateSlide, 4000);
 </script>
 <template>
   <div class="bg-white">
@@ -74,8 +90,13 @@ async function copyToClipboard(text) {
       <span><font-awesome-icon :icon="['fas', 'at']" /> ENVIAR POR CORREO</span>
     </h1>
 
+    <div class="p-4 text-black recomendaciones">
+      <b class="block mb-2 text-sm font-medium">RECOMENDACIONES</b>
+      <p class="text-xs">{{ currentSlide }}</p>
+    </div>
+
     <div class="p-4">
-      <div class="flex flex-wrap mt-4 mb-6 -mx-3">
+      <div class="flex flex-wrap mt-0 mb-6 -mx-3">
         <div class="w-full px-3">
           <label
             class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
@@ -92,7 +113,8 @@ async function copyToClipboard(text) {
             required
           />
           <p class="text-xs font-light text-gray-600">
-            <font-awesome-icon :icon="['fas', 'info-circle']" /> Escribe el correo donde deseas enviar los cintillos.
+            <font-awesome-icon :icon="['fas', 'info-circle']" /> Escribe el
+            correo donde deseas enviar los cintillos.
           </p>
         </div>
       </div>
@@ -114,7 +136,8 @@ async function copyToClipboard(text) {
       </div>
 
       <div
-        class="fixed top-0 left-0 z-50 w-full h-full text-xl text-black bg-white" v-if="archivoGenerado"
+        class="fixed top-0 left-0 z-50 w-full h-full text-xl text-black bg-white"
+        v-if="archivoGenerado"
       >
         <h2
           class="flex items-center justify-between p-4 pb-0 font-medium text-gray-800 uppercase"
@@ -136,7 +159,8 @@ async function copyToClipboard(text) {
           </div>
         </div>
         <div class="p-4 bg-gray-100 border-b border-solid border-[#ddd]">
-          Para encontrar mas rapido tus cintillos en la bandeja de entrada, puedes buscarlos con este codigo.
+          Para encontrar mas rapido tus cintillos en la bandeja de entrada,
+          puedes buscarlos con este codigo.
 
           <div
             class="flex items-center justify-between border border-solid border-[#ddd] p-3 bg-white"
@@ -167,7 +191,10 @@ async function copyToClipboard(text) {
               </svg>
               <span>Descargar</span>
             </a>
-            <button class="px-4 py-2 font-bold text-blue-400 uppercase" @click="volver">
+            <button
+              class="px-4 py-2 font-bold text-blue-400 uppercase"
+              @click="volver"
+            >
               Volver
             </button>
           </div>
@@ -176,3 +203,13 @@ async function copyToClipboard(text) {
     </div>
   </div>
 </template>
+<style>
+.recomendaciones {
+  background: rgb(255, 242, 165);
+  background: linear-gradient(
+    114deg,
+    rgba(255, 242, 165, 1) 36%,
+    rgba(252, 255, 231, 1) 100%
+  );
+}
+</style>
