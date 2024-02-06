@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watchEffect, computed } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 import { useGetRoutes } from "@/composables/getRoutes";
@@ -63,22 +63,27 @@ async function copyToClipboard(text) {
   }
 }
 
-const slides = ref([
-  "Redacta bien tu correo electronico de lo contrario no se enviara.",
-  "A veces los correos caen en la bandeja de spam, siempre es buena dar un vistazo",
+// Definir las diapositivas y el índice actual
+const slides = [
+  "Redacta bien tu correo electrónico de lo contrario no se enviará.",
+  "A veces los correos caen en la bandeja de spam, siempre es bueno dar un vistazo.",
   // Añade más textos según necesites
-]);
-const currentSlideIndex = ref(0); // Índice de la diapositiva actual
-const currentSlide = ref(slides.value[currentSlideIndex.value]); // Texto de la diapositiva actual
+];
+const currentSlideIndex = ref(0);
+
+// Computar la diapositiva actual basada en el índice
+const currentSlide = computed(() => slides[currentSlideIndex.value]);
 
 // Función para actualizar la diapositiva actual
 const updateSlide = () => {
-  currentSlideIndex.value = (currentSlideIndex.value + 1) % slides.value.length;
-  currentSlide.value = slides.value[currentSlideIndex.value];
+  currentSlideIndex.value = (currentSlideIndex.value + 1) % slides.length;
 };
 
-// Establecer el intervalo para cambiar de diapositiva cada 4 segundos
-setInterval(updateSlide, 4000);
+// Establecer el intervalo para cambiar de diapositiva
+watchEffect((onInvalidate) => {
+  const interval = setInterval(updateSlide, 5000);
+  onInvalidate(() => clearInterval(interval));
+});
 </script>
 <template>
   <div class="bg-white">
@@ -92,7 +97,9 @@ setInterval(updateSlide, 4000);
 
     <div class="p-4 text-black recomendaciones">
       <b class="block mb-2 text-sm font-medium">RECOMENDACIONES</b>
-      <p class="text-xs">{{ currentSlide }}</p>
+      <Transition name="fade" mode="out-in">
+        <p class="text-xs" :key="currentSlideIndex">{{ currentSlide }}</p>
+      </Transition>
     </div>
 
     <div class="p-4">
@@ -211,5 +218,13 @@ setInterval(updateSlide, 4000);
     rgba(255, 242, 165, 1) 36%,
     rgba(252, 255, 231, 1) 100%
   );
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
