@@ -283,9 +283,9 @@ const agregarCintillos = async () => {
         />
       </div>
 
-      <div class="mb-6">
+      <div class="">
         <label
-          class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
+          class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase "
           for="grid-password"
         >
           PRECIO DEL PRODUCTO:
@@ -294,7 +294,7 @@ const agregarCintillos = async () => {
           class="pb-3 text-xs font-light text-gray-600"
           v-if="fecha.length > 0"
         >
-          <font-awesome-icon :icon="['fas', 'bell']" beat /> Precio usado ultima
+          <font-awesome-icon :icon="['fas', 'bell']"/> Precio usado ultima
           vez el
           {{ dayjs(fecha).format("dddd, D [de] MMMM [de] YYYY") }}
         </div>
@@ -304,10 +304,12 @@ const agregarCintillos = async () => {
           type="text"
           placeholder="PRECIO"
           autocomplete="off"
+            inputmode="numeric"
           v-model="precio"
           required
         />
       </div>
+      <p class="block mt-2 mb-6 text-sm font-normal text-gray-400 lowercase">(No es necesario el signo de dolar)</p>
       <input
         type="submit"
         class="w-full px-4 py-2 font-bold text-white border rounded bg-[#383E42] hover:bg-[#1b2024] border-[#1b2024] shadow-md"
