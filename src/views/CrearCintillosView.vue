@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, nextTick } from "vue";
 import axios from "axios";
 import { useMethodLabel } from "@/composables/methodLabel";
 import { useGetRoutes } from "../composables/getRoutes";
@@ -33,9 +33,22 @@ const cantidad = ref("");
 const precio = ref("");
 const fecha = ref("");
 const total = ref("");
-const handleInput = (event) => {
-  descripcion.value = formatearDescription(event.target.value);
-};
+const cursorPosition = ref(0);
+
+const handleInput = (e) => {
+  const cursorPosition = e.target.selectionStart;
+  const originalLength = descripcion.value.length;
+
+  descripcion.value = formatearDescription(e.target.value);
+
+  // Calcula el cambio en la longitud del texto para ajustar la posición del cursor
+  const newLength = descripcion.value.length;
+  const lengthDiff = newLength - originalLength;
+
+  nextTick(() => {
+    e.target.setSelectionRange(cursorPosition + lengthDiff, cursorPosition + lengthDiff);
+  });
+}
 
 onMounted(() => {
   codeReader
@@ -58,7 +71,7 @@ const getData = async () => {
     let { data } = await axios.get(labelList, {
       headers,
     });
-    console.log(data)
+    console.log(data);
     total.value = data.length;
   } catch (error) {
     console.log(error);
@@ -170,7 +183,10 @@ const agregarCintillos = async () => {
       >
         <span>Agregar Cintillos</span>
         <div>
-          <router-link to="/cintillos" class="text-[#e67e22]" active-class="underline"
+          <router-link
+            to="/cintillos"
+            class="text-[#e67e22]"
+            active-class="underline"
             >Cintillos ({{ total }})</router-link
           >
         </div>
@@ -196,7 +212,11 @@ const agregarCintillos = async () => {
       </div>
     </div>
 
-    <form class="w-full p-4 pt-0" @submit.prevent="agregarCintillos" ref="frmCintillo">
+    <form
+      class="w-full p-4 pt-0"
+      @submit.prevent="agregarCintillos"
+      ref="frmCintillo"
+    >
       <div class="mb-6">
         <label
           class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
@@ -264,29 +284,29 @@ const agregarCintillos = async () => {
       </div>
 
       <div class="mb-6">
-          <label
-            class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-            for="grid-password"
-          >
-            PRECIO DEL PRODUCTO:
-          </label>
-          <div
-            class="pb-3 text-xs font-light text-gray-600"
-            v-if="fecha.length > 0"
-          >
-            <font-awesome-icon :icon="['fas', 'bell']" beat /> Precio usado
-            ultima vez el
-            {{ dayjs(fecha).format("dddd, D [de] MMMM [de] YYYY") }}
-          </div>
-          <input
-            class="block w-full px-4 py-3 leading-tight text-gray-700 border border-solid border-[#ddd] rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-            id="grid-password"
-            type="text"
-            placeholder="PRECIO"
-            autocomplete="off"
-            v-model="precio"
-            required
-          />
+        <label
+          class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
+          for="grid-password"
+        >
+          PRECIO DEL PRODUCTO:
+        </label>
+        <div
+          class="pb-3 text-xs font-light text-gray-600"
+          v-if="fecha.length > 0"
+        >
+          <font-awesome-icon :icon="['fas', 'bell']" beat /> Precio usado ultima
+          vez el
+          {{ dayjs(fecha).format("dddd, D [de] MMMM [de] YYYY") }}
+        </div>
+        <input
+          class="block w-full px-4 py-3 leading-tight text-gray-700 border border-solid border-[#ddd] rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+          id="grid-password"
+          type="text"
+          placeholder="PRECIO"
+          autocomplete="off"
+          v-model="precio"
+          required
+        />
       </div>
       <input
         type="submit"
