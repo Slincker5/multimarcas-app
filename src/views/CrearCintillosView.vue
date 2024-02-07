@@ -253,7 +253,7 @@ watchEffect((onInvalidate) => {
         el codigo
       </div>
     </div>
-    
+
     <div
       class="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50"
       v-if="scan"
@@ -402,7 +402,7 @@ watchEffect((onInvalidate) => {
       >
         Actualizacion importante
       </h3>
-      <div class="px-4 overflow-y-auto">
+      <div class="px-4 overflow-y-auto info">
         <p class="my-4">
           Estamos emocionados de anunciar que hemos realizado una actualización
           significativa en nuestro módulo para la creación de cintillos. Nuestro
@@ -498,5 +498,23 @@ watchEffect((onInvalidate) => {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+.info {
+  position: relative;
+}
+.info::after {
+  content: "";
+  position: sticky;
+  display: block;
+  bottom: 0;
+  right: 0;
+  height: 50px;
+  width: 100%;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 10%,
+    rgba(254, 255, 248, 1) 100%
+  );
 }
 </style>
