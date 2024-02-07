@@ -35,11 +35,11 @@ const precio = ref("");
 const fecha = ref("");
 const total = ref("");
 const estadoTexto = ref(true);
-const aviso = ref(localStorage.getItem('aviso'))
+const aviso = ref(localStorage.getItem("aviso"));
 
 const cerrarAviso = () => {
-  aviso.value = localStorage.setItem('aviso', "true")
-}
+  aviso.value = localStorage.setItem("aviso", "true");
+};
 const toggleMayMin = () => {
   estadoTexto.value === true
     ? (estadoTexto.value = false)
@@ -125,7 +125,9 @@ const startScanner = async () => {
             fecha.value = "";
           } else {
             encontrado.value = false;
-            descripcion.value = formatearDescription(data[0].descripcion);
+            descripcion.value = estadoTexto.value
+              ? formatearDescription(data[0].descripcion)
+              : formatearDescriptionMinusculas(data[0].descripcion);
             precio.value = data[0].precio == null ? "" : data[0].precio;
             fecha.value = data[0].fecha == null ? "" : data[0].fecha;
           }
@@ -277,7 +279,15 @@ const agregarCintillos = async () => {
           for="descripcion"
         >
           DESCRIPCIÓN DEL PRODUCTO:
-          <button class="text-sm" :class="estadoTexto ? 'text-sky-600 font-medium' : 'text-gray-400  font-normal'" @click.prevent="toggleMayMin">
+          <button
+            class="text-sm"
+            :class="
+              estadoTexto
+                ? 'text-sky-600 font-medium'
+                : 'text-gray-400  font-normal'
+            "
+            @click.prevent="toggleMayMin"
+          >
             May.
           </button>
         </label>
@@ -404,7 +414,11 @@ const agregarCintillos = async () => {
           recordando siempre realizar una revisión final.
         </p>
       </div>
-      <div class="flex items-center justify-end p-6"><button class="font-medium text-sky-600" @click="cerrarAviso">CONTINUAR</button></div>
+      <div class="flex items-center justify-end p-6">
+        <button class="font-medium text-sky-600" @click="cerrarAviso">
+          CONTINUAR
+        </button>
+      </div>
     </div>
   </div>
 </template>
