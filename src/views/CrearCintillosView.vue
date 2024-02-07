@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, nextTick, watch, watchEffect } from "vue";
+import { ref, onMounted, nextTick, watch, watchEffect, computed } from "vue";
 import axios from "axios";
 import { useMethodLabel } from "@/composables/methodLabel";
 import { useGetRoutes } from "../composables/getRoutes";
@@ -223,6 +223,12 @@ watchEffect((onInvalidate) => {
 </script>
 <template>
   <div class="w-full max-w-md m-auto">
+    <div class="p-4 text-black recomendaciones">
+      <b class="block mb-2 text-sm font-medium">RECOMENDACIONES</b>
+      <Transition name="fade" mode="out-in">
+        <p class="text-xs" :key="currentSlideIndex">{{ currentSlide }}</p>
+      </Transition>
+    </div>
     <audio class="hidden" id="audioPlayer">
       <source src="../../public/beep.mp3" type="audio/mp3" />
       Tu navegador no soporta el elemento de audio.
@@ -247,12 +253,7 @@ watchEffect((onInvalidate) => {
         el codigo
       </div>
     </div>
-    <div class="p-4 text-black recomendaciones">
-      <b class="block mb-2 text-sm font-medium">RECOMENDACIONES</b>
-      <Transition name="fade" mode="out-in">
-        <p class="text-xs" :key="currentSlideIndex">{{ currentSlide }}</p>
-      </Transition>
-    </div>
+    
     <div
       class="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50"
       v-if="scan"
