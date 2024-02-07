@@ -234,16 +234,15 @@ const agregarCintillos = async () => {
         >
           DESCRIPCIÓN DEL PRODUCTO:
         </label>
-        <input
+        <textarea
           class="block w-full px-4 py-3 leading-tight text-gray-700 border border-solid border-[#ddd] rounded appearance-none focus:outline-none focus:border-gray-500"
           id="descripcion"
-          type="text"
           placeholder="DESCRIPCIÓN COMPLETA"
           autocomplete="off"
           v-model="descripcion"
           @input="handleInput"
           required
-        />
+        ></textarea>
       </div>
 
       <div class="mb-6">
