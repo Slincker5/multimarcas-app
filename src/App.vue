@@ -31,7 +31,11 @@ const obtenerEstadisticas = async () => {
     estadistica.value = data;
     console.log(data);
   } catch (error) {
-    console.log(error);
+    const messageError = JSON.parse(error.request.response);
+    if (messageError.status === "invalid") {
+      localStorage.clear();
+      redireccionar("/login");
+    }
   }
 };
 if (token.value !== null) obtenerEstadisticas();

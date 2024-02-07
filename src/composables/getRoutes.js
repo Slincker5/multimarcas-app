@@ -10,7 +10,6 @@ export const useGetRoutes = () => {
   // Rutas de autenticacion
   const authLogin = `${url}/api/auth/login`;
   const authRegister = `${url}/api/auth/register`;
-  const authRegisterN = `${url}/api/auth/register-nuevo`;
   const authLoginWithGoogle = `${url}/api/auth/login-with-google`;
   const authValidarEmail = `${url}/api/auth/validar-email`;
   const authValidarTelefono = `${url}/api/auth/validar-telefono`;
@@ -69,7 +68,6 @@ export const useGetRoutes = () => {
     url,
     authLogin,
     authRegister,
-    authRegisterN,
     authLoginWithGoogle,
     authValidarEmail,
     authValidarTelefono,
