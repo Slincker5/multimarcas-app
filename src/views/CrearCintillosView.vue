@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, nextTick } from "vue";
+import { ref, onMounted, nextTick, watch } from "vue";
 import axios from "axios";
 import { useMethodLabel } from "@/composables/methodLabel";
 import { useGetRoutes } from "../composables/getRoutes";
@@ -17,7 +17,8 @@ dayjs.extend(relativeTime);
 const usuario = ref(localStorage.getItem("usuario"));
 const token = ref(localStorage.getItem("token"));
 
-const { formatearDescription } = useMethodLabel();
+const { formatearDescription, formatearDescriptionMinusculas } =
+  useMethodLabel();
 const { searchLabel, labelCreate, labelList } = useGetRoutes();
 
 const frmCintillo = ref(null);
@@ -33,22 +34,45 @@ const cantidad = ref("");
 const precio = ref("");
 const fecha = ref("");
 const total = ref("");
-const cursorPosition = ref(0);
+const estadoTexto = ref(true);
+const aviso = ref(localStorage.getItem('aviso'))
+
+const cerrarAviso = () => {
+  aviso.value = localStorage.setItem('aviso', "true")
+}
+const toggleMayMin = () => {
+  estadoTexto.value === true
+    ? (estadoTexto.value = false)
+    : (estadoTexto.value = true);
+};
 
 const handleInput = (e) => {
   const cursorPosition = e.target.selectionStart;
   const originalLength = descripcion.value.length;
-
-  descripcion.value = formatearDescription(e.target.value);
+  descripcion.value = estadoTexto.value
+    ? formatearDescription(e.target.value)
+    : formatearDescriptionMinusculas(e.target.value);
 
   // Calcula el cambio en la longitud del texto para ajustar la posición del cursor
   const newLength = descripcion.value.length;
   const lengthDiff = newLength - originalLength;
 
   nextTick(() => {
-    e.target.setSelectionRange(cursorPosition + lengthDiff, cursorPosition + lengthDiff);
+    e.target.setSelectionRange(
+      cursorPosition + lengthDiff,
+      cursorPosition + lengthDiff
+    );
   });
-}
+};
+watch(estadoTexto, (nuevoValor, valorAnterior) => {
+  if (nuevoValor) {
+    // Si `nuevoValor` es true, aplicar una transformación
+    descripcion.value = formatearDescription(descripcion.value);
+  } else {
+    // Si `nuevoValor` es false, aplicar otra transformación
+    descripcion.value = formatearDescriptionMinusculas(descripcion.value);
+  }
+});
 
 onMounted(() => {
   codeReader
@@ -249,10 +273,13 @@ const agregarCintillos = async () => {
 
       <div class="mb-6">
         <label
-          class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
+          class="flex items-center justify-between mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
           for="descripcion"
         >
           DESCRIPCIÓN DEL PRODUCTO:
+          <button class="text-sm" :class="estadoTexto ? 'text-sky-600 font-medium' : 'text-gray-400  font-normal'" @click.prevent="toggleMayMin">
+            May.
+          </button>
         </label>
         <textarea
           class="block w-full px-4 py-3 leading-tight text-gray-700 border border-solid border-[#ddd] rounded appearance-none focus:outline-none focus:border-gray-500"
@@ -285,7 +312,7 @@ const agregarCintillos = async () => {
 
       <div class="">
         <label
-          class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase "
+          class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
           for="grid-password"
         >
           PRECIO DEL PRODUCTO:
@@ -294,8 +321,8 @@ const agregarCintillos = async () => {
           class="pb-3 text-xs font-light text-gray-600"
           v-if="fecha.length > 0"
         >
-          <font-awesome-icon :icon="['fas', 'bell']"/> Precio usado ultima
-          vez el
+          <font-awesome-icon :icon="['fas', 'bell']" /> Precio usado ultima vez
+          el
           {{ dayjs(fecha).format("dddd, D [de] MMMM [de] YYYY") }}
         </div>
         <input
@@ -304,12 +331,14 @@ const agregarCintillos = async () => {
           type="text"
           placeholder="PRECIO"
           autocomplete="off"
-            inputmode="numeric"
+          inputmode="numeric"
           v-model="precio"
           required
         />
       </div>
-      <p class="block mt-2 mb-6 text-sm font-normal text-gray-400 lowercase">(No es necesario el signo de dolar)</p>
+      <p class="block mt-2 mb-6 text-sm font-normal text-gray-400 lowercase">
+        (No es necesario el signo de dolar)
+      </p>
       <input
         type="submit"
         class="w-full px-4 py-2 font-bold text-white border rounded bg-[#383E42] hover:bg-[#1b2024] border-[#1b2024] shadow-md"
@@ -322,6 +351,60 @@ const agregarCintillos = async () => {
     >
       <font-awesome-icon :icon="['fas', 'spinner']" class="fa-pulse" />
       Agregando Cintillos...
+    </div>
+    <div
+      class="fixed top-0 left-0 z-50 grid w-full h-full bg-white grid-custom-rows"
+      v-if="aviso === null"
+    >
+      <h3
+        class="px-4 py-6 font-medium text-center uppercase text-normal text-neutral-900"
+      >
+        Actualizacion importante
+      </h3>
+      <div class="px-4 overflow-y-auto">
+        <p class="my-4">
+          Estamos emocionados de anunciar que hemos realizado una actualización
+          significativa en nuestro módulo para la creación de cintillos. Nuestro
+          equipo ha trabajado incansablemente para mejorar la funcionalidad y
+          eficacia de este módulo, especialmente en lo que respecta al
+          tratamiento de las descripciones de los productos.
+        </p>
+        <p class="mb-4">
+          <b>¿Qué hay de nuevo?</b><br />
+
+          Con esta actualización, nuestro módulo ahora tiene la capacidad de
+          corregir y formatear las descripciones en el 100% de los casos,
+          asegurando una presentación más clara y profesional de tus productos.
+          Nos hemos enfocado en perfeccionar el proceso de formateo automático
+          para que las descripciones sean consistentes y estén libres de errores
+          comunes, tales como problemas con el espaciado, la capitalización y el
+          uso de unidades de medida.
+          <br />
+          <br />
+          <b>Lista de correcciones automáticas:</b><br /><br />
+
+          <b>ML</b> pasa a ml<br />
+          <b>U</b> pasa a u<br />
+          <b>KG</b> pasa a kg<br />
+          <b>CÁPSULAS, CAPSULAS</b> pasa a cápsulas<br />
+          <b>TABLETAS</b> pasa a tabletas<br />
+          <b>PIEZAS</b> pasa a piezas<br />
+          <b>G., GRS, GRS., GR, G</b> pasa a g<br />
+          <b>LB</b> pasa a lb<br />
+        </p>
+        <p class="mb-4">
+          El corrector automático en nuestra app es una herramienta de soporte
+          diseñada para facilitar la estandarización y corrección de
+          descripciones de productos. Es importante destacar que su función es
+          meramente auxiliar; la responsabilidad de verificar la exactitud y
+          calidad de las descripciones recae en el usuario. Aunque el corrector
+          busca optimizar el proceso de edición, la revisión manual sigue siendo
+          esencial para garantizar la precisión del contenido. Te animamos a
+          usar el corrector como un complemento en tu flujo de trabajo,
+          recordando siempre realizar una revisión final.
+        </p>
+      </div>
+      <div class="flex items-center justify-end p-6"><button class="font-medium text-sky-600" @click="cerrarAviso">CONTINUAR</button></div>
     </div>
   </div>
 </template>
@@ -350,5 +433,8 @@ const agregarCintillos = async () => {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+.grid-custom-rows {
+  grid-template-rows: auto 1fr auto;
 }
 </style>
