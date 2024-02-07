@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, nextTick, watch } from "vue";
+import { ref, onMounted, nextTick, watch, watchEffect } from "vue";
 import axios from "axios";
 import { useMethodLabel } from "@/composables/methodLabel";
 import { useGetRoutes } from "../composables/getRoutes";
@@ -198,6 +198,28 @@ const agregarCintillos = async () => {
     enviando.value = false;
   }
 };
+
+// Definir las diapositivas y el índice actual
+const slides = [
+  "Revisa que la descripcion no lleve factor de empaque.",
+  "Recuerda mantener una descripcion bien redactada.",
+  // Añade más textos según necesites
+];
+const currentSlideIndex = ref(0);
+
+// Computar la diapositiva actual basada en el índice
+const currentSlide = computed(() => slides[currentSlideIndex.value]);
+
+// Función para actualizar la diapositiva actual
+const updateSlide = () => {
+  currentSlideIndex.value = (currentSlideIndex.value + 1) % slides.length;
+};
+
+// Establecer el intervalo para cambiar de diapositiva
+watchEffect((onInvalidate) => {
+  const interval = setInterval(updateSlide, 5000);
+  onInvalidate(() => clearInterval(interval));
+});
 </script>
 <template>
   <div class="w-full max-w-md m-auto">
@@ -224,6 +246,12 @@ const agregarCintillos = async () => {
         El producto no se encuentra en nuestra base de datos, pero te escaneamos
         el codigo
       </div>
+    </div>
+    <div class="p-4 text-black recomendaciones">
+      <b class="block mb-2 text-sm font-medium">RECOMENDACIONES</b>
+      <Transition name="fade" mode="out-in">
+        <p class="text-xs" :key="currentSlideIndex">{{ currentSlide }}</p>
+      </Transition>
     </div>
     <div
       class="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50"
@@ -452,5 +480,22 @@ const agregarCintillos = async () => {
 }
 .grid-custom-rows {
   grid-template-rows: auto 1fr auto;
+}
+
+.recomendaciones {
+  background: rgb(255, 242, 165);
+  background: linear-gradient(
+    114deg,
+    rgba(255, 242, 165, 1) 36%,
+    rgba(252, 255, 231, 1) 100%
+  );
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
