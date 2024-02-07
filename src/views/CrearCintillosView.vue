@@ -159,7 +159,9 @@ const agregarCintillos = async () => {
     enviando.value = true;
     const dataCintillo = {
       barra: barra.value,
-      descripcion: formatearDescription(descripcion.value),
+      descripcion: estadoTexto.value
+        ? formatearDescription(e.target.value)
+        : formatearDescriptionMinusculas(e.target.value),
       cantidad: cantidad.value,
       precio: precio.value,
       username: usuario.value,
