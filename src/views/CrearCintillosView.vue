@@ -203,6 +203,7 @@ const agregarCintillos = async () => {
 const slides = [
   "Revisa que la descripcion no lleve factor de empaque.",
   "Recuerda mantener una descripcion bien redactada.",
+  "Los precios de nuestra app son un aproximado a los actuales, revisa siempre que sean correctos."
   // Añade más textos según necesites
 ];
 const currentSlideIndex = ref(0);
