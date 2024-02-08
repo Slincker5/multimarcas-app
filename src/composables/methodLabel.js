@@ -1,37 +1,39 @@
 export const useMethodLabel = () => {
   const formatearDescription = (description) => {
-    // Convierte todo el texto a mayúsculas para estandarizar el formato.
+    // Convierte todo el texto a mayúsculas para estandarizar el formato inicialmente.
     description = description.toUpperCase();
   
-    // Agrega un espacio entre números y unidades, si no lo hay, incluyendo el manejo de texto adicional como '+' seguido de más texto.
+    // Asegura espaciado entre números y unidades, incluyendo el manejo de "LITROS" y ahora "MG".
     description = description.replace(
-      /(\d)(ML|G|U|L|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|G\.|LB|GRS?\.?|UNI\.?|UN\.?)(\s|\+|(?![A-Z]))/g,
-      (match, p1, p2, p3) => `${p1} ${p2}${p3 === ' ' ? '' : ' '}`
-    ).replace(
-      /(\s|\d)(ML|G|U|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|G\.|LB|GRS?\.?|UNI\.?|UN\.?)(\s|\+|(?![A-Z]))/g,
-      (match, p1, p2, p3) => {
-        // Convierte 'GRS' o 'GRS.' a 'g', y 'UNI' o 'UN' a 'u', manteniendo otras unidades en minúsculas.
-        let unit = p2.match(/GRS?\.?/) ? 'g' : p2.match(/UNI\.?|UN\.?/) ? 'u' : p2.toLowerCase();
-        return `${p1}${unit}${p3}`;
+      /(\d)(ML|MG|G|U|L|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|G\.|LB|GRS?\.?|UNI\.?|UN\.?|LITROS)/g,
+      "$1 $2"
+    );
+  
+    // Corrige el espaciado para casos especiales como texto adyacente directamente después de unidades.
+    description = description.replace(
+      /(\d)\s(ML|MG|G|U|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|G\.|LB|GRS?\.?|UNI\.?|UN\.?|LITROS)\s?([A-Z]+)/g,
+      "$1 $2 $3"
+    );
+  
+    // Convierte las unidades a minúsculas para estandarización final, incluyendo la conversión de "MG" a "mg" y "LITROS" a "L".
+    description = description.replace(
+      /(ML|MG|G|U|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|LB|GR|UNI|UN|LITROS)/g,
+      (match) => {
+        switch (match) {
+          case "LITROS":
+            return "L";
+          case "MG":
+            return "mg"; // Convierte específicamente "MG" a "mg".
+          default:
+            return match.toLowerCase();
+        }
       }
-    );
-  
-    // Asegura que las unidades y los símbolos como '+' estén correctamente espaciados.
-    description = description.replace(
-      /(\d\s[gmlkug]+)(\+)/g,
-      "$1 $2"
-    );
-  
-    // Agrega un espacio entre las unidades y el texto que las sigue directamente sin espacio,
-    // como en 'G2PACK' -> 'G 2PACK'.
-    description = description.replace(
-      /(\d\s[gmlkug]+)([A-Z]+)/g,
-      "$1 $2"
     );
   
     return description;
   };
   
+
   const formatearDescriptionMinusculas = (description) => {
     // Convierte todo el texto a mayúsculas para estandarizar el formato.
     description = description.toLowerCase();
