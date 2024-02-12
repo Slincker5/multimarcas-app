@@ -129,16 +129,30 @@ const agregarCupon = async () => {
   }
 };
 const countdownValue = computed(() => {
-  const finSuscripcion = estadistica.value.profile[0].fin_suscripcion;
-  const diferencia = new Date(finSuscripcion) - new Date();
+  // Obtenemos la fecha de fin de suscripción y la fecha actual
+  const finSuscripcionStr = estadistica.value.profile[0].fin_suscripcion;
+  // Ajustamos la fecha de fin de suscripción al final del día en la zona horaria local
+  const finSuscripcionDate = new Date(finSuscripcionStr + 'T23:59:59');
 
+  const currentDate = new Date();
+
+  // Calculamos la diferencia en milisegundos
+  const diferencia = finSuscripcionDate - currentDate;
+
+  // Convertimos la diferencia a segundos, minutos y horas
   const segundos = Math.floor(diferencia / 1000);
   const minutos = Math.floor(segundos / 60);
   const horas = Math.floor(minutos / 60);
   const dias = Math.floor(horas / 24);
 
-  return `${dias}d, ${horas % 24}h, ${minutos % 60}m`;
+  // Ajustamos las horas y minutos para reflejar la diferencia dentro del mismo día
+  const horasRestantes = horas % 24;
+  const minutosRestantes = minutos % 60;
+
+  return `${dias}d, ${horasRestantes}h, ${minutosRestantes}m`;
 });
+
+
 </script>
 
 <template>

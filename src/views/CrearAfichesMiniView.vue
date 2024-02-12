@@ -23,26 +23,39 @@ const handleInput = (event) => {
   descripcion.value = formatearDescription(event.target.value);
 };
 
-function formatearDescription(description) {
-  // Convierte todo a mayúsculas primero
-  description = description.toUpperCase();
-
-  // Añade un espacio antes de las unidades de medida si no existe
-  description = description.replace(
-    /(\d)(ML|G|U|L|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|G.)/g,
-    "$1 $2"
-  );
-
-  // Cambia las unidades de medida a minúsculas si están precedidas por un espacio o un número
-  description = description.replace(
-    /(\s|\d)(ML|G|U|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|G.)(?=\s|$)/g,
-    function (match, p1, p2) {
-      return p1 + p2.toLowerCase();
-    }
-  );
-
-  return description;
-}
+const formatearDescription = (description) => {
+    // Convierte todo el texto a mayúsculas para estandarizar el formato inicialmente.
+    description = description.toUpperCase();
+  
+    // Asegura espaciado entre números y unidades, incluyendo el manejo de "LITROS" y ahora "MG".
+    description = description.replace(
+      /(\d)(ML|MG|G|U|L|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|G\.|LB|GRS?\.?|UNI\.?|UN\.?|LITROS)/g,
+      "$1 $2"
+    );
+  
+    // Corrige el espaciado para casos especiales como texto adyacente directamente después de unidades.
+    description = description.replace(
+      /(\d)\s(ML|MG|G|U|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|G\.|LB|GRS?\.?|UNI\.?|UN\.?|LITROS)\s?([A-Z]+)/g,
+      "$1 $2 $3"
+    );
+  
+    // Convierte las unidades a minúsculas para estandarización final, incluyendo la conversión de "MG" a "mg" y "LITROS" a "L".
+    description = description.replace(
+      /(ML|MG|G|U|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|LB|GR|UNI|UN|LITROS)/g,
+      (match) => {
+        switch (match) {
+          case "LITROS":
+            return "L";
+          case "MG":
+            return "mg"; // Convierte específicamente "MG" a "mg".
+          default:
+            return match.toLowerCase();
+        }
+      }
+    );
+  
+    return description;
+  };
 const totalRotulos = ref("");
 const obtenerTotalRotulos = async () => {
   try {
