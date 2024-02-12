@@ -15,6 +15,12 @@ export const useMethodLabel = () => {
       "$1 $2 $3"
     );
 
+    // Nuevo paso: Manejar las unidades sin número previo convirtiéndolas a minúsculas directamente.
+    description = description.replace(
+      /\b(ML|MG|G|U|L|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|LB|GRS?|UNI|UN|LITROS)\b/g,
+      (match) => match.toLowerCase()
+    );
+
     // Convierte las unidades a minúsculas para estandarización final, solo cuando siguen a un número para evitar afectar otras palabras.
     description = description.replace(
       /(\d)\s(ML|MG|G|U|L|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|LB|GRS?|UNI|UN|LITROS)\b/g,
@@ -32,6 +38,7 @@ export const useMethodLabel = () => {
 
     return description;
 };
+
 
 
   
