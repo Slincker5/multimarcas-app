@@ -2,36 +2,38 @@ export const useMethodLabel = () => {
   const formatearDescription = (description) => {
     // Convierte todo el texto a mayúsculas para estandarizar el formato inicialmente.
     description = description.toUpperCase();
-  
+
     // Asegura espaciado entre números y unidades, incluyendo el manejo de "LITROS" y ahora "MG".
     description = description.replace(
       /(\d)(ML|MG|G|U|L|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|G\.|LB|GRS?\.?|UNI\.?|UN\.?|LITROS)/g,
       "$1 $2"
     );
-  
+
     // Corrige el espaciado para casos especiales como texto adyacente directamente después de unidades.
     description = description.replace(
       /(\d)\s(ML|MG|G|U|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|G\.|LB|GRS?\.?|UNI\.?|UN\.?|LITROS)\s?([A-Z]+)/g,
       "$1 $2 $3"
     );
-  
-    // Convierte las unidades a minúsculas para estandarización final, incluyendo la conversión de "MG" a "mg" y "LITROS" a "L".
+
+    // Convierte las unidades a minúsculas para estandarización final, solo cuando siguen a un número para evitar afectar otras palabras.
     description = description.replace(
-      /(ML|MG|G|U|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|LB|GR|UNI|UN|LITROS)/g,
-      (match) => {
-        switch (match) {
+      /(\d)\s(ML|MG|G|U|L|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|LB|GRS?|UNI|UN|LITROS)\b/g,
+      (match, p1, p2) => {
+        switch (p2) {
           case "LITROS":
-            return "L";
+            return `${p1} L`;
           case "MG":
-            return "mg"; // Convierte específicamente "MG" a "mg".
+            return `${p1} mg`; // Convierte específicamente "MG" a "mg".
           default:
-            return match.toLowerCase();
+            return `${p1} ${p2.toLowerCase()}`;
         }
       }
     );
-  
+
     return description;
-  };
+};
+
+
   
 
   const formatearDescriptionMinusculas = (description) => {
