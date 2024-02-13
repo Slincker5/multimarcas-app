@@ -5,6 +5,8 @@ import { RouterLink, RouterView } from "vue-router";
 import Footer from "@/components/Footer.vue";
 import { useGetRoutes } from "@/composables/getRoutes";
 import axios from "axios";
+import Instalar from '@/components/Instalar.vue'
+
 
 const token = ref(localStorage.getItem("token"));
 const estadistica = ref(null);
@@ -156,6 +158,7 @@ const countdownValue = computed(() => {
 </script>
 
 <template>
+ 
   <div
     class="fixed z-50 flex items-start justify-end w-full h-full transition-all bg-transparent"
     :class="`${options}`"
@@ -379,6 +382,7 @@ const countdownValue = computed(() => {
       </form>
     </div>
   </div>
+   <Instalar />
   <header
     v-if="token !== null"
     class="sticky top-0 flex items-center justify-between px-4 py-6 bgheader text-[#ECF0F1] z-30"
