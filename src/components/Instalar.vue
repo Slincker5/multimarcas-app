@@ -44,7 +44,7 @@ onUnmounted(() => {
 <template>
   
   <div
-        class="flex items-start justify-between bg-neutral-800"
+        class="flex items-start justify-between bg-neutral-800" v-if="mostrarBotonInstalar"
       >
         <img
           src="../../public/install.png"
@@ -60,7 +60,7 @@ onUnmounted(() => {
           </p>
           <div class="flex justify-end p-2">
             <button 
-              class="px-4 py-2 text-xs font-medium text-black bg-white rounded-lg" v-if="mostrarBotonInstalar" @click="instalarPWA"
+              class="px-4 py-2 text-xs font-medium text-black bg-white rounded-lg"  @click="instalarPWA"
             >
               Instalar 
             </button>

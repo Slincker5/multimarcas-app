@@ -9,7 +9,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/es";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { Client } from "@pusher/push-notifications-web";
-
+import Instalar from '@/components/Instalar.vue'
 dayjs.locale("es");
 dayjs.extend(relativeTime);
 
@@ -195,7 +195,7 @@ onMounted(() => {
       <p class="p-4 text-sm font-light text-gray-500">
         Todas las transacciones son seguras y estan encriptadas.
       </p>
-
+<Instalar />
       <div>
         <div
           class="border border-b-0 border-solid border-[#ddd] p-4 flex items-center justify-between"
