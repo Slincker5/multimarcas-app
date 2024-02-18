@@ -17,26 +17,45 @@ const handleInput = (event) => {
   descripcion.value = formatearDescription(event.target.value);
 };
 
-function formatearDescription(description) {
-  // Convierte todo a mayúsculas primero
-  description = description.toUpperCase();
+const formatearDescription = (description) => {
+    // Convierte todo el texto a mayúsculas para estandarizar el formato inicialmente.
+    description = description.toUpperCase();
 
-  // Añade un espacio antes de las unidades de medida si no existe
-  description = description.replace(
-    /(\d)(ML|G|U|L|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|G.)/g,
-    "$1 $2"
-  );
+    // Asegura espaciado entre números y unidades, incluyendo el manejo de "LITROS" y ahora "MG".
+    description = description.replace(
+      /(\d)(ML|MG|G|U|L|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|G\.|LB|GRS?\.?|UNI\.?|UN\.?|LITROS)/g,
+      "$1 $2"
+    );
 
-  // Cambia las unidades de medida a minúsculas si están precedidas por un espacio o un número
-  description = description.replace(
-    /(\s|\d)(ML|G|U|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|G.)(?=\s|$)/g,
-    function (match, p1, p2) {
-      return p1 + p2.toLowerCase();
-    }
-  );
+    // Corrige el espaciado para casos especiales como texto adyacente directamente después de unidades.
+    description = description.replace(
+      /(\d)\s(ML|MG|G|U|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|G\.|LB|GRS?\.?|UNI\.?|UN\.?|LITROS)\s?([A-Z]+)/g,
+      "$1 $2 $3"
+    );
 
-  return description;
-}
+    // Nuevo paso: Manejar las unidades sin número previo convirtiéndolas a minúsculas directamente.
+    description = description.replace(
+      /\b(ML|MG|G|U|L|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|LB|GRS?|UNI|UN|LITROS)\b/g,
+      (match) => match.toLowerCase()
+    );
+
+    // Convierte las unidades a minúsculas para estandarización final, solo cuando siguen a un número para evitar afectar otras palabras.
+    description = description.replace(
+      /(\d)\s(ML|MG|G|U|L|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|LB|GRS?|UNI|UN|LITROS)\b/g,
+      (match, p1, p2) => {
+        switch (p2) {
+          case "LITROS":
+            return `${p1} L`;
+          case "MG":
+            return `${p1} mg`; // Convierte específicamente "MG" a "mg".
+          default:
+            return `${p1} ${p2.toLowerCase()}`;
+        }
+      }
+    );
+
+    return description;
+};
 const totalRotulos = ref("");
 const obtenerTotalRotulos = async () => {
   try {
