@@ -22,6 +22,45 @@ const router = createRouter({
       },
     },
     {
+      path: "/acortador",
+      name: "acortador",
+      component: () => import("../views/AcortadorHomeView.vue"),
+      meta: {
+        requiresAuth: true,
+        title: "Mis enlaces",
+      },
+    },
+    {
+      path: "/crear-enlace",
+      name: "crearenlace",
+      component: () => import("../views/CrearLinkView.vue"),
+      meta: {
+        requiresAuth: true,
+        title: "Crear Enlace Acortado",
+      },
+    },
+    {
+      path: '/enlace/:uuid',
+      name: 'crear-view',
+      component: () => import('@/views/EstadisticaAcortadorView.vue'),
+      meta: {
+        requiresAuth: true,
+        title: "Estadisticas"
+      }
+    },
+    {
+      path: '/:uuid',
+      name: 'redirecion',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('@/views/RedireccionView.vue'),
+      meta: {
+        requiresAuth: false,
+        title: "Crear Cuenta"
+      }
+    },
+    {
       path: "/cintillos",
       name: "cintillos",
       component: () => import("../views/ListaCintillosView.vue"),
