@@ -234,9 +234,9 @@ const descripcionConBr = computed(() => {
         <p class="text-xs" :key="currentSlideIndex">{{ currentSlide }}</p>
       </Transition>
     </div>
-    <div class="p-6 overflow-scroll bg-black" v-if="usuario == 'Multimarcas'">
+    <div class="p-6 overflow-scroll bg-black" v-if="usuario == 'Multimarcas' || usuario == 'AbyMontano'">
       <div class="flex items-center justify-between mi">
-        <div class="border border-solid border-red-500 h-[150px] bg-white w-[155px] flex items-center justify-center text-center text-[16px] font-semibold text-black px-2">{{ descripcion }}</div>
+        <div class="border border-solid border-red-500 h-[150px] bg-white w-[155px] flex items-center justify-center text-center text-[16px] font-semibold text-black px-2 overflow-hidden">{{ descripcion }}</div>
         <div class="border border-solid border-red-500 h-[150px] bg-gray-400 w-[41px]"></div>
         <div class="border border-solid border-red-500 h-[150px] bg-black font-semibold flex items-center justify-end p-3 text-right text-white text-3xl w-[144px]">$ {{ precio === "" ? "0.00" : precio }}</div>
       </div>
