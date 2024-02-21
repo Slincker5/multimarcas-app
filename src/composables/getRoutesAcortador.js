@@ -4,7 +4,7 @@ export const useGetRoutesAcortador = () => {
   const urlFront = `https://multimarcas.app`;
 
   // Rutas externas
-  const getIp = "https://api.ipify.org?format=json";
+  const getIp = "https://ipapi.co/json/";
 
   // principales
   const createLink = `${url}/api/link/create`;
