@@ -221,6 +221,10 @@ watchEffect((onInvalidate) => {
   const interval = setInterval(updateSlide, 5000);
   onInvalidate(() => clearInterval(interval));
 });
+
+const descripcionConBr = computed(() => {
+  return descripcion.value.replace(/\n/g, '<br>');
+});
 </script>
 <template>
   <div class="w-full max-w-md m-auto">
@@ -229,6 +233,13 @@ watchEffect((onInvalidate) => {
       <Transition name="fade" mode="out-in">
         <p class="text-xs" :key="currentSlideIndex">{{ currentSlide }}</p>
       </Transition>
+    </div>
+    <div class="p-6 overflow-scroll bg-black">
+      <div class="flex items-center justify-between mi">
+        <div class="border border-solid border-red-500 h-[150px] bg-white w-[155px] flex items-center justify-center text-center text-[16px] font-semibold text-black px-2">{{ descripcion }}</div>
+        <div class="border border-solid border-red-500 h-[150px] bg-gray-400 w-[41px]"></div>
+        <div class="border border-solid border-red-500 h-[150px] bg-black font-semibold flex items-center justify-end p-3 text-right text-white text-3xl w-[144px]">$ {{ precio === "" ? "0.00" : precio }}</div>
+      </div>
     </div>
     <audio class="hidden" id="audioPlayer">
       <source src="../../public/beep.mp3" type="audio/mp3" />
@@ -242,7 +253,7 @@ watchEffect((onInvalidate) => {
         <div>
           <router-link
             to="/cintillos"
-            class="text-[#e67e22]"
+            class="text-[#e67d22c7]"
             active-class="underline"
             >Cintillos ({{ total }})</router-link
           >
@@ -517,5 +528,13 @@ watchEffect((onInvalidate) => {
     rgba(255, 255, 255, 0) 10%,
     rgba(254, 255, 248, 1) 100%
   );
+}
+
+ .mi {
+  background: #fff;
+  width: 340px;
+  height: 150px;
+  white-space: pre-wrap;
+  font-family: Arial, Helvetica, sans-serif;
 }
 </style>
