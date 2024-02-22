@@ -232,7 +232,7 @@ watchEffect((onInvalidate) => {
         <p class="text-xs" :key="currentSlideIndex">{{ currentSlide }}</p>
       </Transition>
     </div>
-    <div class="p-6 overflow-scroll bg-black" v-if="usuario == 'Multimarcas' || usuario == 'AbyMontano' || usuario == 'Miguel Zamora' || usuario == 'Andrea Borja'  || usuario == 'Wendymagas'  || usuario == 'CARLOS'">
+    <div class="sticky top-0 left-0 p-6 overflow-scroll bg-black" v-if="usuario == 'Multimarcas' || usuario == 'AbyMontano' || usuario == 'Miguel Zamora' || usuario == 'Andrea Borja'  || usuario == 'Wendymagas'  || usuario == 'CARLOS'">
       <div class="flex items-center justify-between w-[340px] h-[150px] bg-white">
         <div class="border border-solid border-red-500 h-[150px] bg-white w-[155px] text-center text-[16px] font-semibold text-black grid place-items-center"><span class=" px-1 block w-[155px] break-words whitespace-pre-wrap tipoFuente">{{ descripcion }}</span></div>
         <div class="border border-solid border-red-500 h-[150px] bg-gray-400 w-[41px]"></div>
