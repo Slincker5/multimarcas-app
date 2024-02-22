@@ -233,20 +233,7 @@ watchEffect((onInvalidate) => {
       </Transition>
     </div>
     <div
-      class="grid py-6 overflow-scroll bg-black place-items-center" id="particles-js"
-      v-if="
-        usuario == 'Multimarcas' ||
-        usuario == 'AbyMontano' ||
-        usuario == 'Miguel Zamora' ||
-        usuario == 'Andrea Borja' ||
-        usuario == 'Wendymagas' ||
-        usuario == 'CARLOS' ||
-        usuario == 'oscar trinidad' ||
-        usuario == 'Ernesto Morales' ||
-        usuario == 'Daniela López' ||
-        usuario == 'torres'
-      "
-    >
+      class="grid py-6 overflow-scroll bg-black place-items-center">
       <div
         class="flex items-center justify-between w-[340px] h-[150px] bg-white"
       >
