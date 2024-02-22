@@ -201,9 +201,10 @@ const agregarCintillos = async () => {
 
 // Definir las diapositivas y el índice actual
 const slides = [
+  "Revisa que el gramaje de las descipciones no quede solo.",
   "Revisa que la descripcion no lleve factor de empaque.",
   "Recuerda mantener una descripcion bien redactada.",
-  "Los precios de nuestra app son un aproximado a los actuales, revisa siempre que sean correctos."
+  "Los precios de nuestra app son un aproximado a los actuales, revisa siempre que sean correctos.",
   // Añade más textos según necesites
 ];
 const currentSlideIndex = ref(0);
@@ -222,7 +223,6 @@ watchEffect((onInvalidate) => {
   onInvalidate(() => clearInterval(interval));
 });
 
-
 </script>
 <template>
   <div class="w-full max-w-md m-auto">
@@ -232,11 +232,37 @@ watchEffect((onInvalidate) => {
         <p class="text-xs" :key="currentSlideIndex">{{ currentSlide }}</p>
       </Transition>
     </div>
-    <div class="sticky top-0 left-0 p-6 overflow-scroll bg-black" v-if="usuario == 'Multimarcas' || usuario == 'AbyMontano' || usuario == 'Miguel Zamora' || usuario == 'Andrea Borja'  || usuario == 'Wendymagas'  || usuario == 'CARLOS'">
-      <div class="flex items-center justify-between w-[340px] h-[150px] bg-white">
-        <div class="border border-solid border-red-500 h-[150px] bg-white w-[155px] text-center text-[16px] font-semibold text-black grid place-items-center"><span class=" px-1 block w-[155px] break-words whitespace-pre-wrap tipoFuente">{{ descripcion }}</span></div>
-        <div class="border border-solid border-red-500 h-[150px] bg-gray-400 w-[41px]"></div>
-        <div class="border border-solid border-red-500 h-[150px] bg-black font-semibold flex items-center justify-end p-3 text-right text-white text-3xl w-[144px] tipoFuente">$ {{ precio === "" ? "0.00" : precio }}</div>
+    <div
+      class="grid py-6 overflow-scroll bg-black place-items-center" id="particles-js"
+      v-if="
+        usuario == 'Multimarcas' ||
+        usuario == 'AbyMontano' ||
+        usuario == 'Miguel Zamora' ||
+        usuario == 'Andrea Borja' ||
+        usuario == 'Wendymagas' ||
+        usuario == 'CARLOS' ||
+        usuario == 'oscar trinidad'
+      "
+    >
+      <div
+        class="flex items-center justify-between w-[340px] h-[150px] bg-white"
+      >
+        <div
+          class="border border-solid border-red-500 h-[150px] bg-white w-[153px] text-center text-[16px] font-semibold text-black grid place-items-center"
+        >
+          <span
+            class="px-2 block w-[153px] break-words whitespace-pre-wrap tipoFuente"
+            >{{ descripcion }}</span
+          >
+        </div>
+        <div
+          class="border border-solid border-red-500 h-[150px] bg-gray-400 w-[41px]"
+        ></div>
+        <div
+          class="border border-solid border-red-500 h-[150px] bg-black font-semibold flex items-center justify-end p-3 text-right text-white text-3xl w-[146px] tipoFuente"
+        >
+          $ {{ precio === "" ? "0.00" : precio }}
+        </div>
       </div>
     </div>
     <audio class="hidden" id="audioPlayer">
@@ -528,7 +554,7 @@ watchEffect((onInvalidate) => {
   );
 }
 
- .tipoFuente {
+.tipoFuente {
   font-family: Arial, Helvetica, sans-serif;
 }
 </style>

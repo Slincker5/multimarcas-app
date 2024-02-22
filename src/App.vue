@@ -391,7 +391,7 @@ const countdownValue = computed(() => {
       >MULTIMARCAS APP</router-link
     >
     <nav>
-      <button class="mr-2" active-class="underline" @click.prevent="optionShow">
+      <button class="pl-4 pr-2" active-class="underline" @click.prevent="optionShow">
         <font-awesome-icon :icon="['fas', 'ellipsis-vertical']" />
       </button>
     </nav>
