@@ -222,9 +222,7 @@ watchEffect((onInvalidate) => {
   onInvalidate(() => clearInterval(interval));
 });
 
-const descripcionConBr = computed(() => {
-  return descripcion.value.replace(/\n/g, '<br>');
-});
+
 </script>
 <template>
   <div class="w-full max-w-md m-auto">
@@ -234,11 +232,11 @@ const descripcionConBr = computed(() => {
         <p class="text-xs" :key="currentSlideIndex">{{ currentSlide }}</p>
       </Transition>
     </div>
-    <div class="p-6 overflow-scroll bg-black" v-if="usuario == 'Multimarcas' || usuario == 'AbyMontano'">
-      <div class="flex items-center justify-between mi">
-        <div class="border border-solid border-red-500 h-[150px] bg-white w-[155px] flex items-center justify-center text-center text-[16px] font-semibold text-black px-2 overflow-hidden">{{ descripcion }}</div>
+    <div class="p-6 overflow-scroll bg-black" v-if="usuario == 'Multimarcas' || usuario == 'AbyMontano' || usuario == 'Miguel Zamora' || usuario == 'Andrea Borja'">
+      <div class="flex items-center justify-between w-[340px] h-[150px] bg-white">
+        <div class="border border-solid border-red-500 h-[150px] bg-white w-[155px] text-center text-[16px] font-semibold text-black grid place-items-center"><span class=" px-1 block w-[155px] break-words whitespace-pre-wrap tipoFuente">{{ descripcion }}</span></div>
         <div class="border border-solid border-red-500 h-[150px] bg-gray-400 w-[41px]"></div>
-        <div class="border border-solid border-red-500 h-[150px] bg-black font-semibold flex items-center justify-end p-3 text-right text-white text-3xl w-[144px]">$ {{ precio === "" ? "0.00" : precio }}</div>
+        <div class="border border-solid border-red-500 h-[150px] bg-black font-semibold flex items-center justify-end p-3 text-right text-white text-3xl w-[144px] tipoFuente">$ {{ precio === "" ? "0.00" : precio }}</div>
       </div>
     </div>
     <audio class="hidden" id="audioPlayer">
@@ -530,11 +528,7 @@ const descripcionConBr = computed(() => {
   );
 }
 
- .mi {
-  background: #fff;
-  width: 340px;
-  height: 150px;
-  white-space: pre-wrap;
+ .tipoFuente {
   font-family: Arial, Helvetica, sans-serif;
 }
 </style>
