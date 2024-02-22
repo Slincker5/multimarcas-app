@@ -243,17 +243,18 @@ watchEffect((onInvalidate) => {
         usuario == 'CARLOS' ||
         usuario == 'oscar trinidad' ||
         usuario == 'Ernesto Morales' ||
-        usuario == 'Daniela López'
+        usuario == 'Daniela López' ||
+        usuario == 'torres'
       "
     >
       <div
         class="flex items-center justify-between w-[340px] h-[150px] bg-white"
       >
         <div
-          class="border border-solid border-red-500 h-[150px] bg-white w-[153px] text-center text-[16px] font-semibold text-black grid place-items-center"
+          class="border border-solid border-red-500 h-[150px] bg-white w-[151px] text-center text-[16px] font-semibold text-black grid place-items-center"
         >
           <span
-            class="px-2 block w-[153px] break-words whitespace-pre-wrap tipoFuente"
+            class="p-2 block w-[153px] break-words whitespace-pre-wrap tipoFuente"
             >{{ descripcion }}</span
           >
         </div>
@@ -261,7 +262,7 @@ watchEffect((onInvalidate) => {
           class="border border-solid border-red-500 h-[150px] bg-gray-400 w-[41px]"
         ></div>
         <div
-          class="border border-solid border-red-500 h-[150px] bg-black font-semibold flex items-center justify-end p-3 text-right text-white text-3xl w-[146px] tipoFuente"
+          class="border border-solid border-red-500 h-[150px] bg-black font-semibold flex items-center justify-end p-3 text-right text-white text-3xl w-[148px] tipoFuente"
         >
           $ {{ precio === "" ? "0.00" : precio }}
         </div>
