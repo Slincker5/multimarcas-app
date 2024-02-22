@@ -242,7 +242,8 @@ watchEffect((onInvalidate) => {
         usuario == 'Wendymagas' ||
         usuario == 'CARLOS' ||
         usuario == 'oscar trinidad' ||
-        usuario == 'Ernesto Morales'
+        usuario == 'Ernesto Morales' ||
+        usuario == 'Daniela López'
       "
     >
       <div
