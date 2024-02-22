@@ -241,7 +241,7 @@ watchEffect((onInvalidate) => {
         usuario == 'Andrea Borja' ||
         usuario == 'Wendymagas' ||
         usuario == 'CARLOS' ||
-        usuario == 'oscar trinidad'
+        usuario == 'oscar trinidad' ||
         usuario == 'Ernesto Morales'
       "
     >
