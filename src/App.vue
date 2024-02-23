@@ -5,8 +5,12 @@ import { RouterLink, RouterView } from "vue-router";
 import Footer from "@/components/Footer.vue";
 import { useGetRoutes } from "@/composables/getRoutes";
 import axios from "axios";
+import dayjs from "dayjs";
+import "dayjs/locale/es";
+import relativeTime from "dayjs/plugin/relativeTime";
 
-
+dayjs.locale("es");
+dayjs.extend(relativeTime);
 
 const token = ref(localStorage.getItem("token"));
 const estadistica = ref(null);
@@ -134,7 +138,7 @@ const countdownValue = computed(() => {
   // Obtenemos la fecha de fin de suscripción y la fecha actual
   const finSuscripcionStr = estadistica.value.profile[0].fin_suscripcion;
   // Ajustamos la fecha de fin de suscripción al final del día en la zona horaria local
-  const finSuscripcionDate = new Date(finSuscripcionStr + 'T23:59:59');
+  const finSuscripcionDate = new Date(finSuscripcionStr + "T23:59:59");
 
   const currentDate = new Date();
 
@@ -153,12 +157,9 @@ const countdownValue = computed(() => {
 
   return `${dias}d, ${horasRestantes}h, ${minutosRestantes}m`;
 });
-
-
 </script>
 
 <template>
- 
   <div
     class="fixed z-50 flex items-start justify-end w-full h-full transition-all bg-transparent"
     :class="`${options}`"
@@ -382,7 +383,41 @@ const countdownValue = computed(() => {
       </form>
     </div>
   </div>
-   
+  <div
+    class="fixed top-0 left-0 z-40 flex items-center justify-center w-full h-full bg-black/80" v-if="estadistica.profile[0].suscripcion === 0"
+  >
+    <div class="bg-white w-[80%] py-6 px-4 max-w-screen-sm rounded-lg shadow-2xl">
+      <img src="../../public/sad.png" class="w-[30%] block m-auto" />
+      <h3 class="pt-4 font-medium text-center text-black uppercase text-nomal">
+        Tu membresia ha vencido!
+      </h3>
+      <p class="py-4 text-sm text-center text-gray-500" v-if="estadistica">
+        Vencio el 
+        {{
+          dayjs(estadistica.profile[0].fin_suscripcion)
+            .locale("es")
+            .format("DD [de] MMMM [del] YYYY")
+        }}
+      </p>
+      <div class="py-4 border-y border-dashed border-[#ddd]">
+        <button
+          class="block px-6 py-2 mx-auto mb-4 text-sm text-center border border-solid rounded-sm shadow-lg border-neutral-700"
+          @click.prevent="openCupon"
+        >
+          Canjear cupon</button
+        >
+
+        <div class="flex items-center justify-center">
+          <div
+          class="wompi_button_widget"
+          data-url-pago="https://lk.wompi.sv/ixtR"
+        ></div>
+        </div> 
+        
+      </div>
+      <a href="https://wa.me/+50374329014" class="block p-4 font-semibold text-center text-sky-500"><font-awesome-icon :icon="['fas', 'headset']" /> Atencion al cliente</a>
+    </div>
+  </div>
   <header
     v-if="token !== null"
     class="sticky top-0 flex items-center justify-between px-4 py-6 bgheader text-[#ECF0F1] z-30"
@@ -391,7 +426,11 @@ const countdownValue = computed(() => {
       >MULTIMARCAS APP</router-link
     >
     <nav>
-      <button class="pl-4 pr-2" active-class="underline" @click.prevent="optionShow">
+      <button
+        class="pl-4 pr-2"
+        active-class="underline"
+        @click.prevent="optionShow"
+      >
         <font-awesome-icon :icon="['fas', 'ellipsis-vertical']" />
       </button>
     </nav>
@@ -399,11 +438,6 @@ const countdownValue = computed(() => {
 
   <RouterView />
   <Footer></Footer>
-  <!--<div class="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full text-lg text-white bg-zinc-950">
-   <div class="p-6 font-medium"><img src="../public/sled.gif" class="w-[30px] h-[30px] rounded-full align-middle inline-block mr-2 text-sm z-50"> App en mantenimiento<br>
-  <div class="text-sm">Lamentamos las interrupciones, en breves reactivaremos el servicio.</div></div> 
-  
- </div>-->
 </template>
 <style>
 .bgheader {

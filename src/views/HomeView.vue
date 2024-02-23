@@ -9,7 +9,6 @@ import dayjs from "dayjs";
 import "dayjs/locale/es";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { Client } from "@pusher/push-notifications-web";
-import Instalar from '@/components/Instalar.vue'
 dayjs.locale("es");
 dayjs.extend(relativeTime);
 
@@ -39,26 +38,6 @@ const updateToken = async () => {
 
 updateToken();
 
-/*function calcularDiferencia() {
-  const second = 1000,
-    minute = second * 60,
-    hour = minute * 60,
-    day = hour * 24;
-
-  let countDown = new Date("Jan 05, 2024 00:00:00").getTime(),
-    x = setInterval(function () {
-      let now = new Date().getTime(),
-        distance = countDown - now;
-
-      let dia = Math.floor(distance / day);
-      let hora = Math.floor((distance % day) / hour);
-      let minuto = Math.floor((distance % hour) / minute);
-      let segundo = Math.floor((distance % minute) / second);
-      cuentaRegresiva.innerHTML = ` En ${dia}d, ${hora}h, ${minuto}m, ${segundo}s se apaga la app`;
-    }, second);
-}
-
-calcularDiferencia();*/
 
 const getGenerados = async () => {
   try {
@@ -195,7 +174,6 @@ onMounted(() => {
       <p class="p-4 text-sm font-light text-gray-500">
         Todas las transacciones son seguras y estan encriptadas.
       </p>
-<Instalar />
       <div>
         <div
           class="border border-b-0 border-solid border-[#ddd] p-4 flex items-center justify-between"
@@ -442,6 +420,7 @@ onMounted(() => {
       Creando Publicacion...
     </div>
   </div>
+  
 </template>
 
 <style>
