@@ -240,7 +240,6 @@ const selectItem = (index) => {
             class="block w-full px-4 py-3 mb-3 text-gray-700 bg-gray-200 border rounded-l appearance-none focus:outline-none focus:bg-white"
             id="precio"
             type="text"
-            inputmode="numeric"
             placeholder="PRECIO"
             autocomplete="off"
             v-model="precio"
