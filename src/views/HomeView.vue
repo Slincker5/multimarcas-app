@@ -121,6 +121,11 @@ onMounted(() => {
   script.src = "https://pagos.wompi.sv/js/wompi.pagos.js";
   document.head.appendChild(script);
 });
+
+const anuncioTmp = ref(localStorage.getItem("anuncioTmp"))
+const cerrarVentana = () => {
+  anuncioTmp.value = localStorage.setItem("anuncioTmp", "true")
+}
 </script>
 <template>
   <div>
@@ -234,6 +239,17 @@ onMounted(() => {
     <div
       class="flex items-stretch w-full gap-1 p-4 overflow-x-auto bg-gray-100 whitespace-nowrap acciones border-b border-solid border-[#ddd]"
     >
+
+    <router-link to="/crear-afiches-mini-descuentos" class="relative py-3 rounded-lg bg">
+        <span class="absolute top-0 right-0 inline-flex w-3 h-3 font-black rounded-full opacity-75 animate-ping bg-rose-700"></span>
+        <div class="flex justify-center px-2 py-4">
+          <img src="../../public/descuento.png" class="block w-[40px]" />
+        </div>
+        <span class="p-2 pt-0 text-xs font-medium text-black"
+          >Crear Afiches</span
+        >
+      </router-link>
+
       <router-link to="/buscador" class="py-3 rounded-lg bg">
         <div class="flex justify-center px-2 py-4">
           <img src="../../public/dairy-products.png" class="block w-[40px]" />
@@ -420,7 +436,32 @@ onMounted(() => {
       Creando Publicacion...
     </div>
   </div>
-  
+  <div
+    class="fixed top-0 left-0 z-30 flex items-center justify-center w-full h-full bg-black/80"
+    v-if="anuncioTmp === null"
+  >
+    <div
+      class="bg-white w-[80%] py-6 px-4 max-w-screen-sm rounded-lg shadow-2xl"
+    >
+      <img src="../../public/celebrar.png" class="w-[30%] block m-auto" />
+      <h3 class="pt-4 font-medium text-center text-black uppercase text-nomal">
+        Nuevos Tipos de Afiches!
+      </h3>
+      <p class="py-4 text-sm text-center text-gray-500" v-if="estadistica">
+        Nos complace anunciarte que desde ahora ya estan habilitados la creacion de afiches con porcentaje.
+        
+      </p>
+      <div class="py-4 pb-0 border-t border-dashed border-[#ddd]">
+        <button
+          class="block px-6 py-2 mx-auto mb-4 text-sm text-center border border-solid rounded-sm shadow-lg border-neutral-700"
+          @click.prevent="cerrarVentana"
+        >
+          Cerrar ventana
+        </button>
+      </div>
+      
+    </div>
+  </div>
 </template>
 
 <style>

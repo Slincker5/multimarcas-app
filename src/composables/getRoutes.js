@@ -42,6 +42,12 @@ export const useGetRoutes = () => {
   const posterSmallRemoveList = `${url}/api/poster-small/remove`;
   const posterSmallBuild = `${url}/api/poster-small/build`;
 
+    // Rutas poster mini
+    const posterSmallDescCreate = `${url}/api/poster-small-desc/create`;
+    const posterSmallDescList = `${url}/api/poster-small-desc/list`;
+    const posterSmallDescRemoveList = `${url}/api/poster-small-desc/remove`;
+    const posterSmallDescBuild = `${url}/api/poster-small-desc/build`;
+
   // Rutas poster mini
   const posterSmallBajaCreate = `${url}/api/poster-low-price-small/create`;
   const posterSmallBajaList = `${url}/api/poster-low-price-small/list`;
@@ -90,6 +96,10 @@ export const useGetRoutes = () => {
     posterSmallList,
     posterSmallRemoveList,
     posterSmallBuild,
+    posterSmallDescCreate,
+    posterSmallDescList,
+    posterSmallDescRemoveList,
+    posterSmallDescBuild,
     userMvc,
     userUpdateToken,
     posterSmallBajaCreate,

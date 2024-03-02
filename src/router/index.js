@@ -87,6 +87,16 @@ const router = createRouter({
         title: "Crear Super Ofertas | Formato 1x9",
       },
     },
+    
+    {
+      path: "/crear-afiches-mini-descuentos",
+      name: "crearafichesminidesc",
+      component: () => import("../views/CrearAfichesMiniDescView.vue"),
+      meta: {
+        requiresAuth: true,
+        title: "Crear Super Ofertas Descuentos | Formato 3x3",
+      },
+    },
     {
       path: "/crear-afiches-baja-mini",
       name: "crearafichesbajamini",
@@ -124,6 +134,15 @@ const router = createRouter({
       },
     },
     {
+      path: "/afiches-mini-descuentos",
+      name: "afichesminides",
+      component: () => import("../views/ListaAfichesMiniDescView.vue"),
+      meta: {
+        requiresAuth: true,
+        title: "Lista Super Oferta Descuentos | Formato 3x3",
+      },
+    },
+    {
       path: "/lista-afiches-baja-mini",
       name: "listaafichesbajamini",
       component: () => import("../views/ListaAfichesBajaMiniView.vue"),
@@ -145,6 +164,15 @@ const router = createRouter({
       path: "/enviar-afiches-mini",
       name: "enviarafichesmini",
       component: () => import("../views/EnviarAfichesMiniView.vue"),
+      meta: {
+        requiresAuth: true,
+        title: "Envio de Afiches | Formato 1x9",
+      },
+    },
+    {
+      path: "/enviar-afiches-mini-descuentos",
+      name: "enviarafichesminidesc",
+      component: () => import("../views/EnviarAfichesMiniDescView.vue"),
       meta: {
         requiresAuth: true,
         title: "Envio de Afiches | Formato 1x9",

@@ -248,7 +248,7 @@ const resetScanner = () => {
       <router-link to="/afiches-mini" active-class="underline"
         >Afiches
         <span
-          class="inline-flex items-center justify-center bg-[#A2B2EE] text-[#2E3239] text-xs font-medium rounded-full no-underline w-[20px] h-[20px]"
+          class="inline-flex items-center justify-center bg-rose-500 text-white text-xs font-medium rounded-full no-underline w-[20px] h-[20px]"
           >{{ totalRotulos }}</span
         ></router-link
       >
@@ -484,12 +484,3 @@ const resetScanner = () => {
     Agregando Rotulos...
   </div>
 </template>
-<style>
-@import url("https://fonts.googleapis.com/css2?family=Caveat+Brush&display=swap");
-.logo {
-  font-family: "Caveat Brush", cursive;
-
-  left: 50%;
-  transform: translateX(-50%);
-}
-</style>

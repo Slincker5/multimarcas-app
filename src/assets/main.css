@@ -5,9 +5,6 @@
   box-sizing: border-box;
   font-size: 16px;
 }
-.logo {
-  font-family: 'Fjalla One', sans-serif;
-}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
