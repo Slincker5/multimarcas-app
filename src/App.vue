@@ -405,7 +405,8 @@ onMounted(() => {
           dayjs(estadistica.profile[0].fin_suscripcion)
             .locale("es")
             .format("DD [de] MMMM [del] YYYY")
-        }}
+        }}<br>
+        <span class="text-xs"> renovarla haciendo el pago en linea o escribiendo a atencion al cliente.</span>
       </p>
       <div class="py-4 border-y border-dashed border-[#ddd]">
         <button
