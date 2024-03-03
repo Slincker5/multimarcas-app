@@ -390,7 +390,7 @@ onMounted(() => {
   </div>
   <div
     class="fixed top-0 left-0 z-40 flex items-center justify-center w-full h-full bg-black/80"
-    v-if="token && estadistica.profile[0].suscripcion === 0"
+    v-if="token && estadistica.profile[0].suscripcion === 0 && estadistica.profile[0].suscripcion !== null"
   >
     <div
       class="bg-white w-[80%] py-6 px-4 max-w-screen-sm rounded-lg shadow-2xl"
