@@ -54,13 +54,13 @@ const buttonRoute = computed(() => {
   if (route.path === "/login") return "/register";
 });
 
-const options = ref("top-[-100%] right-[-100%]");
+const options = ref("top-0 left-[-100%]");
 
 const optionShow = () => {
-  options.value = "top-0 right-0";
+  options.value = "top-0 left-0";
 };
 const optionHidden = () => {
-  options.value = "top-[-100%] right-[-100%]";
+  options.value = "left-[-100%]";
 };
 const cerarrSesion = () => {
   localStorage.clear();
@@ -166,26 +166,26 @@ onMounted(() => {
 
 <template>
   <div
-    class="fixed z-50 flex items-start justify-end w-full h-full transition-all bg-transparent"
+    class="fixed z-50 flex items-start justify-start w-full h-full transition-all bg-transparent"
     :class="`${options}`"
     @click="optionHidden"
   >
-    <div class="inline-block bg-gray-200 shadow-2xl" v-if="estadistica">
+    <div class="inline-block bg-gray-200 shadow-2xl shadow-black/50" v-if="estadistica">
       <div class="p-4 border-b border-solid border-[#ddd] flex items-center">
         <div>
-          <div v-if="estadistica.profile[0].photo !== null">
+          <div>
             <img
-              :src="`${estadistica.profile[0].photo}`"
-              :alt="`${estadistica.profile[0].username}`"
+              :src="
+                estadistica.profile[0].photo !== null
+                  ? estadistica.profile[0].photo
+                  : userNoPhoto
+              "
+              :alt="
+                estadistica.profile[0].username === null
+                  ? estadistica.profile[0].nombre
+                  : estadistica.profile[0].username
+              "
               class="w-[25px] rounded-full shadow align-middle"
-            />
-          </div>
-
-          <div v-else>
-            <img
-              :src="userNoPhoto"
-              :alt="`${estadistica.profile[0].username}`"
-              class="w-[25px] rounded-full align-middle"
             />
           </div>
         </div>
@@ -390,7 +390,11 @@ onMounted(() => {
   </div>
   <div
     class="fixed top-0 left-0 z-40 flex items-center justify-center w-full h-full bg-black/80"
-    v-if="token && estadistica.profile[0].suscripcion === 0 && estadistica.profile[0].fin_suscripcion !== null"
+    v-if="
+      token &&
+      estadistica.profile[0].suscripcion === 0 &&
+      estadistica.profile[0].fin_suscripcion !== null
+    "
   >
     <div
       class="bg-white w-[80%] py-6 px-4 max-w-screen-sm rounded-lg shadow-2xl"
@@ -405,8 +409,11 @@ onMounted(() => {
           dayjs(estadistica.profile[0].fin_suscripcion)
             .locale("es")
             .format("DD [de] MMMM [del] YYYY")
-        }}<br>
-        <span class="text-xs"> renovarla haciendo el pago en linea o escribiendo a atencion al cliente.</span>
+        }}<br />
+        <span class="text-xs">
+          Puedes renovarla haciendo el pago en linea o escribiendo a atencion al
+          cliente.</span
+        >
       </p>
       <div class="py-4 border-y border-dashed border-[#ddd]">
         <button
@@ -432,18 +439,25 @@ onMounted(() => {
   </div>
   <header
     v-if="token !== null"
-    class="sticky top-0 flex items-center justify-between px-4 py-6 bgheader text-[#ECF0F1] z-30"
+    class="sticky top-0 flex items-center justify-between px-4 py-5 bgheader text-[#ECF0F1] z-30 shadow-lg shadow-black/10"
   >
-    <router-link to="/" class="text-[#ECF0F1] font-medium" style="font-family: Fjalla One"
+    <router-link
+      to="/"
+      class="text-[#ECF0F1] font-medium"
+      style="font-family: Fjalla One"
       >MULTIMARCAS APP</router-link
     >
-    <nav>
+    <nav class="flex gap-2">
+      <button class="relative hidden text-white">
+        <div class="absolute right-[-10px] top-0 inline-flex items-center justify-center bg-rose-500 text-white text-xs font-extralight rounded-full no-underline w-[14px] h-[14px]">1</div>
+        <font-awesome-icon :icon="['fas', 'bell']" />
+      </button>
       <button
         class="pl-4 pr-2"
         active-class="underline"
         @click.prevent="optionShow"
       >
-        <font-awesome-icon :icon="['fas', 'ellipsis-vertical']" />
+      <font-awesome-icon :icon="['fas', 'bars']" />
       </button>
     </nav>
   </header>
