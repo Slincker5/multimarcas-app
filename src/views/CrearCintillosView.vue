@@ -225,7 +225,7 @@ watchEffect((onInvalidate) => {
 
 </script>
 <template>
-  <div class="w-full max-w-md m-auto">
+  <div class="w-full md:w-[650px] m-auto">
     <div class="p-4 text-black recomendaciones">
       <b class="block mb-2 text-sm font-medium">RECOMENDACIONES</b>
       <Transition name="fade" mode="out-in">

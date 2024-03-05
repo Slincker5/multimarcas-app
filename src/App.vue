@@ -54,10 +54,10 @@ const buttonRoute = computed(() => {
   if (route.path === "/login") return "/register";
 });
 
-const options = ref("top-0 left-[-100%]");
+const options = ref("left-[-100%]");
 
 const optionShow = () => {
-  options.value = "top-0 left-0";
+  options.value = "left-0";
 };
 const optionHidden = () => {
   options.value = "left-[-100%]";
@@ -165,13 +165,19 @@ onMounted(() => {
 </script>
 
 <template>
+  <!-- menu navbar -->
   <div
-    class="fixed z-50 flex items-start justify-start w-full h-full transition-all bg-transparent"
+    class="fixed z-50 flex items-start justify-start w-full h-full transition-all bg-transparent md:left-0 md:sticky md:top-0"
     :class="`${options}`"
     @click="optionHidden"
   >
-    <div class="inline-block bg-gray-200 shadow-2xl shadow-black/50" v-if="estadistica">
-      <div class="p-4 border-b border-solid border-[#ddd] flex items-center">
+    <div
+      class="w-[65%] md:w-[200px] h-full inline-block bg-[#fff] shadow-2xl shadow-black/50"
+      v-if="estadistica"
+    >
+      <div
+        class="p-4 py-3 pl-5 border-b border-solid border-[#ddd]/50 flex items-center"
+      >
         <div>
           <div>
             <img
@@ -185,12 +191,12 @@ onMounted(() => {
                   ? estadistica.profile[0].nombre
                   : estadistica.profile[0].username
               "
-              class="w-[25px] rounded-full shadow align-middle"
+              class="w-[40px] rounded-full align-middle"
             />
           </div>
         </div>
         <div
-          class="flex items-center pl-1 text-sm font-medium text-black"
+          class="flex items-center pl-2 text-sm font-medium text-gray-900"
           v-if="estadistica"
         >
           {{
@@ -200,43 +206,52 @@ onMounted(() => {
                 estadistica.profile[0].apellido
               : estadistica.profile[0].username
           }}<span v-if="estadistica.profile[0].suscripcion === 1"
-            ><img src="../public/vip.gif" alt="vip"
+            ><img
+              src="../public/vip.png"
+              alt="premiun"
+              class="w-[9px] mb-4 inline-block shadow-lg shadow-yellow-500"
           /></span>
         </div>
       </div>
-      <div class="px-4 py-2 text-xs text-gray-500">
+      <div class="px-4 py-4 pl-5 text-sm text-gray-600">
         Tipo de cuenta:
         <b
-          class="text-xs text-green-500"
-          v-if="estadistica.profile[0].suscripcion === 1"
-          >Premium</b
-        ><b class="text-xs text-amber-500" v-else>Basica</b>
+          class="text-xs"
+          :class="
+            estadistica.profile[0].suscripcion === 1
+              ? 'text-green-500'
+              : 'text-amber-500'
+          "
+          >{{
+            estadistica.profile[0].suscripcion === 1 ? "Premium" : "Basica"
+          }}</b
+        >
       </div>
       <div
-        class="px-4 py-2 text-xs text-gray-500 border-t border-solid border-[#ddd]"
+        class="px-4 pl-5 py-4 text-sm text-gray-600 border-t border-solid border-[#ddd]/50"
         v-if="estadistica.profile[0].suscripcion === 1"
       >
-        Vence en:
-        <b class="text-xs font-light text-amber-500" id="vence">{{
-          countdownValue
+        Finaliza:
+        <b class="text-sm font-light text-amber-500" id="vence">{{
+          dayjs(estadistica.profile[0].fin_suscripcion).format("D [de] MMMM")
         }}</b>
       </div>
       <button
-        class="p-4 text-sm border-t border-solid border-[#ddd] text-gray-800 w-full block"
+        class="text-left p-4 pl-5 text-sm border-t border-solid border-[#ddd]/50 text-gray-600 w-full block"
         @click.prevent="openCrearCupon"
         v-if="estadistica.profile[0].rol === 'Admin'"
       >
-        <font-awesome-icon :icon="['fas', 'gift']" /> Generar cupon
+        <font-awesome-icon :icon="['fas', 'tag']" /> Crear cupon
       </button>
       <button
-        class="p-4 text-sm border-t border-solid border-[#ddd] text-gray-800 w-full block"
+        class="text-left p-4 pl-5 text-sm border-t border-solid border-[#ddd]/50 text-gray-600 w-full block"
         @click.prevent="openCupon"
         v-if="estadistica.profile[0].suscripcion === 0"
       >
         <font-awesome-icon :icon="['fas', 'gift']" /> Canjear cupon
       </button>
       <button
-        class="p-4 text-sm border-t border-solid border-[#ddd] text-gray-800 w-full block"
+        class="text-left p-4 pl-5 text-sm border-t border-solid border-[#ddd]/50 text-gray-600 w-full block"
         @click.prevent="cerarrSesion"
       >
         <font-awesome-icon :icon="['fas', 'arrow-right-from-bracket']" /> Cerrar
@@ -244,8 +259,10 @@ onMounted(() => {
       </button>
     </div>
   </div>
+
+  <!-- banner donde se indica que es premium -->
   <div
-    class="fixed z-50 items-center justify-center w-full h-full bg-black/25"
+    class="top-0 z-50 items-center justify-center w-full h-full sm:fixed md:sticky bg-black/25"
     :class="`${classCupon}`"
   >
     <div class="bg-white w-[90%] relative">
@@ -256,7 +273,7 @@ onMounted(() => {
         <div class="p-4 bg-white">
           <img src="../public/canje_vip.gif" class="w-[100px] m-auto" />
           <p class="py-4 text-sm text-gray-950">
-            !En hora buena! tu cuenta ahora es vip
+            !En hora buena! tu cuenta ahora es premium
           </p>
           <button
             to="/login"
@@ -318,6 +335,7 @@ onMounted(() => {
     </div>
   </div>
 
+  <!-- div donde se crean los cupones -->
   <div
     class="fixed z-50 items-center justify-center w-full h-full bg-black/25"
     :class="`${classCrearCupon}`"
@@ -388,6 +406,8 @@ onMounted(() => {
       </form>
     </div>
   </div>
+
+  <!-- div que muestra la suscripcion vencida -->
   <div
     class="fixed top-0 left-0 z-40 flex items-center justify-center w-full h-full bg-black/80"
     v-if="
@@ -437,33 +457,39 @@ onMounted(() => {
       >
     </div>
   </div>
-  <header
-    v-if="token !== null"
-    class="sticky top-0 flex items-center justify-between px-4 py-5 bgheader text-[#ECF0F1] z-30 shadow-lg shadow-black/10"
-  >
-    <router-link
-      to="/"
-      class="text-[#ECF0F1] font-medium"
-      style="font-family: Fjalla One"
-      >MULTIMARCAS APP</router-link
+  <div>
+    <header
+      v-if="token !== null"
+      class="sticky top-0 flex items-center justify-between px-4 py-5 bgheader text-[#ECF0F1] z-30 shadow-lg shadow-black/10"
     >
-    <nav class="flex gap-2">
-      <button class="relative hidden text-white">
-        <div class="absolute right-[-10px] top-0 inline-flex items-center justify-center bg-rose-500 text-white text-xs font-extralight rounded-full no-underline w-[14px] h-[14px]">1</div>
-        <font-awesome-icon :icon="['fas', 'bell']" />
-      </button>
-      <button
-        class="pl-4 pr-2"
-        active-class="underline"
-        @click.prevent="optionShow"
+      <router-link
+        to="/"
+        class="text-[#ECF0F1] font-medium"
+        style="font-family: Fjalla One"
+        >MULTIMARCAS APP</router-link
       >
-      <font-awesome-icon :icon="['fas', 'bars']" />
-      </button>
-    </nav>
-  </header>
+      <nav class="flex gap-2">
+        <button class="relative hidden text-white">
+          <div
+            class="absolute right-[-10px] top-0 inline-flex items-center justify-center bg-rose-500 text-white text-xs font-extralight rounded-full no-underline w-[14px] h-[14px]"
+          >
+            1
+          </div>
+          <font-awesome-icon :icon="['fas', 'bell']" />
+        </button>
+        <button
+          class="pl-4 pr-2 md:hidden"
+          active-class="underline"
+          @click.prevent="optionShow"
+        >
+          <font-awesome-icon :icon="['fas', 'bars']" />
+        </button>
+      </nav>
+    </header>
 
-  <RouterView />
-  <Footer></Footer>
+    <RouterView />
+    <Footer></Footer>
+  </div>
 </template>
 <style>
 .bgheader {
