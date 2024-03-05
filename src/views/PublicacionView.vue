@@ -303,7 +303,7 @@ const crearComentario = async () => {
               src="../../public/checklist.png"
               class="inline-block w-[15px]"
           /></span>
-          <span class="inline-block" v-else-if="comment.suscripcion === 1"><img src="../../public/vip.gif" alt="vip"
+          <span class="inline-block" v-else-if="comment.suscripcion === 1"><img src="../../public/vip.png" alt="vip"
           /></span>
         </div>
         <div class="text-xs text-gray-400">
