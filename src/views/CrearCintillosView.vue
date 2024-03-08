@@ -112,17 +112,6 @@ function startCamera() {
       track.stop();
     });
   }
-
-  function stopCamera() {
-    if (currentStream) {
-      // Detiene todos los tracks del stream
-      currentStream.getTracks().forEach((track) => {
-        track.stop();
-      });
-      currentStream = null; // Limpia la referencia al stream después de detenerlo
-    }
-  }
-
   navigator.mediaDevices
     .getUserMedia({
       video: { facingMode: "user" }, // "user" para la cámara delantera, "environment" para la trasera
@@ -134,6 +123,16 @@ function startCamera() {
     .catch((error) => {
       console.error("Error al acceder a la cámara: ", error);
     });
+}
+
+function stopCamera() {
+  if (currentStream) {
+    // Detiene todos los tracks del stream
+    currentStream.getTracks().forEach(track => {
+      track.stop();
+    });
+    currentStream = null; // Limpia la referencia al stream después de detenerlo
+  }
 }
 
 const startScanner = async () => {
