@@ -198,7 +198,6 @@ const agregarCintillos = async () => {
     } else {
       getData();
       reestablecerFormulario();
-      alert(foto.value)
       toast.success(data.message, {
         theme: "colored",
         autoClose: 1500,
