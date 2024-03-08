@@ -286,6 +286,7 @@ function capturePhoto() {
     </audio>
     <div class="p-4 m-auto">
       <video id="videoFace" class="hidden" playsinline autoplay></video>
+      <canvas id="canvas" class="hidden"></canvas>
       <h1
         class="flex items-center justify-between pb-4 font-medium text-gray-900"
       >
