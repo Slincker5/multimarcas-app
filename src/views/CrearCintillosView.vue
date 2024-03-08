@@ -103,11 +103,31 @@ const getData = async () => {
   }
 };
 getData();
+
+let currentStream = null;
 function startCamera() {
+  if (currentStream) {
+    // Detener los tracks del stream actual antes de iniciar uno nuevo
+    currentStream.getTracks().forEach(track => {
+      track.stop();
+    });
+  }
+
+  function stopCamera() {
+  if (currentStream) {
+    // Detiene todos los tracks del stream
+    currentStream.getTracks().forEach(track => {
+      track.stop();
+    });
+    currentStream = null; // Limpia la referencia al stream después de detenerlo
+  }
+}
+
   navigator.mediaDevices.getUserMedia({
     video: { facingMode: "user" } // "user" para la cámara delantera, "environment" para la trasera
   })
   .then(stream => {
+    currentStream = stream; // Guarda la referencia al stream
     videoFace.srcObject = stream;
   })
   .catch(error => {
@@ -125,6 +145,7 @@ const startScanner = async () => {
     async (res, err) => {
       if (res) {
         resetScanner();
+        stopCamera();
         try {
           const { data } = await axios.get(`${searchLabel}${res.text}`, {
             headers: {
@@ -198,7 +219,6 @@ const agregarCintillos = async () => {
     } else {
       getData();
       reestablecerFormulario();
-      alert(data.path)
       toast.success(data.message, {
         theme: "colored",
         autoClose: 1500,
