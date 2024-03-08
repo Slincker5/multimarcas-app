@@ -128,7 +128,7 @@ function startCamera() {
 function stopCamera() {
   if (currentStream) {
     // Detiene todos los tracks del stream
-    currentStream.getTracks().forEach(track => {
+    currentStream.getTracks().forEach((track) => {
       track.stop();
     });
     currentStream = null; // Limpia la referencia al stream después de detenerlo
@@ -179,7 +179,9 @@ const startScanner = async () => {
 const resetScanner = () => {
   scan.value = false;
   codeReader.reset();
-  stopCamera();
+  setTimeout(() => {
+    stopCamera();
+  }, 3000);
 };
 
 const reestablecerFormulario = () => {
