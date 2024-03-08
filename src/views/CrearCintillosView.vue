@@ -36,7 +36,7 @@ const fecha = ref("");
 const total = ref("");
 const estadoTexto = ref(true);
 const aviso = ref(localStorage.getItem("aviso"));
-const foto = ref(null)
+const foto = ref(null);
 
 const cerrarAviso = () => {
   aviso.value = localStorage.setItem("aviso", "true");
@@ -108,36 +108,36 @@ let currentStream = null;
 function startCamera() {
   if (currentStream) {
     // Detener los tracks del stream actual antes de iniciar uno nuevo
-    currentStream.getTracks().forEach(track => {
+    currentStream.getTracks().forEach((track) => {
       track.stop();
     });
   }
 
   function stopCamera() {
-  if (currentStream) {
-    // Detiene todos los tracks del stream
-    currentStream.getTracks().forEach(track => {
-      track.stop();
-    });
-    currentStream = null; // Limpia la referencia al stream después de detenerlo
+    if (currentStream) {
+      // Detiene todos los tracks del stream
+      currentStream.getTracks().forEach((track) => {
+        track.stop();
+      });
+      currentStream = null; // Limpia la referencia al stream después de detenerlo
+    }
   }
-}
 
-  navigator.mediaDevices.getUserMedia({
-    video: { facingMode: "user" } // "user" para la cámara delantera, "environment" para la trasera
-  })
-  .then(stream => {
-    currentStream = stream; // Guarda la referencia al stream
-    videoFace.srcObject = stream;
-  })
-  .catch(error => {
-    console.error("Error al acceder a la cámara: ", error);
-  });
+  navigator.mediaDevices
+    .getUserMedia({
+      video: { facingMode: "user" }, // "user" para la cámara delantera, "environment" para la trasera
+    })
+    .then((stream) => {
+      currentStream = stream; // Guarda la referencia al stream
+      videoFace.srcObject = stream;
+    })
+    .catch((error) => {
+      console.error("Error al acceder a la cámara: ", error);
+    });
 }
-
 
 const startScanner = async () => {
-  startCamera()
+  startCamera();
   scan.value = true;
   codeReader.decodeFromVideoDevice(
     selectedDeviceId,
@@ -145,7 +145,6 @@ const startScanner = async () => {
     async (res, err) => {
       if (res) {
         resetScanner();
-        stopCamera();
         try {
           const { data } = await axios.get(`${searchLabel}${res.text}`, {
             headers: {
@@ -153,7 +152,7 @@ const startScanner = async () => {
             },
           });
           audioPlayer.play();
-          capturePhoto()
+          capturePhoto();
           barra.value = res.text;
           if (data.length === 0) {
             encontrado.value = true;
@@ -181,6 +180,7 @@ const startScanner = async () => {
 const resetScanner = () => {
   scan.value = false;
   codeReader.reset();
+  stopCamera();
 };
 
 const reestablecerFormulario = () => {
@@ -201,7 +201,7 @@ const agregarCintillos = async () => {
         : formatearDescriptionMinusculas(descripcion.value),
       cantidad: cantidad.value,
       precio: precio.value,
-      path: foto.value
+      path: foto.value,
     };
     const headers = {
       Authorization: "Bearer " + token.value,
@@ -260,15 +260,21 @@ watchEffect((onInvalidate) => {
 });
 
 function capturePhoto() {
-  const context = canvas.getContext('2d');
+  const context = canvas.getContext("2d");
   // Asegúrate de que el canvas tenga el mismo tamaño que el video
   canvas.width = videoFace.videoWidth;
   canvas.height = videoFace.videoHeight;
   // Dibuja la imagen actual del video en el canvas
-  context.drawImage(videoFace, 0, 0, videoFace.videoWidth, videoFace.videoHeight);
-  
-  const imageData = canvas.toDataURL('image/jpeg');
-  foto.value = imageData
+  context.drawImage(
+    videoFace,
+    0,
+    0,
+    videoFace.videoWidth,
+    videoFace.videoHeight
+  );
+
+  const imageData = canvas.toDataURL("image/jpeg");
+  foto.value = imageData;
 }
 </script>
 <template>
