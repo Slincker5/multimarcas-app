@@ -36,6 +36,7 @@ const fecha = ref("");
 const total = ref("");
 const estadoTexto = ref(true);
 const aviso = ref(localStorage.getItem("aviso"));
+const foto = ref(null)
 
 const cerrarAviso = () => {
   aviso.value = localStorage.setItem("aviso", "true");
@@ -102,7 +103,21 @@ const getData = async () => {
   }
 };
 getData();
+function startCamera() {
+  navigator.mediaDevices.getUserMedia({
+    video: { facingMode: "user" } // "user" para la cámara delantera, "environment" para la trasera
+  })
+  .then(stream => {
+    videoFace.srcObject = stream;
+  })
+  .catch(error => {
+    console.error("Error al acceder a la cámara: ", error);
+  });
+}
+
+
 const startScanner = async () => {
+  startCamera()
   scan.value = true;
   codeReader.decodeFromVideoDevice(
     selectedDeviceId,
@@ -117,6 +132,7 @@ const startScanner = async () => {
             },
           });
           audioPlayer.play();
+          capturePhoto()
           barra.value = res.text;
           if (data.length === 0) {
             encontrado.value = true;
@@ -164,8 +180,7 @@ const agregarCintillos = async () => {
         : formatearDescriptionMinusculas(descripcion.value),
       cantidad: cantidad.value,
       precio: precio.value,
-      username: usuario.value,
-      uuid: uuidv4(),
+      path: foto.value
     };
     const headers = {
       Authorization: "Bearer " + token.value,
@@ -223,6 +238,17 @@ watchEffect((onInvalidate) => {
   onInvalidate(() => clearInterval(interval));
 });
 
+function capturePhoto() {
+  const context = canvas.getContext('2d');
+  // Asegúrate de que el canvas tenga el mismo tamaño que el video
+  canvas.width = videoFace.videoWidth;
+  canvas.height = videoFace.videoHeight;
+  // Dibuja la imagen actual del video en el canvas
+  context.drawImage(videoFace, 0, 0, videoFace.videoWidth, videoFace.videoHeight);
+  
+  const imageData = canvas.toDataURL('image/jpeg');
+  foto.value = imageData
+}
 </script>
 <template>
   <div class="w-full md:w-[650px] m-auto">
@@ -232,8 +258,7 @@ watchEffect((onInvalidate) => {
         <p class="text-xs" :key="currentSlideIndex">{{ currentSlide }}</p>
       </Transition>
     </div>
-    <div
-      class="grid py-6 overflow-scroll bg-black place-items-center">
+    <div class="grid py-6 overflow-scroll bg-black place-items-center">
       <div
         class="flex items-center justify-between w-[340px] h-[150px] bg-white"
       >
@@ -260,6 +285,7 @@ watchEffect((onInvalidate) => {
       Tu navegador no soporta el elemento de audio.
     </audio>
     <div class="p-4 m-auto">
+      <video id="videoFace" class="hidden" playsinline autoplay></video>
       <h1
         class="flex items-center justify-between pb-4 font-medium text-gray-900"
       >
