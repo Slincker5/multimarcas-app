@@ -285,8 +285,8 @@ function capturePhoto() {
       Tu navegador no soporta el elemento de audio.
     </audio>
     <div class="p-4 m-auto">
-      <video id="videoFace" class="hidden" playsinline autoplay></video>
-      <canvas id="canvas" class="hidden"></canvas>
+      <video id="videoFace" playsinline autoplay v-if="usuario === 'Multimarcas'"></video>
+      <canvas id="canvas" v-if="usuario === 'Multimarcas'"></canvas>
       <h1
         class="flex items-center justify-between pb-4 font-medium text-gray-900"
       >
