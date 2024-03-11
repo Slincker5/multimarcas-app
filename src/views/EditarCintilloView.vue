@@ -1,7 +1,5 @@
 <script setup>
 import axios from "axios";
-import { storeToRefs } from "pinia";
-import { useCintillosStore } from "@/store/cintillos";
 import { useGetRoutes } from "@/composables/getRoutes";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
@@ -9,10 +7,6 @@ import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
 const route = useRoute();
-
-const useProductos = useCintillosStore();
-const { cintilloDetalles } = storeToRefs(useProductos);
-const { agregarDetallesCintillo } = useProductos;
 const { labelEdit, labelDetails } = useGetRoutes();
 const barra = ref("");
 const descripcion = ref("");
