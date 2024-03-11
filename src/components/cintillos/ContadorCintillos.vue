@@ -27,7 +27,7 @@ const avance = `w-[${porcentaje}%]`;
           to="/descargas"
           class="inline-flex items-center px-4 py-1 text-sm rounded-sm text-white bgcontador hover:bg-[#37474F] shadow-lg"
         >
-          Compartir {{ avance }}
+          Compartir
         </router-link>
       </div>
     </div>
