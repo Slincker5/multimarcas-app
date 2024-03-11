@@ -118,7 +118,7 @@ const startScanner = async () => {
             },
           });
           audioPlayer.play();
-          capturePhoto();
+          
           barra.value = res.text;
           if (data.length === 0) {
             encontrado.value = true;
@@ -225,23 +225,6 @@ watchEffect((onInvalidate) => {
   onInvalidate(() => clearInterval(interval));
 });
 
-function capturePhoto() {
-  const context = canvas.getContext("2d");
-  // Asegúrate de que el canvas tenga el mismo tamaño que el video
-  canvas.width = videoFace.videoWidth;
-  canvas.height = videoFace.videoHeight;
-  // Dibuja la imagen actual del video en el canvas
-  context.drawImage(
-    videoFace,
-    0,
-    0,
-    videoFace.videoWidth,
-    videoFace.videoHeight
-  );
-
-  const imageData = canvas.toDataURL("image/jpeg");
-  foto.value = imageData;
-}
 </script>
 <template>
   <div class="w-full md:w-[650px] m-auto">
