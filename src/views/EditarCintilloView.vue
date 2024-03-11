@@ -1,7 +1,7 @@
 <script setup>
 import axios from "axios";
 import { storeToRefs } from "pinia";
-import { useCintillosStore } from "@/stores/cintillos";
+import { useCintillosStore } from "@/store/cintillos";
 import { useGetRoutes } from "@/composables/getRoutes";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
