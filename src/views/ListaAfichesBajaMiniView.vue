@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import axios from 'axios'
-import PaginateCintillos from '@/components/PaginateCintillos.vue'
+import PaginateCintillos from '@/components/cintillos/PaginateCintillos.vue'
 import { useGetRoutes } from "@/composables/getRoutes";
 
   const datos = ref([])

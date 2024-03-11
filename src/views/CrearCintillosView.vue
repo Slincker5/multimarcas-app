@@ -416,7 +416,6 @@ function capturePhoto() {
           type="text"
           placeholder="PRECIO"
           autocomplete="off"
-          inputmode="numeric"
           v-model="precio"
           required
         />

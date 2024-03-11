@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import axios from 'axios'
-import PaginateCintillos from '@/components/PaginateCintillos.vue'
+import PaginateCintillos from '@/components/cintillos/PaginateCintillos.vue'
  import { useRouter } from 'vue-router'
 import { useGetRoutes } from "@/composables/getRoutes";
 import { toast } from "vue3-toastify";
