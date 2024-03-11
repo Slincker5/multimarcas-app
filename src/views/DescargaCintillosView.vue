@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import axios from 'axios'
  import { useRouter } from 'vue-router'
-import  { useCintillosCreados } from '@/stores/cintillosCreados'
+import  { useCintillosCreados } from '@/store/cintillosCreados'
 import { useGetRoutes } from "@/composables/getRoutes";
 
 const router = useRouter()
@@ -91,7 +91,7 @@ const abrirModalCorreos = () => {
     </div>
     <div class="p-4 border-b border-gray-400 border-dashed">
         <h1 class="mb-4 font-medium text-gray-800"><font-awesome-icon :icon="['fas', 'circle']" /> OPCION 2 (Enviar por correo)</h1>
-        <p class="py-4 pt-0 text-gray-800"><font-awesome-icon :icon="['fas', 'circle-info']" /> Con esta opcion podras enviar tus cintillos directamente al operador(computo), por el momento el envio por correo esta disponible para  <b class="font-extrabold text-black">71 SALAS</b>.</p>
+        <p class="py-4 pt-0 text-gray-800"><font-awesome-icon :icon="['fas', 'circle-info']" /> Con esta opcion podras enviar tus cintillos directamente al operador(computo), por el momento el envio por correo esta disponible para  <b class="font-extrabold text-black">77 SALAS</b>.</p>
         <router-link to="/enviar-cintillos" class="inline-flex items-center px-4 py-2 text-sm font-medium rounded text-white bg-[#2E3239] hover:bg-[#37474F] border border-solid border-[#303E46] shadow-lg"><font-awesome-icon :icon="['fas', 'envelope']" class="mr-2" /> Enviar por correo</router-link>
     </div>
 

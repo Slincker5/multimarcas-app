@@ -36,7 +36,6 @@ const fecha = ref("");
 const total = ref("");
 const estadoTexto = ref(true);
 const aviso = ref(localStorage.getItem("aviso"));
-const foto = ref(null);
 
 const cerrarAviso = () => {
   aviso.value = localStorage.setItem("aviso", "true");
@@ -104,39 +103,7 @@ const getData = async () => {
 };
 getData();
 
-let currentStream = null;
-function startCamera() {
-  if (currentStream) {
-    // Detener los tracks del stream actual antes de iniciar uno nuevo
-    currentStream.getTracks().forEach((track) => {
-      track.stop();
-    });
-  }
-  navigator.mediaDevices
-    .getUserMedia({
-      video: { facingMode: "user" }, // "user" para la cámara delantera, "environment" para la trasera
-    })
-    .then((stream) => {
-      currentStream = stream; // Guarda la referencia al stream
-      videoFace.srcObject = stream;
-    })
-    .catch((error) => {
-      console.error("Error al acceder a la cámara: ", error);
-    });
-}
-
-function stopCamera() {
-  if (currentStream) {
-    // Detiene todos los tracks del stream
-    currentStream.getTracks().forEach((track) => {
-      track.stop();
-    });
-    currentStream = null; // Limpia la referencia al stream después de detenerlo
-  }
-}
-
 const startScanner = async () => {
-  startCamera();
   scan.value = true;
   codeReader.decodeFromVideoDevice(
     selectedDeviceId,
@@ -179,9 +146,6 @@ const startScanner = async () => {
 const resetScanner = () => {
   scan.value = false;
   codeReader.reset();
-  setTimeout(() => {
-    stopCamera();
-  }, 3000);
 };
 
 const reestablecerFormulario = () => {
@@ -201,8 +165,7 @@ const agregarCintillos = async () => {
         ? formatearDescription(descripcion.value)
         : formatearDescriptionMinusculas(descripcion.value),
       cantidad: cantidad.value,
-      precio: precio.value,
-      path: foto.value,
+      precio: precio.value
     };
     const headers = {
       Authorization: "Bearer " + token.value,
@@ -227,7 +190,7 @@ const agregarCintillos = async () => {
         transition: toast.TRANSITIONS.ZOOM,
       });
     }
-    document.documentElement.scrollTop = 0; // Para navegadores diferentes a Firefox
+    document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
   } catch (error) {
     console.log(error);
@@ -242,7 +205,9 @@ const slides = [
   "Revisa que la descripcion no lleve factor de empaque.",
   "Recuerda mantener una descripcion bien redactada.",
   "Los precios de nuestra app son un aproximado a los actuales, revisa siempre que sean correctos.",
-  // Añade más textos según necesites
+  "Ahora tu puedes corregir como quieres que salga la impresion.",
+  "La previsualizacion tiene una precision del 90%",
+  "Puedes usar los saltos de linea para controlar donde aparece el texto."
 ];
 const currentSlideIndex = ref(0);
 
@@ -313,8 +278,6 @@ function capturePhoto() {
       Tu navegador no soporta el elemento de audio.
     </audio>
     <div class="p-4 m-auto">
-      <video id="videoFace" class="hidden" playsinline autoplay></video>
-      <canvas id="canvas" class="hidden"></canvas>
       <h1
         class="flex items-center justify-between pb-4 font-medium text-gray-900"
       >

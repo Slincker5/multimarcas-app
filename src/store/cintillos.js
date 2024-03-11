@@ -1,9 +1,10 @@
 import { ref } from "vue";
 import axios from "axios";
+import { defineStore } from "pinia";
 
-export const useGetData = () => {
+export const useCintilloStore = defineStore("cintillos", () => {
+  const listaCintillos = ref([]);
   const loading = ref(false);
-  const datos = ref([]);
 
   async function getData(url, token) {
     try {
@@ -16,7 +17,7 @@ export const useGetData = () => {
         headers,
       });
       const filtrar = filtrarDuplicados(data);
-      datos.value = filtrar;
+      listaCintillos.value = filtrar;
     } catch (error) {
       console.log(error);
     } finally {
@@ -34,9 +35,10 @@ export const useGetData = () => {
     return productoUnico;
   }
 
-  return {
-    getData,
-    datos,
-    loading,
-  };
-};
+  function eliminarCintillo (uuid){
+    const eliminarCintillo = listaCintillos.value.filter(producto => producto.uuid !== uuid);
+    listaCintillos.value = eliminarCintillo
+  }
+
+  return { listaCintillos, loading, getData, eliminarCintillo };
+});

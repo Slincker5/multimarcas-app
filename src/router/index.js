@@ -226,7 +226,7 @@ const router = createRouter({
     {
       path: "/descargas",
       name: "generar",
-      component: () => import("../views/DescargaCintillosView.vue"),
+      component: () => import("@/views/DescargaCintillosView.vue"),
       meta: {
         requiresAuth: true,
         title: "Generar Cintillos",

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch, onMounted } from "vue";
 import { storeToRefs } from "pinia";
-import { useBusquedasStore } from "@/stores/busquedas";
+import { useBusquedasStore } from "@/store/busquedas";
 import axios from "axios";
 import { BrowserMultiFormatReader, NotFoundException } from "@zxing/library";
 import { useGetRoutes } from "@/composables/getRoutes";

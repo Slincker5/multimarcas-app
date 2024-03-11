@@ -35,7 +35,6 @@ const obtenerEstadisticas = async () => {
     };
     const { data } = await axios.get(userStat, { headers });
     estadistica.value = data;
-    console.log(data);
   } catch (error) {
     const messageError = JSON.parse(error.request.response);
     if (messageError.status === "invalid") {
@@ -411,6 +410,7 @@ onMounted(() => {
   <div
     class="fixed top-0 left-0 z-40 flex items-center justify-center w-full h-full bg-black/80"
     v-if="
+      estadistica &&
       token &&
       estadistica.profile[0].suscripcion === 0 &&
       estadistica.profile[0].fin_suscripcion !== null
