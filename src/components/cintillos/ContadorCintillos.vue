@@ -19,7 +19,7 @@ const avance = `w-[${porcentaje}%]`;
           >
             {{ listaCintillos }} de 448 cintillos.
           </div>
-          <div class="h-4 rounded-full bgcontador" :class="`${avance}`"></div>
+          <div class="h-4 rounded-full bgcontador" :style="{ width: porcentaje + '%' }"></div>
         </div>
       </div>
       <div>
@@ -27,7 +27,7 @@ const avance = `w-[${porcentaje}%]`;
           to="/descargas"
           class="inline-flex items-center px-4 py-1 text-sm rounded-sm text-white bgcontador hover:bg-[#37474F] shadow-lg"
         >
-          Compartir
+          Compartir {{ avance }}
         </router-link>
       </div>
     </div>

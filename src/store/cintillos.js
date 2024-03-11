@@ -4,6 +4,7 @@ import { defineStore } from "pinia";
 
 export const useCintilloStore = defineStore("cintillos", () => {
   const listaCintillos = ref([]);
+  const listaCintillosReal = ref([]);
   const loading = ref(false);
 
   async function getData(url, token) {
@@ -18,6 +19,7 @@ export const useCintilloStore = defineStore("cintillos", () => {
       });
       const filtrar = filtrarDuplicados(data);
       listaCintillos.value = filtrar;
+      listaCintillosReal.value = data.length;
     } catch (error) {
       console.log(error);
     } finally {
@@ -35,10 +37,18 @@ export const useCintilloStore = defineStore("cintillos", () => {
     return productoUnico;
   }
 
-  function eliminarCintillo (uuid){
-    const eliminarCintillo = listaCintillos.value.filter(producto => producto.uuid !== uuid);
-    listaCintillos.value = eliminarCintillo
+  function eliminarCintillo(uuid) {
+    const eliminarCintillo = listaCintillos.value.filter(
+      (producto) => producto.uuid !== uuid
+    );
+    listaCintillos.value = eliminarCintillo;
   }
 
-  return { listaCintillos, loading, getData, eliminarCintillo };
+  return {
+    listaCintillos,
+    listaCintillosReal,
+    loading,
+    getData,
+    eliminarCintillo,
+  };
 });

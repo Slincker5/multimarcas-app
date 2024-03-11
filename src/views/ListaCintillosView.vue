@@ -20,7 +20,7 @@ const token = ref(localStorage.getItem("token"));
 
 const useCintillos = useCintilloStore();
 const { getData } = useCintillos;
-const { listaCintillos, loading } = storeToRefs(useCintillos);
+const { listaCintillos, listaCintillosReal, loading } = storeToRefs(useCintillos);
 
 const { labelList, labelRemove } = useGetRoutes();
 const { eliminar } = useRemoveLabel();
@@ -31,7 +31,7 @@ getData(labelList, token.value);
 <template>
   <div>
     <ContadorCintillos
-      :listaCintillos="listaCintillos.length"
+      :listaCintillos="listaCintillosReal"
       :loading="loading"
     ></ContadorCintillos>
 
