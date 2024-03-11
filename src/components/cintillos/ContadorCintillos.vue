@@ -5,7 +5,7 @@ const avance = `w-[${porcentaje}%]`;
 </script>
 <template>
   <div class="text-white bg-zinc-800" v-if="listaCintillos > 0">
-    <h3 class="p-4 pb-0 text-sm font-medium text-slate-200">
+    <h3 class="p-4 pb-2 text-sm font-medium text-slate-200">
       <font-awesome-icon :icon="['fas', 'gears']" beat-fade /> PROGRESO DE
       CINTILLOS:
     </h3>
