@@ -38,7 +38,6 @@ const updateToken = async () => {
 
 updateToken();
 
-
 const getGenerados = async () => {
   try {
     const headers = {
@@ -74,6 +73,7 @@ const cerrarModalTuto = () => {
 const reproducir = () => {
   videoTuto.play();
 };
+
 const obtenerEstadisticas = async () => {
   try {
     const headers = {
@@ -82,7 +82,9 @@ const obtenerEstadisticas = async () => {
     };
     const { data } = await axios.get(userStat, { headers });
     estadistica.value = data;
-    console.log(data);
+    const script = document.createElement("script");
+    script.src = "https://pagos.wompi.sv/js/wompi.pagos.js";
+    document.head.appendChild(script);
     const beamsClient = new Client({
       instanceId: "b963f891-0b89-4e01-84a8-698b97373219",
     });
@@ -116,16 +118,11 @@ async function copyToClipboard(text) {
     console.error("No se pudo copiar el texto:", err);
   }
 }
-onMounted(() => {
-  const script = document.createElement("script");
-  script.src = "https://pagos.wompi.sv/js/wompi.pagos.js";
-  document.head.appendChild(script);
-});
 
-const anuncioTmp = ref(localStorage.getItem("anuncioTmp"))
+const anuncioTmp = ref(localStorage.getItem("anuncioTmp"));
 const cerrarVentana = () => {
-  anuncioTmp.value = localStorage.setItem("anuncioTmp", "true")
-}
+  anuncioTmp.value = localStorage.setItem("anuncioTmp", "true");
+};
 </script>
 <template>
   <div>
@@ -239,9 +236,13 @@ const cerrarVentana = () => {
     <div
       class="flex items-stretch w-full gap-1 p-4 overflow-x-auto bg-gray-100 whitespace-nowrap acciones border-b border-solid border-[#ddd]"
     >
-
-    <router-link to="/crear-afiches-mini-descuentos" class="relative py-3 rounded-lg bg">
-        <span class="absolute top-0 right-0 inline-flex w-3 h-3 font-black rounded-full opacity-75 animate-ping bg-rose-700"></span>
+      <router-link
+        to="/crear-afiches-mini-descuentos"
+        class="relative py-3 rounded-lg bg"
+      >
+        <span
+          class="absolute top-0 right-0 inline-flex w-3 h-3 font-black rounded-full opacity-75 animate-ping bg-rose-700"
+        ></span>
         <div class="flex justify-center px-2 py-4">
           <img src="../../public/descuento.png" class="block w-[40px]" />
         </div>
@@ -296,13 +297,13 @@ const cerrarVentana = () => {
       </router-link>
 
       <router-link to="/acortador" class="relative py-3 rounded-lg bg">
-        <span class="absolute top-0 right-0 inline-flex w-3 h-3 font-black rounded-full opacity-75 animate-ping bg-rose-700"></span>
+        <span
+          class="absolute top-0 right-0 inline-flex w-3 h-3 font-black rounded-full opacity-75 animate-ping bg-rose-700"
+        ></span>
         <div class="flex justify-center px-2 py-4">
           <img src="../../public/http.png" class="block w-[40px]" />
         </div>
-        <span class="p-2 pt-0 text-xs font-medium text-black"
-          >Acortar URL</span
-        >
+        <span class="p-2 pt-0 text-xs font-medium text-black">Acortar URL</span>
       </router-link>
     </div>
     <div>
@@ -448,8 +449,8 @@ const cerrarVentana = () => {
         Nuevos Tipos de Afiches!
       </h3>
       <p class="py-4 text-sm text-center text-gray-500" v-if="estadistica">
-        Nos complace anunciarte que desde ahora ya estan habilitados la creacion de afiches con porcentaje.
-        
+        Nos complace anunciarte que desde ahora ya estan habilitados la creacion
+        de afiches con porcentaje.
       </p>
       <div class="py-4 pb-0 border-t border-dashed border-[#ddd]">
         <button
@@ -459,7 +460,6 @@ const cerrarVentana = () => {
           Cerrar ventana
         </button>
       </div>
-      
     </div>
   </div>
 </template>

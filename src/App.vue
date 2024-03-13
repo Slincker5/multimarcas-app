@@ -35,6 +35,9 @@ const obtenerEstadisticas = async () => {
     };
     const { data } = await axios.get(userStat, { headers });
     estadistica.value = data;
+    const script = document.createElement("script");
+    script.src = "https://pagos.wompi.sv/js/wompi.pagos.js";
+    document.head.appendChild(script);
   } catch (error) {
     const messageError = JSON.parse(error.request.response);
     if (messageError.status === "invalid") {

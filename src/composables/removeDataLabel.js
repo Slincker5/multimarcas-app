@@ -1,5 +1,4 @@
 import axios from "axios";
-import { storeToRefs } from "pinia";
 import { useCintilloStore } from "@/store/cintillos";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
