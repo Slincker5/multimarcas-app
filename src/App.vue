@@ -193,7 +193,7 @@ onMounted(() => {
                   ? estadistica.profile[0].nombre
                   : estadistica.profile[0].username
               "
-              class="w-[40px] rounded-full align-middle"
+              class="w-[40px] rounded-full align-middle object-cover"
             />
           </div>
         </div>
