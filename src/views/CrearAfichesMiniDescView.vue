@@ -3,6 +3,7 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 import { BrowserMultiFormatReader, NotFoundException } from "@zxing/library";
 import { useGetRoutes } from "@/composables/getRoutes";
+import CargandoFrom from "@/components/globales/CargandoForm.vue";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
@@ -190,6 +191,10 @@ const selectItem = (index) => {
       class="w-full col-start-1 bg-gray-100 md:px-8"
       @submit.prevent="agregarAfiches"
     >
+      <CargandoFrom
+        :enviando="enviando"
+        :textoCarga="' Agregando rotulos ..'"
+      ></CargandoFrom>
       <h3
         class="block p-4 pb-0 text-xs font-bold tracking-wide text-gray-700 uppercase"
       >
@@ -322,17 +327,13 @@ const selectItem = (index) => {
         ><font-awesome-icon :icon="['fas', 'arrow-left']" class="mr-1" /> VOLVER
         A EDITAR</a
       >
-      <div class="h-[300px] flex items-center justify-center text-white p-6 text-2xl">La previsualizacion aun no esta disponible para este tipo de afiches.. (proximamente)</div>
-      
+      <div
+        class="h-[300px] flex items-center justify-center text-white p-6 text-2xl"
+      >
+        La previsualizacion aun no esta disponible para este tipo de afiches..
+        (proximamente)
+      </div>
     </div>
-  </div>
-
-  <div
-    class="fixed w-full h-full flex items-center justify-center text-white bg-[#263238] p-4 text-xl top-0 left-0 z-50"
-    v-if="enviando"
-  >
-    <font-awesome-icon :icon="['fas', 'spinner']" class="fa-pulse" />
-    Agregando Rotulos...
   </div>
 </template>
 <style>

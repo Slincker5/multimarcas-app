@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import axios from "axios";
 import { useGetRoutes } from "@/composables/getRoutes";
+import CargandoFrom from "@/components/globales/CargandoForm.vue";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
@@ -134,7 +135,7 @@ const cerrarPreview = () => {
 };
 </script>
 <template>
-  <div class="grid grid-cols-1 lg:grid-cols-2">
+  <div class="grid grid-cols-1 md:grid-cols-2">
     <h1
       class="flex items-center justify-between col-span-1 p-4 pb-4 font-medium text-gray-900"
     >
@@ -142,7 +143,7 @@ const cerrarPreview = () => {
       <router-link to="/lista-afiches-baja-mini" active-class="underline"
         >Afiches
         <span
-          class="inline-flex items-center justify-center bg-[#A2B2EE] text-[#2E3239] text-xs font-medium rounded-full no-underline w-[20px] h-[20px]"
+          class="inline-flex items-center justify-center bg-rose-500 text-[#fff] text-xs font-semibold rounded-full no-underline w-[20px] h-[20px] shadow-sm shadow-rose-700"
           >{{ totalRotulos }}</span
         ></router-link
       >
@@ -152,6 +153,7 @@ const cerrarPreview = () => {
       class="w-full col-start-1 bg-gray-100 md:px-8"
       @submit.prevent="agregarAfiches"
     >
+    <CargandoFrom :enviando="enviando" :textoCarga="' Agregando rotulos ..'"></CargandoFrom>
       <div class="p-4">
         <label
           class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
@@ -264,7 +266,7 @@ const cerrarPreview = () => {
         ><font-awesome-icon :icon="['fas', 'arrow-left']" class="mr-1" /> VOLVER
         A EDITAR</a
       >
-      <div class="w-[90%] lg:w-[60%] mx-auto">
+      <div class="w-[90%] lg:w-[75%] mx-auto">
         <div class="bg-[#667362] flex items-center p-4 lg:p-6">
           <img
             src="../../public/logos.png"
@@ -273,22 +275,22 @@ const cerrarPreview = () => {
           />
           <div class="ml-6">
             <div class="text-white">
-              <span class="px-2 text-3xl font-extrabold lg:px-3 lg:text-4xl">P</span>
-              <span class="px-2 text-3xl font-extrabold lg:px-3 lg:text-4xl">R</span>
-              <span class="px-2 text-3xl font-extrabold lg:px-3 lg:text-4xl">E</span>
-              <span class="px-2 text-3xl font-extrabold lg:px-3 lg:text-4xl">C</span>
-              <span class="px-2 text-3xl font-extrabold lg:px-3 lg:text-4xl">I</span>
-              <span class="px-2 text-3xl font-extrabold lg:px-3 lg:text-4xl">O</span>
+              <span class="px-2 text-3xl font-extrabold tracking-tighter lg:px-2 lg:text-3xl">P</span>
+              <span class="px-2 text-3xl font-extrabold tracking-tighter lg:px-2 lg:text-3xl">R</span>
+              <span class="px-2 text-3xl font-extrabold tracking-tighter lg:px-2 lg:text-3xl">E</span>
+              <span class="px-2 text-3xl font-extrabold tracking-tighter lg:px-2 lg:text-3xl">C</span>
+              <span class="px-2 text-3xl font-extrabold tracking-tighter lg:px-2 lg:text-3xl">I</span>
+              <span class="px-2 text-3xl font-extrabold tracking-tighter lg:px-2 lg:text-3xl">O</span>
             </div>
             <div class="text-[#a5ac6f]">
-              <span class="px-1 text-2xl lg:px-2 lg:text-3xl">s</span>
-              <span class="px-1 text-2xl lg:px-2 lg:text-3xl">e</span>
-              <span class="px-1 text-2xl lg:px-2 lg:text-3xl">l</span>
-              <span class="px-1 text-2xl lg:px-2 lg:text-3xl">e</span>
-              <span class="px-1 text-2xl lg:px-2 lg:text-3xl">c</span>
-              <span class="px-1 text-2xl lg:px-2 lg:text-3xl">t</span>
-              <span class="px-1 text-2xl lg:px-2 lg:text-3xl">o</span>
-              <span class="px-1 text-2xl lg:px-2 lg:text-3xl">s</span>
+              <span class="px-1 text-3xl lg:px-1 lg:text-3xl">s</span>
+              <span class="px-1 text-3xl lg:px-1 lg:text-3xl">e</span>
+              <span class="px-1 text-3xl lg:px-1 lg:text-3xl">l</span>
+              <span class="px-1 text-3xl lg:px-1 lg:text-3xl">e</span>
+              <span class="px-1 text-3xl lg:px-1 lg:text-3xl">c</span>
+              <span class="px-1 text-3xl lg:px-1 lg:text-3xl">t</span>
+              <span class="px-1 text-3xl lg:px-1 lg:text-3xl">o</span>
+              <span class="px-1 text-3xl lg:px-1 lg:text-3xl">s</span>
             </div>
           </div>
         </div>
@@ -315,14 +317,6 @@ const cerrarPreview = () => {
         </div>
       </div>
     </div>
-  </div>
-
-  <div
-    class="fixed w-full h-full flex items-center justify-center text-white bg-[#263238] p-4 text-xl top-0 left-0 z-50"
-    v-if="enviando"
-  >
-    <font-awesome-icon :icon="['fas', 'spinner']" class="fa-pulse" />
-    Agregando Rotulos...
   </div>
 </template>
 <style>

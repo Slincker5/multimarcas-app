@@ -3,6 +3,7 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 import { BrowserMultiFormatReader, NotFoundException } from "@zxing/library";
 import { useGetRoutes } from "@/composables/getRoutes";
+import CargandoFrom from "@/components/globales/CargandoForm.vue";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
@@ -24,43 +25,43 @@ const handleInput = (event) => {
 };
 
 const formatearDescription = (description) => {
-    // Convierte todo el texto a mayúsculas para estandarizar el formato inicialmente.
-    description = description.toUpperCase();
+  // Convierte todo el texto a mayúsculas para estandarizar el formato inicialmente.
+  description = description.toUpperCase();
 
-    // Asegura espaciado entre números y unidades, incluyendo el manejo de "LITROS" y ahora "MG".
-    description = description.replace(
-      /(\d)(ML|MG|G|U|L|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|G\.|LB|GRS?\.?|UNI\.?|UN\.?|LITROS)/g,
-      "$1 $2"
-    );
+  // Asegura espaciado entre números y unidades, incluyendo el manejo de "LITROS" y ahora "MG".
+  description = description.replace(
+    /(\d)(ML|MG|G|U|L|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|G\.|LB|GRS?\.?|UNI\.?|UN\.?|LITROS)/g,
+    "$1 $2"
+  );
 
-    // Corrige el espaciado para casos especiales como texto adyacente directamente después de unidades.
-    description = description.replace(
-      /(\d)\s(ML|MG|G|U|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|G\.|LB|GRS?\.?|UNI\.?|UN\.?|LITROS)\s?([A-Z]+)/g,
-      "$1 $2 $3"
-    );
+  // Corrige el espaciado para casos especiales como texto adyacente directamente después de unidades.
+  description = description.replace(
+    /(\d)\s(ML|MG|G|U|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|G\.|LB|GRS?\.?|UNI\.?|UN\.?|LITROS)\s?([A-Z]+)/g,
+    "$1 $2 $3"
+  );
 
-    // Nuevo paso: Manejar las unidades sin número previo convirtiéndolas a minúsculas directamente.
-    description = description.replace(
-      /\b(ML|MG|G|U|L|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|LB|GRS?|UNI|UN|LITROS)\b/g,
-      (match) => match.toLowerCase()
-    );
+  // Nuevo paso: Manejar las unidades sin número previo convirtiéndolas a minúsculas directamente.
+  description = description.replace(
+    /\b(ML|MG|G|U|L|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|LB|GRS?|UNI|UN|LITROS)\b/g,
+    (match) => match.toLowerCase()
+  );
 
-    // Convierte las unidades a minúsculas para estandarización final, solo cuando siguen a un número para evitar afectar otras palabras.
-    description = description.replace(
-      /(\d)\s(ML|MG|G|U|L|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|LB|GRS?|UNI|UN|LITROS)\b/g,
-      (match, p1, p2) => {
-        switch (p2) {
-          case "LITROS":
-            return `${p1} L`;
-          case "MG":
-            return `${p1} mg`; // Convierte específicamente "MG" a "mg".
-          default:
-            return `${p1} ${p2.toLowerCase()}`;
-        }
+  // Convierte las unidades a minúsculas para estandarización final, solo cuando siguen a un número para evitar afectar otras palabras.
+  description = description.replace(
+    /(\d)\s(ML|MG|G|U|L|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|LB|GRS?|UNI|UN|LITROS)\b/g,
+    (match, p1, p2) => {
+      switch (p2) {
+        case "LITROS":
+          return `${p1} L`;
+        case "MG":
+          return `${p1} mg`; // Convierte específicamente "MG" a "mg".
+        default:
+          return `${p1} ${p2.toLowerCase()}`;
       }
-    );
+    }
+  );
 
-    return description;
+  return description;
 };
 const totalRotulos = ref("");
 const obtenerTotalRotulos = async () => {
@@ -239,7 +240,8 @@ const resetScanner = () => {
       </div>
     </div>
     <div class="p-4 bg-gray-200">
-      hemos agregado el escaner, recuerda verificar siempre mantener una descripcion valida.
+      hemos agregado el escaner, recuerda verificar siempre mantener una
+      descripcion valida.
     </div>
     <h1
       class="flex items-center justify-between col-span-1 p-4 pb-4 font-medium text-gray-900"
@@ -258,9 +260,11 @@ const resetScanner = () => {
       class="w-full col-start-1 bg-gray-100 md:px-8"
       @submit.prevent="agregarAfiches"
     >
+      <CargandoFrom
+        :enviando="enviando"
+        :textoCarga="' Agregando rotulos ..'"
+      ></CargandoFrom>
       <div class="p-4">
-
-
         <label
           class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
           for="barra"
@@ -423,7 +427,7 @@ const resetScanner = () => {
         ><font-awesome-icon :icon="['fas', 'arrow-left']" class="mr-1" /> VOLVER
         A EDITAR</a
       >
-      <div class="w-[90%] lg:w-[70%] mx-auto sm:sticky sm:top-[70px]">
+      <div class="w-[90%] lg:w-[85%] mx-auto sm:sticky sm:top-[70px]">
         <div class="bg-[#CEB16D] flex items-center justify-center pb-4">
           <div class="w-[85%] sm:w-[75%]">
             <div class="flex items-start justify-center w-full bg-[#9c564c]">
@@ -474,13 +478,5 @@ const resetScanner = () => {
         </div>
       </div>
     </div>
-  </div>
-
-  <div
-    class="fixed w-full h-full flex items-center justify-center text-white bg-[#263238] p-4 text-xl top-0 left-0 z-50"
-    v-if="enviando"
-  >
-    <font-awesome-icon :icon="['fas', 'spinner']" class="fa-pulse" />
-    Agregando Rotulos...
   </div>
 </template>

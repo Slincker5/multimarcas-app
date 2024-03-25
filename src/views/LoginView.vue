@@ -3,6 +3,7 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import CargandoFrom from "@/components/globales/CargandoForm.vue";
 import { useGetRoutes } from "@/composables/getRoutes";
 import { useRouter } from "vue-router";
 
@@ -112,12 +113,9 @@ onMounted(() => {
     }
   };
 });
-
 </script>
 <template>
-  <div
-    class="fixed grid w-full h-full grid-cols-1 grid-rows-3 bg-white menu md:static"
-  >
+  <div class="w-full row-start-1 row-end-1">
     <div class="relative w-full bg">
       <div
         class="md:flex md:items-center md:justify-center w-full md:h-[200px]"
@@ -126,6 +124,7 @@ onMounted(() => {
           <div class="flex items-center justify-between md:block">
             <h1
               class="py-6 pl-4 mb-0 text-lg text-center text-white md:pl-0 md:pb-0 md:mb-4 md:text-3xl logo md:pt-0"
+              style="font-family: Fjalla One"
             >
               MULTIMARCAS APP
             </h1>
@@ -186,11 +185,16 @@ onMounted(() => {
         </svg>
       </div>
     </div>
+
     <div class="grid grid-cols-1 bg-white md:grid-cols-3">
       <div class="col-span-2 p-0 md:p-8">
         <h3 class="p-4 font-medium md:pb-6">INICIAR SESION</h3>
 
         <form class="p-4 pt-0" @submit.prevent="loginDirect">
+          <CargandoFrom
+            :enviando="enviando"
+            :textoCarga="' Inciando sesion ..'"
+          ></CargandoFrom>
           <div
             class="flex items-center justify-between border border-solid border-[#ddd]"
           >
@@ -297,17 +301,6 @@ onMounted(() => {
     >
       MULTIMARCAS APP || 2024
     </footer>
-  </div>
-  <div
-    class="fixed w-full h-full bg-black/[.5] top-0 left-0 flex items-center justify-center z-50"
-    v-if="enviando"
-  >
-    <div
-      class="flex items-center justify-center text-white bg-[#263238] w-[90%] h-[60%] p-4 text-xl"
-    >
-      <font-awesome-icon :icon="['fas', 'spinner']" class="mr-2 fa-pulse" />
-      Iniciando sesion...
-    </div>
   </div>
 </template>
 

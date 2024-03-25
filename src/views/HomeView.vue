@@ -125,7 +125,7 @@ const cerrarVentana = () => {
 };
 </script>
 <template>
-  <div>
+  <div class="overflow-auto">
     <div
       class="fixed top-0 left-0 z-50 w-full h-full p-4 overflow-hidden transition-all bg-white"
       :class="`${modalTuto}`"
@@ -236,21 +236,6 @@ const cerrarVentana = () => {
     <div
       class="flex items-stretch w-full gap-1 p-4 overflow-x-auto bg-gray-100 whitespace-nowrap acciones border-b border-solid border-[#ddd]"
     >
-      <router-link
-        to="/crear-afiches-mini-descuentos"
-        class="relative py-3 rounded-lg bg"
-      >
-        <span
-          class="absolute top-0 right-0 inline-flex w-3 h-3 font-black rounded-full opacity-75 animate-ping bg-rose-700"
-        ></span>
-        <div class="flex justify-center px-2 py-4">
-          <img src="../../public/descuento.png" class="block w-[40px]" />
-        </div>
-        <span class="p-2 pt-0 text-xs font-medium text-black"
-          >Crear Afiches</span
-        >
-      </router-link>
-
       <router-link to="/buscador" class="py-3 rounded-lg bg">
         <div class="flex justify-center px-2 py-4">
           <img src="../../public/dairy-products.png" class="block w-[40px]" />
@@ -266,6 +251,21 @@ const cerrarVentana = () => {
         </div>
         <span class="p-2 pt-0 text-xs font-medium text-black"
           >Crear Cintillos</span
+        >
+      </router-link>
+
+      <router-link
+        to="/crear-afiches-mini-descuentos"
+        class="relative py-3 rounded-lg bg"
+      >
+        <span
+          class="absolute top-0 right-0 inline-flex w-3 h-3 font-black rounded-full opacity-75 animate-ping bg-rose-700"
+        ></span>
+        <div class="flex justify-center px-2 py-4">
+          <img src="../../public/descuento.png" class="block w-[40px]" />
+        </div>
+        <span class="p-2 pt-0 text-xs font-medium text-black"
+          >Crear Afiches</span
         >
       </router-link>
 
@@ -296,7 +296,7 @@ const cerrarVentana = () => {
         >
       </router-link>
 
-      <router-link to="/acortador" class="relative py-3 rounded-lg bg">
+      <router-link to="/acortador" class="relative hidden py-3 rounded-lg bg">
         <span
           class="absolute top-0 right-0 inline-flex w-3 h-3 font-black rounded-full opacity-75 animate-ping bg-rose-700"
         ></span>
@@ -362,70 +362,77 @@ const cerrarVentana = () => {
         </div>
       </div>
     </div>
-    <h3 class="p-4 font-medium">HISTORIAL CINTILLOS</h3>
+    <div>
+      <h3 class="p-4 font-medium">HISTORIAL CINTILLOS</h3>
 
-    <div
-      class="grid grid-cols-1 gap-1 p-4 sm:gap-2 sm:grid-cols-2 md:grid-cols-3"
-      v-if="generados.length > 0"
-    >
       <div
-        class="bg-white border border-solid border-[#ddd] mb-4"
-        v-for="generado in generados"
+        class="grid grid-cols-1 gap-1 p-4 sm:gap-2 sm:grid-cols-2 md:grid-cols-3"
+        v-if="generados.length > 0"
       >
-        <div class="p-4 text-sm font-medium text-neutral-700">
-          <img
-            src="../../public/excel.png"
-            class="w-[16px] inline-block align-middle"
-          />
-          {{ generado.path_name }}
-        </div>
-        <div class="border-t border-solid border-[#ddd] p-4">
-          <div class="overflow-hidden">
-            <b class="pr-1 text-sm font-medium">Enviado:</b
-            ><span class="text-sm text-gray-500" v-if="generado.email === null">
-              {{ generado.receptor }}</span
-            ><span class="text-sm text-gray-500" v-else>{{
-              generado.email
+        <div
+          class="bg-white border border-solid border-[#ddd] mb-4"
+          v-for="generado in generados"
+        >
+          <div class="p-4 text-sm font-medium text-neutral-700">
+            <img
+              src="../../public/excel.png"
+              class="w-[16px] inline-block align-middle"
+            />
+            {{ generado.path_name }}
+          </div>
+          <div class="border-t border-solid border-[#ddd] p-4">
+            <div class="overflow-hidden">
+              <b class="pr-1 text-sm font-medium">Enviado:</b
+              ><span
+                class="text-sm text-gray-500"
+                v-if="generado.email === null"
+              >
+                {{ generado.receptor }}</span
+              ><span class="text-sm text-gray-500" v-else>{{
+                generado.email
+              }}</span>
+            </div>
+          </div>
+          <div class="p-4 pt-0">
+            <div class="flex items-center justify-between">
+              <div>
+                <b class="pr-1 text-sm font-medium">Codigo ref:</b
+                ><span class="text-sm text-green-500">
+                  #{{ generado.code }}</span
+                >
+              </div>
+              <button
+                @click="copyToClipboard(generado.code)"
+                class="text-sm text-neutral-500"
+              >
+                <font-awesome-icon :icon="['fas', 'clipboard']" /> COPIAR
+              </button>
+            </div>
+          </div>
+          <div class="p-4 pt-0">
+            <b class="pr-1 text-sm font-medium">Generado:</b>
+            <span class="text-sm text-gray-500">{{
+              dayjs(generado.fecha).fromNow()
             }}</span>
           </div>
-        </div>
-        <div class="p-4 pt-0">
-          <div class="flex items-center justify-between">
-            <div>
-              <b class="pr-1 text-sm font-medium">Codigo ref:</b
-              ><span class="text-sm text-green-500"> #{{ generado.code }}</span>
-            </div>
-            <button
-              @click="copyToClipboard(generado.code)"
-              class="text-sm text-neutral-500"
+          <div class="p-4 border-t border-dashed border-[#ddd]">
+            <a
+              :href="`${url}/${generado.path}`"
+              download
+              class="block w-full px-4 py-2 text-xs font-medium leading-6 text-center text-black uppercase transition bg-gray-100 rounded shadow focus:bg-gray-300 hover:bg-gray-300 ripple hover:shadow-lg focus:outline-none"
             >
-              <font-awesome-icon :icon="['fas', 'clipboard']" /> COPIAR
-            </button>
+              DESCARGAR
+            </a>
           </div>
         </div>
-        <div class="p-4 pt-0">
-          <b class="pr-1 text-sm font-medium">Generado:</b>
-          <span class="text-sm text-gray-500">{{
-            dayjs(generado.fecha).fromNow()
-          }}</span>
-        </div>
-        <div class="p-4 border-t border-dashed border-[#ddd]">
-          <a
-            :href="`${url}/${generado.path}`"
-            download
-            class="block w-full px-4 py-2 text-xs font-medium leading-6 text-center text-black uppercase transition bg-gray-100 rounded shadow focus:bg-gray-300 hover:bg-gray-300 ripple hover:shadow-lg focus:outline-none"
-          >
-            DESCARGAR
-          </a>
-        </div>
       </div>
-    </div>
-    <div class="flex items-center justify-center p-4 h-52" v-else>
-      <div class="text-xl text-neutral-700">
-        <img
-          src="../../public/sad.gif"
-          class="w-[27px] inline-block align-middle"
-        />Esto parece un desierto.
+      <div class="flex items-center justify-center p-4 h-52" v-else>
+        <div class="text-xl text-neutral-700">
+          <img
+            src="../../public/sad.gif"
+            class="w-[27px] inline-block align-middle"
+          />Esto parece un desierto.
+        </div>
       </div>
     </div>
 
@@ -436,29 +443,32 @@ const cerrarVentana = () => {
       <font-awesome-icon :icon="['fas', 'spinner']" class="fa-pulse" />
       Creando Publicacion...
     </div>
-  </div>
-  <div
-    class="fixed top-0 left-0 z-30 flex items-center justify-center w-full h-full bg-black/80"
-    v-if="anuncioTmp === null"
-  >
+
     <div
-      class="bg-white w-[80%] py-6 px-4 max-w-screen-sm rounded-lg shadow-2xl"
+      class="fixed top-0 left-0 z-30 flex items-center justify-center w-full h-full bg-black/80"
+      v-if="anuncioTmp === null"
     >
-      <img src="../../public/celebrar.png" class="w-[30%] block m-auto" />
-      <h3 class="pt-4 font-medium text-center text-black uppercase text-nomal">
-        Nuevos Tipos de Afiches!
-      </h3>
-      <p class="py-4 text-sm text-center text-gray-500" v-if="estadistica">
-        Nos complace anunciarte que desde ahora ya estan habilitados la creacion
-        de afiches con porcentaje.
-      </p>
-      <div class="py-4 pb-0 border-t border-dashed border-[#ddd]">
-        <button
-          class="block px-6 py-2 mx-auto mb-4 text-sm text-center border border-solid rounded-sm shadow-lg border-neutral-700"
-          @click.prevent="cerrarVentana"
+      <div
+        class="bg-white w-[80%] py-6 px-4 max-w-screen-sm rounded-lg shadow-2xl"
+      >
+        <img src="../../public/celebrar.png" class="w-[30%] block m-auto" />
+        <h3
+          class="pt-4 font-medium text-center text-black uppercase text-nomal"
         >
-          Cerrar ventana
-        </button>
+          Nuevos Tipos de Afiches!
+        </h3>
+        <p class="py-4 text-sm text-center text-gray-500" v-if="estadistica">
+          Nos complace anunciarte que desde ahora ya estan habilitados la
+          creacion de afiches con porcentaje.
+        </p>
+        <div class="py-4 pb-0 border-t border-dashed border-[#ddd]">
+          <button
+            class="block px-6 py-2 mx-auto mb-4 text-sm text-center border border-solid rounded-sm shadow-lg border-neutral-700"
+            @click.prevent="cerrarVentana"
+          >
+            Cerrar ventana
+          </button>
+        </div>
       </div>
     </div>
   </div>

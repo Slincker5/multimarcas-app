@@ -29,9 +29,9 @@ const { inicio, fin, siguiente, anterior } = useBarPagination();
 getData(labelList, token.value);
 </script>
 <template>
-  <div>
+  <div class="overflow-y-scroll">
     <ContadorCintillos
-      :listaCintillos="listaCintillosReal"
+      :listaCintillos="listaCintillos.length"
       :loading="loading"
     ></ContadorCintillos>
 

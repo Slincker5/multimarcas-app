@@ -234,7 +234,7 @@ watchEffect((onInvalidate) => {
         <p class="text-xs" :key="currentSlideIndex">{{ currentSlide }}</p>
       </Transition>
     </div>
-    <div class="grid py-6 overflow-scroll bg-black place-items-center">
+    <div class="grid py-6 overflow-scroll bg-black place-items-center acciones">
       <div
         class="flex items-center justify-between w-[340px] h-[150px] bg-white"
       >
@@ -546,5 +546,9 @@ watchEffect((onInvalidate) => {
 
 .tipoFuente {
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.acciones::-webkit-scrollbar {
+  display: none; /* Oculta la barra de desplazamiento en navegadores WebKit (como Chrome/Safari) */
 }
 </style>

@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import axios from "axios";
 import { useGetRoutes } from "@/composables/getRoutes";
+import CargandoFrom from "@/components/globales/CargandoForm.vue";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
@@ -140,7 +141,7 @@ const cerrarPreview = () => {
 };
 </script>
 <template>
-  <div class="grid grid-cols-1 lg:grid-cols-2">
+  <div class="grid grid-cols-1 md:grid-cols-2">
     <h1
       class="flex items-center justify-between col-span-1 p-4 pb-4 font-medium text-gray-900"
     >
@@ -148,7 +149,7 @@ const cerrarPreview = () => {
       <router-link to="/afiches" active-class="underline"
         >Afiches
         <span
-          class="inline-flex items-center justify-center bg-[#A2B2EE] text-[#2E3239] text-xs font-medium rounded-full no-underline w-[20px] h-[20px]"
+          class="inline-flex items-center justify-center bg-rose-500 text-[#fff] text-xs font-semibold rounded-full no-underline w-[20px] h-[20px] shadow-sm shadow-rose-700"
           >{{ totalRotulos }}</span
         ></router-link
       >
@@ -158,6 +159,7 @@ const cerrarPreview = () => {
       class="w-full col-start-1 bg-gray-100 md:px-8"
       @submit.prevent="agregarAfiches"
     >
+    <CargandoFrom :enviando="enviando" :textoCarga="' Agregando rotulos ..'"></CargandoFrom>
       <div class="p-4">
         <label
           class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
@@ -320,7 +322,7 @@ const cerrarPreview = () => {
         ><font-awesome-icon :icon="['fas', 'arrow-left']" class="mr-1" /> VOLVER
         A EDITAR</a
       >
-      <div class="w-[90%] lg:w-[70%] mx-auto">
+      <div class="w-[90%] lg:w-[85%] mx-auto">
         <div class="bg-[#c49f51] flex items-center justify-center pb-4">
           <div class="w-[85%] sm:w-[75%]">
             <div class="flex items-start justify-center w-full bg-[#9c564c]">
@@ -374,14 +376,6 @@ const cerrarPreview = () => {
       </div>
     </div>
   </div>
-
-  <div
-      class="fixed w-full h-full flex items-center justify-center text-white bg-[#263238] p-4 text-xl top-0 left-0 z-50"
-      v-if="enviando"
-    >
-      <font-awesome-icon :icon="['fas', 'spinner']" class="fa-pulse" />
-      Agregando Rotulos...
-    </div>
 </template>
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Caveat+Brush&display=swap");
