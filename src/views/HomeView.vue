@@ -258,9 +258,6 @@ const cerrarVentana = () => {
         to="/crear-afiches-mini-descuentos"
         class="relative py-3 rounded-lg bg"
       >
-        <span
-          class="absolute top-0 right-0 inline-flex w-3 h-3 font-black rounded-full opacity-75 animate-ping bg-rose-700"
-        ></span>
         <div class="flex justify-center px-2 py-4">
           <img src="../../public/descuento.png" class="block w-[40px]" />
         </div>

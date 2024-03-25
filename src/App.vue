@@ -11,6 +11,7 @@ import CanjearCupon from "@/components/menu/CanjearCupon.vue";
 import FinSuscripcion from "@/components/menu/FinSuscripcion.vue";
 import CrearCupon from "@/components/menu/CrearCupon.vue";
 import { useNavBarMain } from "@/composables/navBarMain";
+import CargarFoto from "@/components/menu/CargarFoto.vue";
 import { useGetRoutes } from "@/composables/getRoutes";
 import { useFooterStore } from "@/store/useFooterStore";
 import axios from "axios";
@@ -54,7 +55,14 @@ const footerStore = useFooterStore();
 const { isFooterVisible } = storeToRefs(footerStore);
 const { showFooter, hideFooter } = footerStore;
 const route = useRoute();
+const modal = ref('hidden')
 
+const abrirModal = () => {
+  modal.value = "block"
+}
+const cerrarModal = () => {
+  modal.value = 'hidden'
+}
 watch(
   () => route.path,
   (newPath) => {
@@ -90,6 +98,7 @@ if (token.value !== null) getUserData(userStat);
       @openCupon="openCupon"
       @openCrearCupon="openCrearCupon"
       @closeMenu="closeMenu"
+      @cambiarFoto="abrirModal"
       @logout="logout"
       style="
         grid-row-start: 1;
@@ -147,6 +156,7 @@ if (token.value !== null) getUserData(userStat);
     "
     @openCupon="openCupon"
   ></FinSuscripcion>
+  <CargarFoto v-if="userData" :modal="modal" @cerrarModal="cerrarModal"></CargarFoto>
 </template>
 <style>
 .bgheader {

@@ -1,6 +1,12 @@
 <script setup>
 defineProps(["userNoPhoto", "options", "userData", "finallySub"]);
-const emit = defineEmits(["openCupon", "openCrearCupon", "closeMenu", "logout"]);
+const emit = defineEmits([
+  "openCupon",
+  "openCrearCupon",
+  "closeMenu",
+  "cambbiarFoto",
+  "logout",
+]);
 </script>
 <template>
   <div
@@ -13,9 +19,10 @@ const emit = defineEmits(["openCupon", "openCrearCupon", "closeMenu", "logout"])
       v-if="userData"
     >
       <div
-        class="p-4 md:p-6 py-3 pl-5 border-b border-solid border-[#ddd]/50 flex items-center bg-gray-100"
+        class="p-4 md:p-6 py-3 pl-5 border-b border-solid border-[#ddd]/50 flex items-center justify-between bg-gray-100"
       >
-        <div class="w-[40px] h-[40px] md:w-[50px] md:h-[50px]">
+        <div class="flex items-center">
+          <div class="w-[40px] h-[40px] md:w-[50px] md:h-[50px]">
             <img
               :src="
                 userData.profile[0].photo !== null
@@ -29,22 +36,30 @@ const emit = defineEmits(["openCupon", "openCrearCupon", "closeMenu", "logout"])
               "
               class="object-cover w-full h-full align-middle rounded-full"
             />
+          </div>
+          <div
+            class="flex items-center pl-2 text-sm font-medium text-gray-900"
+            v-if="userData"
+          >
+            {{
+              userData.profile[0].username === null
+                ? userData.profile[0].nombre +
+                  " " +
+                  userData.profile[0].apellido
+                : userData.profile[0].username
+            }}<span v-if="userData.profile[0].suscripcion === 1"
+              ><img
+                src="../../../public/vip.png"
+                alt="premiun"
+                class="w-[9px] mb-4 inline-block shadow-lg shadow-yellow-500"
+            /></span>
+          </div>
         </div>
-        <div
-          class="flex items-center pl-2 text-sm font-medium text-gray-900"
-          v-if="userData"
-        >
-          {{
-            userData.profile[0].username === null
-              ? userData.profile[0].nombre + " " + userData.profile[0].apellido
-              : userData.profile[0].username
-          }}<span v-if="userData.profile[0].suscripcion === 1"
-            ><img
-              src="../../../public/vip.png"
-              alt="premiun"
-              class="w-[9px] mb-4 inline-block shadow-lg shadow-yellow-500"
-          /></span>
-        </div>
+        <button class="relative" @click="emit('cambiarFoto')"><span
+          class="absolute top-[15px] right-[15px] inline-flex w-2 h-2 font-black rounded-full opacity-75 animate-ping bg-rose-700"
+        ></span>
+          <font-awesome-icon :icon="['fas', 'user-pen']" class="p-4 text-gray-600 cursor-pointer"/>
+        </button>
       </div>
       <div class="px-4 py-4 pl-5 text-sm text-gray-600">
         Tipo de cuenta:

@@ -23,10 +23,12 @@ const emit = defineEmits(["openMenu"])
           <font-awesome-icon :icon="['fas', 'bell']" />
         </button>
         <button
-          class="pl-4 pr-2 md:hidden"
+          class="relative pl-4 pr-2 md:hidden"
           active-class="underline"
           @click="$emit('openMenu')"
-        >
+        ><span
+          class="absolute top-0 right-0 inline-flex w-2 h-2 font-black rounded-full opacity-75 animate-ping bg-rose-700"
+        ></span>
           <font-awesome-icon :icon="['fas', 'bars']" />
         </button>
       </nav>
