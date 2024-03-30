@@ -437,14 +437,14 @@ const resetScanner = () => {
                 class="block w-[25px]"
               />
             </div>
-            <div class="relative w-full bg-[#9c564c] pt-2 pb-7">
+            <div class="relative w-full bg-[#9c564c] px-4 pt-2 pb-7">
               <h2
                 class="block w-full text-3xl font-black text-center text-white"
               >
                 SÚPER
               </h2>
               <div
-                class="absolute px-10 py-2 bottom-[-35px] inline logo bg-[#c08256] text-5xl text-[#9c564c] tracking-widest"
+                class="absolute left-1/2 transform -translate-x-1/2 px-8 py-2 bottom-[-35px] inline oferta bg-[#c08256] text-4xl text-[#9c564c] tracking-widest"
               >
                 OFERTA
               </div>
@@ -480,3 +480,14 @@ const resetScanner = () => {
     </div>
   </div>
 </template>
+<style>
+@font-face {
+    font-family: 'oferta';
+    src: url('../../public/oferta.ttf') format('truetype');
+}
+
+.oferta {
+    font-family: 'oferta', sans-serif;
+}
+
+</style>

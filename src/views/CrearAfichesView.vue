@@ -339,7 +339,7 @@ const cerrarPreview = () => {
                 SÚPER
               </h2>
               <div
-                class="absolute px-10 py-2 bottom-[-35px] inline logo bg-[#c08256] text-5xl text-[#9c564c] tracking-widest"
+                class="absolute left-1/2 transform -translate-x-1/2 px-10 md:px-14 py-2 bottom-[-35px] inline oferta bg-[#c08256] text-4xl text-[#9c564c] tracking-widest"
               >
                 OFERTA
               </div>
@@ -378,11 +378,12 @@ const cerrarPreview = () => {
   </div>
 </template>
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Caveat+Brush&display=swap");
-.logo {
-  font-family: "Caveat Brush", cursive;
+@font-face {
+    font-family: 'oferta';
+    src: url('../../public/oferta.ttf') format('truetype');
+}
 
-  left: 50%;
-  transform: translateX(-50%);
+.oferta {
+    font-family: 'oferta', sans-serif;
 }
 </style>
