@@ -14,19 +14,61 @@ getData(route.params.path_uuid);
 </script>
 
 <template>
-  <div>
-    <div class="flex items-center justify-between gap-4 p-2 border-b border-dashed border-[#ddd]">
-      <div class="p-4 bg-green-200 rounded-full shadow-lg shadow-black/20">
+  <div class="grid grid-cols-1">
+    <div
+      class="flex items-center justify-between gap-4 p-2 border-b border-dashed border-[#ddd]"
+    >
+      <div
+        class="p-4 bg-green-100 border border-green-200 border-solid rounded-full shadow-lg shadow-black/20"
+      >
         <img src="../../public/excel.svg" class="w-[40px]" />
       </div>
       <div class="flex-1 overflow-hidden font-medium text-ellipsis-container">
-         {{ etiquetas.detalles[0].path_name }}
+        {{ etiquetas.detalles[0].path_name }}
       </div>
     </div>
-    <div class="p-4">
-        <div class="pb-4 text-sm"><b class="font-medium">Codigo de referencia: </b> #{{ etiquetas.detalles[0].code }}</div>
-        <div class="pb-4 text-sm"><b class="font-medium">Comentario:</b> {{ etiquetas.detalles[0].comentario }}</div>
-        <div class="pb-0 text-sm"><b class="font-medium">Generado:</b> {{ dayjs(etiquetas.detalles[0].fecha).fromNow() }}</div>
+    <div class="flex items-center w-full gap-2 p-4 overflow-hidden overflow-x-auto whitespace-nowrap eliminarBarraScroll">
+      <div
+        class="inline-flex items-center px-3 py-1 text-xs text-gray-800 bg-gray-200 border-gray-300 border-solid rounded-md"
+      >
+        <font-awesome-icon :icon="['fas', 'at']" class="pr-1" />{{
+          etiquetas.detalles[0].receptor === null
+            ? etiquetas.detalles[0].email
+            : etiquetas.detalles[0].receptor
+        }}
+      </div>
+      <div
+        class="inline-flex items-center px-3 py-1 text-xs text-gray-800 uppercase bg-gray-200 border border-gray-300 border-solid rounded-md"
+      >
+        <font-awesome-icon
+          :icon="
+            etiquetas.total[0].total <= 1 ? ['fas', 'tag'] : ['fas', 'tags']
+          "
+          class="pr-1"
+        />{{
+          etiquetas.total[0].total <= 1
+            ? `${etiquetas.total[0].total} cintillo`
+            : `${etiquetas.total[0].total} cintillos`
+        }}
+      </div>
+      <div class="inline-flex items-center px-3 py-1 text-xs text-gray-800 uppercase bg-gray-200 border-gray-300 border-solid rounded-md">
+        <font-awesome-icon :icon="['fas', 'calendar']" class="pr-2" /> {{ dayjs(etiquetas.detalles[0].fecha).fromNow() }}
+      </div>
+    </div>
+    <div class="p-4 pt-0">
+      <div class="pb-2 text-sm">
+        <b class="font-medium">Codigo de referencia: </b> #{{
+          etiquetas.detalles[0].code
+        }}
+      </div>
+      <div class="pb-2 text-sm">
+        <b class="font-medium">Comentario:</b>
+        {{ etiquetas.detalles[0].comentario }}
+      </div>
+      <div class="pb-0 text-sm">
+        <b class="font-medium">Generado:</b>
+        {{ dayjs(etiquetas.detalles[0].fecha).fromNow() }}
+      </div>
     </div>
 
     <ListaCintillos
@@ -51,5 +93,7 @@ getData(route.params.path_uuid);
   overflow: hidden; /* Oculta el texto que excede el contenedor */
   text-overflow: ellipsis; /* Añade puntos suspensivos al final del texto visible */
 }
-
+.eliminarBarraScroll::-webkit-scrollbar {
+  display: none;
+}
 </style>
