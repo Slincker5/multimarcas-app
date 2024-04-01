@@ -15,13 +15,18 @@ getData(route.params.path_uuid);
 
 <template>
   <div>
-    <div class="flex items-center justify-between">
-      <div class="p-4 bg-green-200 rounded-full">
-        <img src="../../public/excel.svg" class="w-[50px]" />
+    <div class="flex items-center justify-between gap-4 p-2 border-b border-dashed border-[#ddd]">
+      <div class="p-4 bg-green-200 rounded-full shadow-lg shadow-black/20">
+        <img src="../../public/excel.svg" class="w-[40px]" />
       </div>
-      <div class="flex-1 overflow-hidden text-ellipsis-container">
+      <div class="flex-1 overflow-hidden font-medium text-ellipsis-container">
          {{ etiquetas.detalles[0].path_name }}
       </div>
+    </div>
+    <div class="p-4">
+        <div class="pb-4 text-sm"><b class="font-medium">Codigo de referencia: </b> #{{ etiquetas.detalles[0].code }}</div>
+        <div class="pb-4 text-sm"><b class="font-medium">Comentario:</b> {{ etiquetas.detalles[0].comentario }}</div>
+        <div class="pb-0 text-sm"><b class="font-medium">Generado:</b> {{ dayjs(etiquetas.detalles[0].fecha).fromNow() }}</div>
     </div>
 
     <ListaCintillos
