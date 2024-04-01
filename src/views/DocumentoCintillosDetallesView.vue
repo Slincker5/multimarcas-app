@@ -27,7 +27,7 @@ getData(route.params.path_uuid);
         {{ etiquetas.detalles[0].path_name }}
       </div>
     </div>
-    <div class="flex items-center w-full gap-2 p-4 overflow-hidden overflow-x-auto whitespace-nowrap eliminarBarraScroll">
+    <div class="flex items-center w-full px-4 overflow-hidden overflow-x-auto gap-x-2 whitespace-nowrap eliminarBarraScroll">
       <div
         class="inline-flex items-center px-3 py-1 text-sm text-gray-800 bg-gray-200 border-gray-300 border-solid rounded-md"
       >
