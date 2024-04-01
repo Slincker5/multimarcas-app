@@ -16,7 +16,7 @@ getData(route.params.path_uuid);
 <template>
   <div class="grid grid-cols-1">
     <div
-      class="flex items-center justify-between gap-4 p-2 border-b border-dashed border-[#ddd]"
+      class="flex items-center justify-between gap-4 pb-0 p-2 border-b border-dashed border-[#ddd]"
     >
       <div
         class="p-4 bg-green-100 border border-green-200 border-solid rounded-full shadow-lg shadow-black/20"
@@ -29,16 +29,16 @@ getData(route.params.path_uuid);
     </div>
     <div class="flex items-center w-full gap-2 p-4 overflow-hidden overflow-x-auto whitespace-nowrap eliminarBarraScroll">
       <div
-        class="inline-flex items-center px-3 py-1 text-xs text-gray-800 bg-gray-200 border-gray-300 border-solid rounded-md"
+        class="inline-flex items-center px-3 py-1 text-sm text-gray-800 bg-gray-200 border-gray-300 border-solid rounded-md"
       >
         <font-awesome-icon :icon="['fas', 'at']" class="pr-1" />{{
-          etiquetas.detalles[0].receptor === null
+          etiquetas.detalles[0].receptor === 'Desconocido'
             ? etiquetas.detalles[0].email
             : etiquetas.detalles[0].receptor
         }}
       </div>
       <div
-        class="inline-flex items-center px-3 py-1 text-xs text-gray-800 uppercase bg-gray-200 border border-gray-300 border-solid rounded-md"
+        class="inline-flex items-center px-3 py-1 text-sm text-gray-800 uppercase bg-gray-200 border border-gray-300 border-solid rounded-md"
       >
         <font-awesome-icon
           :icon="
@@ -51,7 +51,7 @@ getData(route.params.path_uuid);
             : `${etiquetas.total[0].total} cintillos`
         }}
       </div>
-      <div class="inline-flex items-center px-3 py-1 text-xs text-gray-800 uppercase bg-gray-200 border-gray-300 border-solid rounded-md">
+      <div class="inline-flex items-center px-3 py-1 text-sm text-gray-800 uppercase bg-gray-200 border-gray-300 border-solid rounded-md">
         <font-awesome-icon :icon="['fas', 'calendar']" class="pr-2" /> {{ dayjs(etiquetas.detalles[0].fecha).fromNow() }}
       </div>
     </div>
