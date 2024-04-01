@@ -14,7 +14,7 @@ getData(route.params.path_uuid);
 </script>
 
 <template>
-  <div class="grid">
+  <div class="grid grid-cols-1">
     <div>
       <div
         class="flex items-center justify-between gap-4 p-2 border-b border-dashed border-[#ddd]"
