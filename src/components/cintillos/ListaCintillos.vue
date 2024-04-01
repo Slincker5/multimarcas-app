@@ -25,7 +25,6 @@ const emit = defineEmits(["eliminar"]);
     </div>
     <div class="flex p-4 pt-0">
       <router-link
-        v-if="mostrar"
         :to="`/editar/${uuid}`"
         class="flex items-center mr-2 text-sm font-medium text-blue-600 underline uppercase"
       >
