@@ -52,6 +52,7 @@ getData(labelList, token.value);
       :loading="loading"
       :urlRemoveLabel="labelRemove"
       :token="token"
+      :mostrar="true"
       @eliminar="eliminar"
     ></ListaCintillos>
 

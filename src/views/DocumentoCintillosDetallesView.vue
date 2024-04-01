@@ -1,7 +1,9 @@
 <script setup>
 import { useRoute } from "vue-router";
+import { useBarPagination } from "@/composables/barPagination";
 import { useDocumentLabel } from "@/composables/methodLabelDocument";
 import ListaCintillos from "@/components/cintillos/ListaCintillos.vue";
+import PaginateCintillos from "@/components/cintillos/PaginateCintillos.vue";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -10,6 +12,7 @@ dayjs.extend(relativeTime);
 
 const route = useRoute();
 const { etiquetas, getData } = useDocumentLabel();
+const { inicio, fin, siguiente, anterior } = useBarPagination();
 getData(route.params.path_uuid);
 const resend = () => {
     alert("Esta funcion estara proximamente disponible..")
@@ -105,8 +108,18 @@ const resend = () => {
         :loading="loading"
         :urlRemoveLabel="labelRemove"
         :token="token"
+        :mostrar="false"
         @eliminar="eliminar"
       ></ListaCintillos>
+
+      <PaginateCintillos
+      v-if="etiquetas.cintillos.length >= 7"
+      :inicio="inicio"
+      :fin="fin"
+      :maxLength="etiquetas.cintillos.length"
+      @siguiente="siguiente"
+      @anterior="anterior"
+    ></PaginateCintillos>
     </div>
   </div>
 </template>

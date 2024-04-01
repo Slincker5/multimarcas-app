@@ -6,7 +6,8 @@ defineProps([
   "cantidad",
   "fecha",
   "urlRemoveLabel",
-  "token"
+  "token",
+  "mostrar",
 ]);
 const emit = defineEmits(["eliminar"]);
 </script>
@@ -15,6 +16,7 @@ const emit = defineEmits(["eliminar"]);
     <div class="flex items-start justify-between p-4">
       <span class="flex-[1]">{{ descripcion }}</span>
       <button
+        v-if="mostrar"
         class="text-gray-900"
         @click="emit('eliminar', urlRemoveLabel, uuid, token)"
       >
@@ -23,6 +25,7 @@ const emit = defineEmits(["eliminar"]);
     </div>
     <div class="flex p-4 pt-0">
       <router-link
+        v-if="mostrar"
         :to="`/editar/${uuid}`"
         class="flex items-center mr-2 text-sm font-medium text-blue-600 underline uppercase"
       >
