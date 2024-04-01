@@ -14,7 +14,7 @@ getData(route.params.path_uuid);
 </script>
 
 <template>
-  <div class="grid grid-cols-1">
+  <div class="grid">
     <div
       class="flex items-center justify-between gap-4 pb-0 p-2 border-b border-dashed border-[#ddd]"
     >
@@ -27,9 +27,9 @@ getData(route.params.path_uuid);
         {{ etiquetas.detalles[0].path_name }}
       </div>
     </div>
-    <div class="flex items-center w-full px-4 overflow-hidden overflow-x-auto gap-x-2 whitespace-nowrap eliminarBarraScroll">
+    <div class="flex items-center w-full p-4 overflow-hidden overflow-x-auto gap-x-2 whitespace-nowrap eliminarBarraScroll">
       <div
-        class="inline-flex items-center px-3 py-1 text-sm text-gray-800 bg-gray-200 border-gray-300 border-solid rounded-md"
+        class="inline-flex items-center px-3 py-1 text-sm text-gray-800 bg-gray-200 rounded-md"
       >
         <font-awesome-icon :icon="['fas', 'at']" class="pr-1" />{{
           etiquetas.detalles[0].receptor === 'Desconocido'
@@ -38,7 +38,7 @@ getData(route.params.path_uuid);
         }}
       </div>
       <div
-        class="inline-flex items-center px-3 py-1 text-sm text-gray-800 uppercase bg-gray-200 border border-gray-300 border-solid rounded-md"
+        class="inline-flex items-center px-3 py-1 text-sm text-gray-800 uppercase bg-gray-200 border rounded-md"
       >
         <font-awesome-icon
           :icon="
@@ -51,7 +51,7 @@ getData(route.params.path_uuid);
             : `${etiquetas.total[0].total} cintillos`
         }}
       </div>
-      <div class="inline-flex items-center px-3 py-1 text-sm text-gray-800 uppercase bg-gray-200 border-gray-300 border-solid rounded-md">
+      <div class="inline-flex items-center px-3 py-1 text-sm text-gray-800 uppercase bg-gray-200 rounded-md">
         <font-awesome-icon :icon="['fas', 'calendar']" class="pr-2" /> {{ dayjs(etiquetas.detalles[0].fecha).fromNow() }}
       </div>
     </div>
