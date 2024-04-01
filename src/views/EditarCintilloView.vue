@@ -60,7 +60,8 @@ const guardarDatos = async () => {
 };
 </script>
 <template>
-  <h1 class="flex justify-between p-4 font-bold text-gray-800 align-items">
+  <div>
+    <h1 class="flex justify-between p-4 font-bold text-gray-800 align-items">
     <router-link to="/cintillos"
       ><font-awesome-icon :icon="['fas', 'chevron-left']" /> VOLVER</router-link
     >
@@ -139,4 +140,6 @@ const guardarDatos = async () => {
       />
     </form>
   </div>
+  </div>
+  
 </template>

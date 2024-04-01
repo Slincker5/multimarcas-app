@@ -367,7 +367,7 @@ const cerrarVentana = () => {
         v-if="generados.length > 0"
       >
         <div
-          class="bg-white border border-solid border-[#ddd] mb-4"
+          class="mb-4 bg-white"
           v-for="generado in generados"
         >
           <div class="p-4 text-sm font-medium text-neutral-700">
@@ -377,7 +377,7 @@ const cerrarVentana = () => {
             />
             {{ generado.path_name }}
           </div>
-          <div class="border-t border-solid border-[#ddd] p-4">
+          <div class="p-4 pt-0">
             <div class="overflow-hidden">
               <b class="pr-1 text-sm font-medium">Enviado:</b
               ><span
@@ -412,7 +412,13 @@ const cerrarVentana = () => {
               dayjs(generado.fecha).fromNow()
             }}</span>
           </div>
-          <div class="p-4 border-t border-dashed border-[#ddd]">
+          <div class="p-4 border-t border-dashed border-[#ddd] flex items-center justify-between gap-4">
+            <router-link
+              :to="`cintillo/${generado.path_uuid}`"
+              class="block w-full px-4 py-2 text-xs font-medium leading-6 text-center text-black uppercase transition bg-gray-100 rounded shadow focus:bg-gray-300 hover:bg-gray-300 ripple hover:shadow-lg focus:outline-none"
+            >
+              Ver detalles
+            </router-link>
             <a
               :href="`${url}/${generado.path}`"
               download

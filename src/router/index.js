@@ -70,6 +70,15 @@ const router = createRouter({
       },
     },
     {
+      path: "/cintillo/:path_uuid",
+      name: "cintillo",
+      component: () => import("@/views/DocumentoCintillosDetallesView.vue"),
+      meta: {
+        requiresAuth: true,
+        title: "Lista de Cintillos",
+      },
+    },
+    {
       path: "/crear-afiches",
       name: "crearafiches",
       component: () => import("../views/CrearAfichesView.vue"),
