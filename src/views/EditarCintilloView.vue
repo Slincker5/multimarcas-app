@@ -24,15 +24,15 @@ const traerDetallesCintillo = async () => {
       headers,
     });
     console.log(data);
-    agregarDetallesCintillo(data);
-    barra.value = cintilloDetalles.value[0].barra;
-    descripcion.value = cintilloDetalles.value[0].descripcion;
-    precio.value = cintilloDetalles.value[0].precio;
-    autor.value = cintilloDetalles.value[0].autor;
+    barra.value = data[0].barra;
+    descripcion.value = data[0].descripcion;
+    precio.value = data[0].precio;
+    autor.value = data[0].autor;
   } catch (error) {
     console.log(error);
   }
 };
+
 traerDetallesCintillo();
 
 const guardarDatos = async () => {
