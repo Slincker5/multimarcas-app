@@ -367,7 +367,7 @@ const cerrarVentana = () => {
         v-if="generados.length > 0"
       >
         <div
-          class="mb-4 bg-white"
+          class="bg-white border border-solid border-[#ddd] mb-4"
           v-for="generado in generados"
         >
           <div class="p-4 text-sm font-medium text-neutral-700">
@@ -377,7 +377,7 @@ const cerrarVentana = () => {
             />
             {{ generado.path_name }}
           </div>
-          <div class="p-4 pt-0">
+          <div class="border-t border-solid border-[#ddd] p-4">
             <div class="overflow-hidden">
               <b class="pr-1 text-sm font-medium">Enviado:</b
               ><span
