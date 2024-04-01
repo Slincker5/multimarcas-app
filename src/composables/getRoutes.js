@@ -1,7 +1,7 @@
 export const useGetRoutes = () => {
   // Ruta global
-  //const url = `https://api.multimarcas.app`;
-  const url = `http://localhost`;
+  const url = `https://api.multimarcas.app`;
+  //const url = `http://localhost`;
   const userNoPhoto = "https://cintillos-plazamundo.netlify.app/usuario.png";
 
   // Rutas externas
