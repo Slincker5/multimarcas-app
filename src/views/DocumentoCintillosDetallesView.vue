@@ -72,7 +72,7 @@ const resend = async () => {
         <div
           class="bg-white w-[80%] md:w-[450px] py-6 px-4 max-w-screen-sm rounded-lg shadow-2xl"
         >
-          <img src="../../../public/share.gif" class="w-[30%] block m-auto" />
+          <img src="../../public/share.gif" class="w-[30%] block m-auto" />
           <h3 class="pt-4 font-medium text-center text-black uppercase">
             Documento reenviado!
           </h3>
