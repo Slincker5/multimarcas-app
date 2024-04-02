@@ -30,6 +30,7 @@ export const useGetRoutes = () => {
   const labelDetails = `${url}/api/label/details/`;
   const labelEdit = `${url}/api/label/edit`;
   const labelBuild = `${url}/api/label/build-document`;
+  const labelDocumentReSend = `${url}/api/label/resend`;
   const labelDocument = `${url}/api/detail/label/`; //luego va el uuid a buscar
 
   // Rutas poster
@@ -88,6 +89,7 @@ export const useGetRoutes = () => {
     labelEdit,
     labelDetails,
     labelBuild,
+    labelDocumentReSend,
     labelDocument,
     emailList,
     labelListGenerated,

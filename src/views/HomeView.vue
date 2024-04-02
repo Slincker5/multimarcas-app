@@ -412,11 +412,18 @@ const cerrarVentana = () => {
               dayjs(generado.fecha).fromNow()
             }}</span>
           </div>
-          <div class="p-4 border-t border-dashed border-[#ddd] flex items-center justify-between gap-4">
+          <div
+            class="p-4 border-t border-dashed border-[#ddd] flex items-center justify-between gap-4"
+          >
             <router-link
               :to="`cintillo/${generado.path_uuid}`"
-              class="block w-full px-4 py-2 text-xs font-medium leading-6 text-center text-black uppercase transition bg-gray-100 rounded shadow focus:bg-gray-300 hover:bg-gray-300 ripple hover:shadow-lg focus:outline-none"
+              class="relative block w-full px-4 py-2 text-xs font-medium leading-6 text-center text-black uppercase transition bg-gray-100 rounded shadow focus:bg-gray-300 hover:bg-gray-300 ripple hover:shadow-lg focus:outline-none"
             >
+              <div
+                class="absolute new font-medium bg-red-500 rounded-md text-white right-[-12px] top-[-5px] lowercase shadow-md shadow-black/30 opacity-90"
+              >
+                nuevo
+              </div>
               Ver detalles
             </router-link>
             <a
@@ -503,5 +510,10 @@ const cerrarVentana = () => {
 
 .bg:focus {
   background-image: #383e42;
+}
+.new {
+  padding: 0px 4px;
+  font-size: 9px;
+  display: inline-block;
 }
 </style>
