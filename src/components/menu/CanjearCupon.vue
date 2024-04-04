@@ -7,6 +7,11 @@ defineProps([
   "codigoLength",
   "url",
 ]);
+
+function redireccionar() {
+    window.location.href = '/';
+}
+
 const emit = defineEmits(["canjeCupon", "closeCupon"]);
 const codigo = defineModel("codigo");
 </script>
@@ -28,7 +33,7 @@ const codigo = defineModel("codigo");
           <button
             to="/login"
             class="mb-4 flex justify-center items-center text-center w-full h-9 bg-[#4A4878] text-sm text-white rounded transition-all cursor-pointer"
-            @click.prevent="redireccionar('/')"
+            @click.prevent="redireccionar"
           >
             Continuar navegando
           </button>
