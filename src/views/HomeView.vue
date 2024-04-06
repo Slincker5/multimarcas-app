@@ -119,9 +119,9 @@ async function copyToClipboard(text) {
   }
 }
 
-const anuncioTmp = ref(localStorage.getItem("anuncioTmp"));
+const anuncioTmp = ref(localStorage.getItem("free"));
 const cerrarVentana = () => {
-  anuncioTmp.value = localStorage.setItem("anuncioTmp", "true");
+  anuncioTmp.value = localStorage.setItem("free", "true");
 };
 </script>
 <template>
@@ -236,15 +236,6 @@ const cerrarVentana = () => {
     <div
       class="flex items-stretch w-full gap-1 p-4 overflow-x-auto bg-gray-100 whitespace-nowrap acciones border-b border-solid border-[#ddd]"
     >
-      <router-link to="/buscador" class="py-3 rounded-lg bg">
-        <div class="flex justify-center px-2 py-4">
-          <img src="../../public/dairy-products.png" class="block w-[40px]" />
-        </div>
-        <span class="p-2 pt-0 text-xs font-medium text-black"
-          >Buscar Internos</span
-        >
-      </router-link>
-
       <router-link to="crear-cintillos" class="py-3 rounded-lg bg">
         <div class="flex justify-center px-2 py-4">
           <img src="../../public/price-tag.png" class="block w-[40px]" />
@@ -253,11 +244,15 @@ const cerrarVentana = () => {
           >Crear Cintillos</span
         >
       </router-link>
-
       <router-link
         to="/crear-afiches-mini-descuentos"
         class="relative py-3 rounded-lg bg"
       >
+        <div
+          class="z-20 animate-bounce absolute top-[-5px] right-[-10px] text-[9px] font-medium text-white bg-rose-500 px-1 py-[0.1rem] shadow-md shadow-black/30 rounded-md"
+        >
+          GRATIS
+        </div>
         <div class="flex justify-center px-2 py-4">
           <img src="../../public/descuento.png" class="block w-[40px]" />
         </div>
@@ -265,19 +260,31 @@ const cerrarVentana = () => {
           >Crear Afiches</span
         >
       </router-link>
-
-      <router-link to="/crear-afiches" class="py-3 rounded-lg bg">
+      <router-link to="/crear-afiches-mini" class="relative py-3 rounded-lg bg">
+        <div
+          class="z-20 animate-bounce absolute top-[-5px] right-[-10px] text-[9px] font-medium text-white bg-rose-500 px-1 py-[0.1rem] shadow-md shadow-black/30 rounded-md"
+        >
+          GRATIS
+        </div>
         <div class="flex justify-center px-2 py-4">
-          <img src="../../public/rotulo-uno.png" class="block w-[40px]" />
+          <img src="../../public/rotulo-dos.png" class="block w-[40px]" />
         </div>
         <span class="p-2 pt-0 text-xs font-medium text-black"
           >Crear Afiches</span
         >
       </router-link>
 
-      <router-link to="/crear-afiches-mini" class="py-3 rounded-lg bg">
+      <router-link to="/buscador" class="py-3 rounded-lg bg">
         <div class="flex justify-center px-2 py-4">
-          <img src="../../public/rotulo-dos.png" class="block w-[40px]" />
+          <img src="../../public/dairy-products.png" class="block w-[40px]" />
+        </div>
+        <span class="p-2 pt-0 text-xs font-medium text-black"
+          >Buscar Internos</span
+        >
+      </router-link>
+      <router-link to="/crear-afiches" class="relative py-3 rounded-lg bg">
+        <div class="flex justify-center px-2 py-4">
+          <img src="../../public/rotulo-uno.png" class="block w-[40px]" />
         </div>
         <span class="p-2 pt-0 text-xs font-medium text-black"
           >Crear Afiches</span
@@ -419,11 +426,6 @@ const cerrarVentana = () => {
               :to="`cintillo/${generado.path_uuid}`"
               class="relative block w-full px-4 py-2 text-xs font-medium leading-6 text-center text-black uppercase transition bg-gray-100 rounded shadow focus:bg-gray-300 hover:bg-gray-300 ripple hover:shadow-lg focus:outline-none"
             >
-              <div
-                class="absolute new font-medium bg-red-500 rounded-md text-white right-[-12px] top-[-5px] lowercase shadow-md shadow-black/30 opacity-90"
-              >
-                nuevo
-              </div>
               Ver detalles
             </router-link>
             <a
@@ -456,20 +458,19 @@ const cerrarVentana = () => {
 
     <div
       class="fixed top-0 left-0 z-30 flex items-center justify-center w-full h-full bg-black/80"
-      v-if="anuncioTmp === null"
+      v-if="anuncioTmp  === null"
     >
       <div
         class="bg-white w-[80%] py-6 px-4 max-w-screen-sm rounded-lg shadow-2xl"
       >
-        <img src="../../public/celebrar.png" class="w-[30%] block m-auto" />
+        <img src="../../public/folder.png" class="w-[30%] block m-auto" />
         <h3
           class="pt-4 font-medium text-center text-black uppercase text-nomal"
         >
-          Nuevos Tipos de Afiches!
+          AFICHES SIN SUSCRIPCION!
         </h3>
         <p class="py-4 text-sm text-center text-gray-500" v-if="estadistica">
-          Nos complace anunciarte que desde ahora ya estan habilitados la
-          creacion de afiches con porcentaje.
+          ¡Atención, amantes del ahorro y las ofertas especiales! Solo por hoy sábado, nuestra aplicación te permite crear afiches de ofertas para tus productos ¡totalmente gratis! ¿Tienes una promoción que quieres destacar? ¿Quieres atraer más clientes con descuentos irresistibles? ¡Esta es tu oportunidad! 
         </p>
         <div class="py-4 pb-0 border-t border-dashed border-[#ddd]">
           <button
