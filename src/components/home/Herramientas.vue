@@ -2,42 +2,36 @@
 defineProps(["premium"]);
 const items = [
   {
-    image: `price-tag.png`,
     name: "Crear Cintillos",
     href: "/crear-cintillos",
     premium: true,
     alt: "crear-cintillos",
   },
   {
-    image: `dairy-products.png`,
     name: "Buscar Internos",
     href: "/buscador",
     premium: false,
     alt: "buscar-internos",
   },
   {
-    image: `descuento.png`,
     name: "Afiches desc...",
     href: "/crear-afiches-mini-descuentos",
     premium: true,
     alt: "afiches-descuento",
   },
   {
-    image: `rotulo-dos.png`,
     name: "Afiches oferta",
     href: "/crear-afiches-mini",
     premium: true,
     alt: "afiches-oferta",
   },
   {
-    image: `precio_bajo.png`,
     name: "Afiches de baja",
     href: "/crear-afiches-baja-mini",
     premium: true,
     alt: "afiches-de-baja",
   },
   {
-    image: `rotulo-uno.png`,
     name: "Afiches base",
     href: "/crear-afiches",
     premium: true,
@@ -62,7 +56,12 @@ const items = [
         FREE
       </div>
       <div class="flex justify-center px-2 py-4">
-        <img :src="`../../../public/${item.image}`" :alt="item.alt" class="shimg block w-[40px]" />
+        <img src="../../../public/price-tag.png" :alt="item.alt" v-if="item.alt === 'crear-cintillos'" class="shimg block w-[40px]" />
+        <img src="../../../public/dairy-products.png" :alt="item.alt" v-if="item.alt === 'buscar-internos'" class="shimg block w-[40px]" />
+        <img src="../../../public/descuento.png" :alt="item.alt" v-if="item.alt === 'afiches-descuento'" class="shimg block w-[40px]" />
+        <img src="../../../public/rotulo-dos.png" :alt="item.alt" v-if="item.alt === 'afiches-oferta'" class="shimg block w-[40px]" />
+        <img src="../../../public/precio_bajo.png" :alt="item.alt" v-if="item.alt === 'afiches-de-baja'" class="shimg block w-[40px]" />
+        <img src="../../../public/rotulo-uno.png" :alt="item.alt" v-if="item.alt === 'afiches-base'" class="shimg block w-[40px]" />
       </div>
       <span class="p-2 pt-0 text-xs font-medium text-black">{{
         item.name
