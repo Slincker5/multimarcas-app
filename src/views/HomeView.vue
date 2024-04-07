@@ -244,15 +244,24 @@ const cerrarVentana = () => {
           >Crear Cintillos</span
         >
       </router-link>
+
+      <router-link to="/buscador" class="py-3 rounded-lg bg">
+        <div class="flex justify-center px-2 py-4">
+          <img src="../../public/dairy-products.png" class="block w-[40px]" />
+        </div>
+        <span class="p-2 pt-0 text-xs font-medium text-black"
+          >Buscar Internos</span
+        >
+      </router-link>
       <router-link
         to="/crear-afiches-mini-descuentos"
         class="relative py-3 rounded-lg bg"
       >
-        <div
+        <!--<div
           class="z-20 animate-bounce absolute top-[-5px] right-[-10px] text-[9px] font-medium text-white bg-rose-500 px-1 py-[0.1rem] shadow-md shadow-black/30 rounded-md"
         >
           GRATIS
-        </div>
+        </div>-->
         <div class="flex justify-center px-2 py-4">
           <img src="../../public/descuento.png" class="block w-[40px]" />
         </div>
@@ -261,25 +270,11 @@ const cerrarVentana = () => {
         >
       </router-link>
       <router-link to="/crear-afiches-mini" class="relative py-3 rounded-lg bg">
-        <div
-          class="z-20 animate-bounce absolute top-[-5px] right-[-10px] text-[9px] font-medium text-white bg-rose-500 px-1 py-[0.1rem] shadow-md shadow-black/30 rounded-md"
-        >
-          GRATIS
-        </div>
         <div class="flex justify-center px-2 py-4">
           <img src="../../public/rotulo-dos.png" class="block w-[40px]" />
         </div>
         <span class="p-2 pt-0 text-xs font-medium text-black"
           >Crear Afiches</span
-        >
-      </router-link>
-
-      <router-link to="/buscador" class="py-3 rounded-lg bg">
-        <div class="flex justify-center px-2 py-4">
-          <img src="../../public/dairy-products.png" class="block w-[40px]" />
-        </div>
-        <span class="p-2 pt-0 text-xs font-medium text-black"
-          >Buscar Internos</span
         >
       </router-link>
       <router-link to="/crear-afiches" class="relative py-3 rounded-lg bg">
@@ -458,7 +453,7 @@ const cerrarVentana = () => {
 
     <div
       class="fixed top-0 left-0 z-30 flex items-center justify-center w-full h-full bg-black/80"
-      v-if="anuncioTmp  === null"
+      v-if="false"
     >
       <div
         class="bg-white w-[80%] py-6 px-4 max-w-screen-sm rounded-lg shadow-2xl"
@@ -470,7 +465,11 @@ const cerrarVentana = () => {
           AFICHES SIN SUSCRIPCION!
         </h3>
         <p class="py-4 text-sm text-center text-gray-500" v-if="estadistica">
-          ¡Atención, amantes del ahorro y las ofertas especiales! Solo por hoy sábado, nuestra aplicación te permite crear afiches de ofertas para tus productos ¡totalmente gratis! ¿Tienes una promoción que quieres destacar? ¿Quieres atraer más clientes con descuentos irresistibles? ¡Esta es tu oportunidad! 
+          ¡Atención, amantes del ahorro y las ofertas especiales! Solo por hoy
+          sábado, nuestra aplicación te permite crear afiches de ofertas para
+          tus productos ¡totalmente gratis! ¿Tienes una promoción que quieres
+          destacar? ¿Quieres atraer más clientes con descuentos irresistibles?
+          ¡Esta es tu oportunidad!
         </p>
         <div class="py-4 pb-0 border-t border-dashed border-[#ddd]">
           <button
