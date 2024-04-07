@@ -10,6 +10,9 @@ const abrir = () => {
 const cerrar = () => {
   toggle.value = false;
 };
+const script = document.createElement("script");
+script.src = "https://pagos.wompi.sv/js/wompi.pagos.js";
+document.head.appendChild(script);
 </script>
 <template>
   <div>
