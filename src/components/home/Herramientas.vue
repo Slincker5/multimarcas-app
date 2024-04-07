@@ -1,44 +1,43 @@
 <script setup>
 defineProps(["premium"]);
-const rutaBase = "../../../public";
 const items = [
   {
-    image: `${rutaBase}/price-tag.png`,
+    image: `price-tag.png`,
     name: "Crear Cintillos",
     href: "/crear-cintillos",
     premium: true,
     alt: "crear-cintillos",
   },
   {
-    image: `${rutaBase}/dairy-products.png`,
+    image: `dairy-products.png`,
     name: "Buscar Internos",
     href: "/buscador",
     premium: false,
     alt: "buscar-internos",
   },
   {
-    image: `${rutaBase}/descuento.png`,
+    image: `descuento.png`,
     name: "Afiches desc...",
     href: "/crear-afiches-mini-descuentos",
     premium: true,
     alt: "afiches-descuento",
   },
   {
-    image: `${rutaBase}/rotulo-dos.png`,
+    image: `rotulo-dos.png`,
     name: "Afiches oferta",
     href: "/crear-afiches-mini",
     premium: true,
     alt: "afiches-oferta",
   },
   {
-    image: `${rutaBase}/precio_bajo.png`,
+    image: `precio_bajo.png`,
     name: "Afiches de baja",
     href: "/crear-afiches-baja-mini",
     premium: true,
     alt: "afiches-de-baja",
   },
   {
-    image: `${rutaBase}/rotulo-uno.png`,
+    image: `rotulo-uno.png`,
     name: "Afiches base",
     href: "/crear-afiches",
     premium: true,
@@ -63,7 +62,7 @@ const items = [
         FREE
       </div>
       <div class="flex justify-center px-2 py-4">
-        <img :src="item.image" :alt="item.alt" class="shimg block w-[40px]" />
+        <img :src="`../../../public/${item.image}`" :alt="item.alt" class="shimg block w-[40px]" />
       </div>
       <span class="p-2 pt-0 text-xs font-medium text-black">{{
         item.name
