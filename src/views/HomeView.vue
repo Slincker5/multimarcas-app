@@ -86,6 +86,9 @@ const cerrarVentana = () => {
 };
 
 getUserData(userStat);
+const script = document.createElement("script");
+      script.src = "https://pagos.wompi.sv/js/wompi.pagos.js";
+      document.head.appendChild(script);
 </script>
 <template>
   <div class="overflow-auto">
