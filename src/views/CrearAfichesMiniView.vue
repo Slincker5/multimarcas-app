@@ -250,6 +250,9 @@ const cerrarModalTuto = () => {
 const reproducir = () => {
   videoTuto.play();
 };
+const script = document.createElement("script");
+    script.src = "https://pagos.wompi.sv/js/wompi.pagos.js";
+    document.head.appendChild(script);
 </script>
 <template>
   <div class="grid grid-cols-1 sm:grid-cols-2">
