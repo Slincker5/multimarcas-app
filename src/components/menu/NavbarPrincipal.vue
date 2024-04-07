@@ -15,7 +15,7 @@ const emit = defineEmits([
     @click="emit('closeMenu')"
   >
     <div
-      class="w-[65%] md:w-[250px] h-full inline-block bg-[#fff] shadow-2xl shadow-black/50"
+      class="w-[65%] md:w-[220px] lg:w-[250px] h-full inline-block bg-[#fff] shadow-2xl shadow-black/50"
       v-if="userData"
     >
       <div
