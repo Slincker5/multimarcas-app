@@ -4,6 +4,9 @@ import { ref } from "vue";
 const toggle = ref(false);
 
 const abrir = () => {
+  const script = document.createElement("script");
+  script.src = "https://pagos.wompi.sv/js/wompi.pagos.js";
+  document.head.appendChild(script);
   toggle.value = true;
 };
 
