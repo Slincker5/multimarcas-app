@@ -87,8 +87,8 @@ const cerrarVentana = () => {
 
 getUserData(userStat);
 const script = document.createElement("script");
-      script.src = "https://pagos.wompi.sv/js/wompi.pagos.js";
-      document.head.appendChild(script);
+script.src = "https://pagos.wompi.sv/js/wompi.pagos.js";
+document.head.appendChild(script);
 </script>
 <template>
   <div class="overflow-auto">
@@ -212,12 +212,6 @@ const script = document.createElement("script");
           <div
             class="p-4 border-t border-dashed border-[#ddd] flex items-center justify-between gap-4"
           >
-            <router-link
-              :to="`cintillo/${generado.path_uuid}`"
-              class="relative block w-full px-4 py-2 text-xs font-medium leading-6 text-center text-black uppercase transition bg-gray-100 rounded shadow focus:bg-gray-300 hover:bg-gray-300 ripple hover:shadow-lg focus:outline-none"
-            >
-              Ver detalles
-            </router-link>
             <a
               :href="`${url}/${generado.path}`"
               download
@@ -225,6 +219,12 @@ const script = document.createElement("script");
             >
               DESCARGAR
             </a>
+            <router-link
+              :to="`cintillo/${generado.path_uuid}`"
+              class="relative block w-full px-4 py-2 text-xs font-medium leading-6 text-center text-black uppercase transition bg-gray-100 rounded shadow focus:bg-gray-300 hover:bg-gray-300 ripple hover:shadow-lg focus:outline-none"
+            >
+              Ver detalles
+            </router-link>
           </div>
         </div>
       </div>
@@ -251,7 +251,10 @@ const script = document.createElement("script");
         >
           NUEVA FUNCION
         </h3>
-        <p class="py-4 text-sm text-center text-gray-500">¡Emociónate! Ahora puedes reenviar tus cintillos fácilmente. ¿Quieres volver a enviarlos al mismo correo o compartirlos con otros contactos? ¡Hazlo en un instante y comparte tus creaciones con quien desees!
+        <p class="py-4 text-sm text-center text-gray-500">
+          ¡Emociónate! Ahora puedes reenviar tus cintillos fácilmente. ¿Quieres
+          volver a enviarlos al mismo correo o compartirlos con otros contactos?
+          ¡Hazlo en un instante y comparte tus creaciones con quien desees!
         </p>
         <div class="py-4 pb-0 border-t border-dashed border-[#ddd]">
           <button
@@ -280,7 +283,7 @@ const script = document.createElement("script");
   display: none; /* Oculta la barra de desplazamiento en navegadores WebKit (como Chrome/Safari) */
 }
 .shimg {
-  filter: drop-shadow(0px 0px 5px rgba(0,0,0,.3));
+  filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.3));
 }
 
 .sh {
