@@ -80,9 +80,9 @@ async function copyToClipboard(text) {
   }
 }
 
-const anuncioTmp = ref(localStorage.getItem("free"));
+const anuncioTmp = ref(localStorage.getItem("resend"));
 const cerrarVentana = () => {
-  anuncioTmp.value = localStorage.setItem("free", "true");
+  anuncioTmp.value = localStorage.setItem("resend", "true");
 };
 
 getUserData(userStat);
@@ -240,23 +240,18 @@ const script = document.createElement("script");
 
     <div
       class="fixed top-0 left-0 z-30 flex items-center justify-center w-full h-full bg-black/80"
-      v-if="false"
+      v-if="anuncioTmp === null"
     >
       <div
         class="bg-white w-[80%] py-6 px-4 max-w-screen-sm rounded-lg shadow-2xl"
       >
-        <img src="../../public/folder.png" class="w-[30%] block m-auto" />
+        <img src="../../public/resend-event.png" class="w-[30%] block m-auto" />
         <h3
           class="pt-4 font-medium text-center text-black uppercase text-nomal"
         >
-          AFICHES SIN SUSCRIPCION!
+          NUEVA FUNCION
         </h3>
-        <p class="py-4 text-sm text-center text-gray-500" v-if="estadistica">
-          ¡Atención, amantes del ahorro y las ofertas especiales! Solo por hoy
-          sábado, nuestra aplicación te permite crear afiches de ofertas para
-          tus productos ¡totalmente gratis! ¿Tienes una promoción que quieres
-          destacar? ¿Quieres atraer más clientes con descuentos irresistibles?
-          ¡Esta es tu oportunidad!
+        <p class="py-4 text-sm text-center text-gray-500">¡Emociónate! Ahora puedes reenviar tus cintillos fácilmente. ¿Quieres volver a enviarlos al mismo correo o compartirlos con otros contactos? ¡Hazlo en un instante y comparte tus creaciones con quien desees!
         </p>
         <div class="py-4 pb-0 border-t border-dashed border-[#ddd]">
           <button

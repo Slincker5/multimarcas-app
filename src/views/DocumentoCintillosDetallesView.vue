@@ -1,10 +1,12 @@
 <script setup>
 import { ref } from "vue";
 import axios from "axios";
+import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
 import { useBarPagination } from "@/composables/barPagination";
-import { useDocumentLabel } from "@/composables/methodLabelDocument";
+import { useReSend } from "@/store/resend";
 import ListaCintillos from "@/components/cintillos/ListaCintillos.vue";
+import ReenvioCintillos from "@/components/cintillos/ReenvioCintillos.vue";
 import CargandoFrom from "@/components/globales/CargandoForm.vue";
 import PaginateCintillos from "@/components/cintillos/PaginateCintillos.vue";
 import { useGetRoutes } from "@/composables/getRoutes";
@@ -14,52 +16,40 @@ import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.locale("es");
 dayjs.extend(relativeTime);
 
-const { labelDocumentReSend } = useGetRoutes();
+const documento = ref(null);
+
+const { labelDocument } = useGetRoutes();
+const useReSendStore = useReSend();
+const { formReenviarOpen, formReenviarClose, enviandoTrue, enviandoFalse, } = useReSendStore;
+const { toggle, enviando } = storeToRefs(useReSendStore);
 const route = useRoute();
 const token = ref(localStorage.getItem("token"));
 const modal = ref(false);
-const enviando = ref(false);
-const { detalles, etiquetas, getData } = useDocumentLabel();
+async function getDocument (param) {
+  try {
+    const { data } = await axios.get(`${labelDocument}${param}`, {
+      headers: {
+        Authorization: `Bearer ${token.value}`,
+      },
+    });
+    documento.value = data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+getDocument(route.params.path_uuid);
 const { inicio, fin, siguiente, anterior } = useBarPagination();
-getData(route.params.path_uuid);
 
 const closeModal = () => {
   modal.value = false;
 };
 
-const resend = async () => {
-  try {
-    enviando.value = true;
-    const headers = {
-      Authorization: "Bearer " + token.value,
-      "Content-Type": "application/json",
-    };
-    const dataEnvio = {
-      receptor: detalles._rawValue[0].receptor,
-      email: detalles._rawValue[0].email,
-      path: detalles._rawValue[0].path,
-      comentario: detalles._rawValue[0].comentario,
-      cantidad: detalles._rawValue[0].cantidad,
-      code: detalles._rawValue[0].code,
-    };
 
-    let { data } = await axios.post(labelDocumentReSend, dataEnvio, {
-      headers,
-    });
-    console.log(data);
-    if (data.status === "OK") {
-      modal.value = true;
-    }
-  } catch (error) {
-    console.log(error);
-  } finally {
-    enviando.value = false;
-  }
-};
 </script>
 
 <template>
   <div class="grid grid-cols-1">
+    <ReenvioCintillos :toggle="toggle" :documento="documento" :enviando="enviando" @formReenviarOpen="formReenviarOpen" @formReenviarClose="formReenviarClose" @enviandoFalse="enviandoFalse" @enviandoTrue="enviandoTrue"></ReenvioCintillos>
     <div>
       <CargandoFrom
         :enviando="enviando"
@@ -98,7 +88,7 @@ const resend = async () => {
           <img src="../../public/excel.svg" class="w-[40px]" />
         </div>
         <div class="flex-1 overflow-hidden font-medium text-ellipsis-container">
-          {{ etiquetas.detalles[0].path_name }}
+          {{ documento.detalles[0].path_name }}
         </div>
       </div>
 
@@ -109,9 +99,9 @@ const resend = async () => {
           class="inline-flex items-center px-3 py-1 text-sm text-gray-800 bg-gray-200 rounded-md"
         >
           <font-awesome-icon :icon="['fas', 'at']" class="pr-1" />{{
-            etiquetas.detalles[0].receptor === "Desconocido"
-              ? etiquetas.detalles[0].email
-              : etiquetas.detalles[0].receptor
+            documento.detalles[0].receptor === "Desconocido"
+              ? documento.detalles[0].email
+              : documento.detalles[0].receptor
           }}
         </div>
         <div
@@ -119,32 +109,32 @@ const resend = async () => {
         >
           <font-awesome-icon
             :icon="
-              etiquetas.total[0].total <= 1 ? ['fas', 'tag'] : ['fas', 'tags']
+              documento.total[0].total <= 1 ? ['fas', 'tag'] : ['fas', 'tags']
             "
             class="pr-1"
           />{{
-            etiquetas.total[0].total <= 1
-              ? `${etiquetas.total[0].total} cintillo`
-              : `${etiquetas.total[0].total} cintillos`
+            documento.total[0].total <= 1
+              ? `${documento.total[0].total} cintillo`
+              : `${documento.total[0].total} cintillos`
           }}
         </div>
         <div
           class="inline-flex items-center px-3 py-1 text-sm text-gray-800 uppercase bg-gray-200 rounded-md"
         >
           <font-awesome-icon :icon="['fas', 'calendar']" class="pr-2" />
-          {{ dayjs(etiquetas.detalles[0].fecha).fromNow() }}
+          {{ dayjs(documento.detalles[0].fecha).fromNow() }}
         </div>
       </div>
       <div class="flex items-center justify-between p-4 pt-0 gap-x-4">
         <a
-          :href="`https://api.multimarcas.app/${etiquetas.detalles[0].path}`"
+          :href="`https://api.multimarcas.app/${documento.detalles[0].path}`"
           download
           class="block w-full px-4 py-2 text-xs font-medium leading-6 text-center text-black uppercase transition bg-gray-100 rounded shadow focus:bg-gray-300 hover:bg-gray-300 ripple hover:shadow-lg focus:outline-none"
         >
           DESCARGAR
         </a>
         <button
-          @click="resend"
+          @click="formReenviarOpen"
           class="relative block w-full px-4 py-2 text-xs font-medium leading-6 text-center text-black uppercase transition bg-gray-100 rounded shadow focus:bg-gray-300 hover:bg-gray-300 ripple hover:shadow-lg focus:outline-none"
         >
           <span
@@ -156,18 +146,18 @@ const resend = async () => {
       <div class="p-4 pt-0">
         <div class="pb-2 text-sm">
           <b class="font-medium">Codigo de referencia: </b> #{{
-            etiquetas.detalles[0].code
+            documento.detalles[0].code
           }}
         </div>
         <div class="pb-2 text-sm">
           <b class="font-medium">Comentario:</b>
-          {{ etiquetas.detalles[0].comentario }}
+          {{ documento.detalles[0].comentario }}
         </div>
       </div>
 
       <ListaCintillos
-        v-if="etiquetas"
-        v-for="producto in etiquetas.cintillos.slice(inicio, fin)"
+        v-if="documento"
+        v-for="producto in documento.cintillos.slice(inicio, fin)"
         :key="producto.uuid"
         :uuid="producto.uuid"
         :descripcion="producto.descripcion"
@@ -182,10 +172,10 @@ const resend = async () => {
       ></ListaCintillos>
 
       <PaginateCintillos
-        v-if="etiquetas.cintillos.length >= 7"
+        v-if="documento.cintillos.length >= 7"
         :inicio="inicio"
         :fin="fin"
-        :maxLength="etiquetas.cintillos.length"
+        :maxLength="documento.cintillos.length"
         @siguiente="siguiente"
         @anterior="anterior"
       ></PaginateCintillos>
