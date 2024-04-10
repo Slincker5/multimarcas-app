@@ -2,6 +2,8 @@
 import { ref, onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import axios from "axios";
+import { initializeApp } from "firebase/app";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { useGetRoutes } from "@/composables/getRoutes";
 import CompletarOrden from "@/components/pagos/CompletarOrden.vue";
 import Herramientas from "@/components/home/Herramientas.vue";
@@ -15,6 +17,48 @@ import { Client } from "@pusher/push-notifications-web";
 dayjs.locale("es");
 dayjs.extend(relativeTime);
 
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB0z01S4THMA_8x6jKtV1OodLHXs0J9kZ8",
+  authDomain: "multimarcasapp-2fa97.firebaseapp.com",
+  projectId: "multimarcasapp-2fa97",
+  storageBucket: "multimarcasapp-2fa97.appspot.com",
+  messagingSenderId: "732835844626",
+  appId: "1:732835844626:web:d5fd4d29dd760b66bd7ecb",
+  measurementId: "G-0SQH2EVZX3",
+};
+
+const app = initializeApp(firebaseConfig);
+
+// Get registration token. Initially this makes a network call, once retrieved
+// subsequent calls to getToken will return from cache.
+const messaging = getMessaging();
+onMessage(messaging, (payload) => {
+  console.log("Message received. ", payload);
+  // ...
+});
+
+getToken(messaging, {
+  vapidKey:
+    "BA9bTnFZb5SK1MnMw6atlBXztDu10VBADz5MU20_roFWuNIH7C-S3tuFpt9JWQjZTCBHjm5WF-wyL7uPkEZPT4s",
+})
+  .then((currentToken) => {
+    if (currentToken) {
+      // Send the token to your server and update the UI if necessary
+      console.log("Token is:", currentToken);
+      // ...
+    } else {
+      // Show permission request UI
+      console.log(
+        "No registration token available. Request permission to generate one."
+      );
+      // ...
+    }
+  })
+  .catch((err) => {
+    console.log("An error occurred while retrieving token. ", err);
+    // ...
+  });
 const { url, userStat, userUpdateToken, labelListGenerated } = useGetRoutes();
 const useNavBarStore = useNavBar();
 const { getUserData } = useNavBarStore;
