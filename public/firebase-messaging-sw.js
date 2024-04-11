@@ -19,17 +19,25 @@ firebase.initializeApp({
 // Retrieve an instance of Firebase Messaging so that it can handle background
 // messages.
 const messaging = firebase.messaging();
+
+let isNotificationShown = false;
+
 messaging.onBackgroundMessage((payload) => {
   console.log(
     "[firebase-messaging-sw.js] Received background message ",
     payload
   );
-  // Customize notification here
-  const notificationTitle = payload.notification.title;
-  const notificationOptions = {
-    body: payload.notification.body,
-    icon: "/icon.png",
-  };
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
+  // Check if a notification is already shown
+  if (!isNotificationShown) {
+    // Customize notification here
+    const notificationTitle = payload.notification.title;
+    const notificationOptions = {
+      body: payload.notification.body,
+      icon: "/icon.png", // Use the local icon
+    };
+
+    self.registration.showNotification(notificationTitle, notificationOptions);
+    isNotificationShown = true;
+  }
 });
