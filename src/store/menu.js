@@ -29,7 +29,7 @@ export const useNavBar = defineStore("navBar", () => {
           .start()
           .then(() =>
             beamsClient.addDeviceInterest(
-              `${estadistica.value.profile[0].user_uuid}`
+              `${userData.value.profile[0].user_uuid}`
             )
           )
           .then(() => console.log("Successfully registered and subscribed!"))
