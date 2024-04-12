@@ -29,4 +29,43 @@ if (process.env.NODE_ENV === 'production') {
       console.error('Error during service worker registration:', error)
     }
   })
+
+  // Instalación de listener para la solicitud fetch
+  self.addEventListener('fetch', function(event) {
+    event.respondWith(
+      // Intentamos recuperar la solicitud de la caché
+      caches.match(event.request).then(function(response) {
+        // Si se encuentra en caché, devolver la respuesta en caché
+        if (response) {
+          return response;
+        }
+
+        // Si no está en caché, realizar la solicitud a la red y almacenar en caché la respuesta
+        return fetch(event.request).then(function(response) {
+          // Abriendo un caché dinámico
+          return caches.open('images-cache').then(function(cache) {
+            // Almacenar en caché la respuesta clonada
+            cache.put(event.request.url, response.clone());
+            // Devolver la respuesta original
+            return response;
+          });
+        });
+      })
+    );
+  });
+
+  // Después de registrar el service worker...
+  navigator.serviceWorker.ready.then((registration) => {
+    // Comprobar si existe el evento beforeinstallprompt
+    if (registration.hasOwnProperty('onbeforeinstallprompt')) {
+      // Mostrar el mensaje de instalación automáticamente
+      registration.onbeforeinstallprompt = (event) => {
+        // Prevenir que el navegador muestre su propio mensaje de instalación
+        event.preventDefault();
+        // Mostrar el mensaje de instalación
+        console.log('Mostrar mensaje de instalación');
+        // Aquí podrías establecer una variable en el estado de Vue para mostrar un botón o mensaje de instalación en tu interfaz de usuario.
+      };
+    }
+  });
 }
