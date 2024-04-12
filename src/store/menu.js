@@ -5,7 +5,6 @@ import axios from "axios";
 import { Client } from "@pusher/push-notifications-web";
 
 export const useNavBar = defineStore("navBar", () => {
-
   const userData = ref(null);
 
   const token = ref(localStorage.getItem("token"));
@@ -29,21 +28,16 @@ export const useNavBar = defineStore("navBar", () => {
           .start()
           .then(() =>
             beamsClient.addDeviceInterest(
-              `${userData.value.profile[0].user_uuid}`
+              'global', userData.value.profile[0].user_uuid
             )
           )
           .then(() => console.log("Successfully registered and subscribed!"))
           .catch(console.error);
       }
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
   };
-
-  const redireccionar = (url) => {
-    window.location.href = url;
-  };
-  
 
   return {
     userData,
