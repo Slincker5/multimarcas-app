@@ -12,18 +12,6 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import { fas } from '@fortawesome/free-solid-svg-icons'
 
-// Registrar el Service Worker
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-      navigator.serviceWorker.register('./sw.js')
-        .then(function(registration) {
-          console.log('Service Worker registrado con éxito:', registration);
-        })
-        .catch(function(error) {
-          console.error('Error al registrar el Service Worker:', error);
-        });
-    });
-  }
 
 
 library.add(fas)
