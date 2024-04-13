@@ -3,11 +3,11 @@
 import { register } from 'register-service-worker'
 
 if (process.env.NODE_ENV === 'production') {
-  register(`${process.env}/sw.js`, {
+  register(`${process.env.BASE_URL}sw.js`, {
     ready () {
       console.log(
         'App is being served from cache by a service worker.\n' +
-        'For more details, visit https://goo.gl/AFskqB' + process.env.BASE_URL
+        'For more details, visit https://goo.gl/AFskqB'
       )
     },
     registered () {
