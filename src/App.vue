@@ -142,7 +142,7 @@ if (token.value !== null) getUserData(userStat);
     @canjeCupon="canjeCupon"
   ></CanjearCupon>
  
-  <FinSuscripcion
+  <!--<FinSuscripcion
     v-if="
       userData &&
       token &&
@@ -156,7 +156,7 @@ if (token.value !== null) getUserData(userStat);
         .format('DD [de] MMMM [del] YYYY')
     "
     @openCupon="openCupon"
-  ></FinSuscripcion>
+  ></FinSuscripcion>-->
   <CargarFoto v-if="userData" :modal="modal" @cerrarModal="cerrarModal"></CargarFoto>
 </template>
 <style>
