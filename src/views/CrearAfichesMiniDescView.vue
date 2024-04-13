@@ -172,6 +172,7 @@ const items = [
   { text: "35% DE DESCUENTO" },
   { text: "40% DE DESCUENTO" },
   { text: "45% DE DESCUENTO" },
+  {text: "50% DE DESCUENTO"},
   { text: "2X1" },
   { text: "DOS POR:" },
 ];
