@@ -31,6 +31,18 @@
 
 <body class="bod w-full h-screen bg-green-600 max-w-[1200px] m-auto shadow-lg shadow-black/50">
   <div id="app"></div>
+  <script>
+    if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('sw.js').then(function(registration) {
+      console.log('Service Worker registrado con éxito desde el index:', registration);
+    }, function(err) {
+      console.error('Error al registrar el Service Worker:', err);
+    });
+  });
+}
+
+  </script>
   <script type="module" src="/src/main.js"></script>
   <script src="https://pagos.wompi.sv/js/wompi.pagos.js"></script>
 </body>
