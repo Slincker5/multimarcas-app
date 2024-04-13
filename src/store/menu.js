@@ -27,9 +27,7 @@ export const useNavBar = defineStore("navBar", () => {
         beamsClient
           .start()
           .then(() =>
-            beamsClient.addDeviceInterest(
-              'global', userData.value.profile[0].user_uuid
-            )
+            beamsClient.addDeviceInterest(userData.value.profile[0].user_uuid)
           )
           .then(() => console.log("Successfully registered and subscribed!"))
           .catch(console.error);
