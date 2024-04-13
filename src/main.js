@@ -18,7 +18,6 @@ if ('serviceWorker' in navigator) {
       if (registration) {
         // Desinstalar el Service Worker
         registration.unregister().then(function(success) {
-            alert("ok")
           console.log('Service Worker desinstalado con éxito:', registration);
         }).catch(function(error) {
           console.error('Error al desinstalar el Service Worker:', error);
