@@ -17,7 +17,6 @@ import { Client } from "@pusher/push-notifications-web";
 dayjs.locale("es");
 dayjs.extend(relativeTime);
 
-
 const firebaseConfig = {
   apiKey: "AIzaSyB0z01S4THMA_8x6jKtV1OodLHXs0J9kZ8",
   authDomain: "multimarcasapp-2fa97.firebaseapp.com",
@@ -34,13 +33,19 @@ const app = initializeApp(firebaseConfig);
 // subsequent calls to getToken will return from cache.
 const messaging = getMessaging();
 onMessage(messaging, (payload) => {
-  if(!("Notification" in window)){
-    console.log("no tienes permiso")
-  }else{
-    console.log("si tienes permiso")
+  if (!("Notification" in window)) {
+    console.log("no tienes permiso");
+  } else {
+    if (Notification.permission === "granted") {
+      navigator.serviceWorker.ready.then(function (registration) {
+        registration.showNotification("Archivo Generado!", {
+          icon: "/icon.png",
+          body: "CINTILLOS-2024-04-06-013753.xlsx se ha enviado a PLAZA MUNDO",
+        });
+      });
+    }
+    console.log("Message received. ", payload);
   }
-  console.log("Message received. ", payload);
-  // ...
 });
 
 getToken(messaging, {
