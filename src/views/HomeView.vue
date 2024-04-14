@@ -34,6 +34,11 @@ const app = initializeApp(firebaseConfig);
 // subsequent calls to getToken will return from cache.
 const messaging = getMessaging();
 onMessage(messaging, (payload) => {
+  if(!("Notification" in window)){
+    console.log("no tienes permiso")
+  }else{
+    console.log("si tienes permiso")
+  }
   console.log("Message received. ", payload);
   // ...
 });
