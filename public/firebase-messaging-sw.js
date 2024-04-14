@@ -20,7 +20,6 @@ firebase.initializeApp({
 // messages.
 const messaging = firebase.messaging();
 
-let isNotificationShown = false;
 
 messaging.onBackgroundMessage((payload) => {
   console.log(
@@ -28,8 +27,6 @@ messaging.onBackgroundMessage((payload) => {
     payload
   );
 
-  // Check if a notification is already shown
-  if (!isNotificationShown) {
     // Customize notification here
     const notificationTitle = payload.notification.title;
     const notificationOptions = {
@@ -37,7 +34,20 @@ messaging.onBackgroundMessage((payload) => {
       icon: "/icon.png", // Use the local icon
     };
 
+    // Add click event to open a URL when notification is clicked
+    notificationOptions.data = { url: "https://example.com" };
+
     self.registration.showNotification(notificationTitle, notificationOptions);
-    isNotificationShown = true;
-  }
+    
+  
+});
+
+// Add event listener for notification click
+self.addEventListener('notificationclick', function(event) {
+  event.notification.close();
+  
+  // Open the URL when the notification is clicked
+  event.waitUntil(
+    clients.openWindow(event.notification.data.url)
+  );
 });
