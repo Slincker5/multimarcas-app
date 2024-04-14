@@ -38,9 +38,9 @@ onMessage(messaging, (payload) => {
   } else {
     if (Notification.permission === "granted") {
       navigator.serviceWorker.ready.then(function (registration) {
-        registration.showNotification("Archivo Generado!", {
+        registration.showNotification(payload.notification.title, {
           icon: "/icon.png",
-          body: "CINTILLOS-2024-04-06-013753.xlsx se ha enviado a PLAZA MUNDO",
+          body: payload.notification.body,
         });
       });
     }
