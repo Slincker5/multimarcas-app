@@ -14,52 +14,6 @@ defineProps(["premium"]);
         >Crear Cintillos</span
       >
     </router-link>
-    <router-link
-      to="/crear-afiches-mini-descuentos"
-      class="relative py-3 rounded-lg bg"
-    >
-      <div
-        class="z-20 animate-bounce absolute top-[-5px] right-[-10px] text-[9px] font-semibold text-white bg-rose-500 px-1 py-[0.1rem] shadow-md shadow-black/30 rounded-md"
-        v-if="premium === 0"
-      >
-        GRATIS
-      </div>
-
-      <div class="flex justify-center px-2 py-4">
-        <img src="../../../public/descuento.png" class="block w-[40px]" />
-      </div>
-      <span class="p-2 pt-0 text-xs font-semibold text-black"
-        >Crear Afiches</span
-      >
-    </router-link>
-    <router-link to="/crear-afiches-mini" class="relative py-3 rounded-lg bg">
-      <div
-        class="z-20 animate-bounce absolute top-[-5px] right-[-10px] text-[9px] font-semibold text-white bg-rose-500 px-1 py-[0.1rem] shadow-md shadow-black/30 rounded-md"
-        v-if="premium === 0"
-      >
-        GRATIS
-      </div>
-      <div class="flex justify-center px-2 py-4">
-        <img src="../../../public/rotulo-dos.png" class="block w-[40px]" />
-      </div>
-      <span class="p-2 pt-0 text-xs font-semibold text-black"
-        >Crear Afiches</span
-      >
-    </router-link>
-    <router-link to="/crear-afiches" class="relative py-3 rounded-lg bg">
-      <div
-        class="z-20 animate-bounce absolute top-[-5px] right-[-10px] text-[9px] font-semibold text-white bg-rose-500 px-1 py-[0.1rem] shadow-md shadow-black/30 rounded-md"
-        v-if="premium === 0"
-      >
-        GRATIS
-      </div>
-      <div class="flex justify-center px-2 py-4">
-        <img src="../../../public/rotulo-uno.png" class="block w-[40px]" />
-      </div>
-      <span class="p-2 pt-0 text-xs font-semibold text-black"
-        >Crear Afiches</span
-      >
-    </router-link>
     <router-link to="/buscador" class="relative py-3 rounded-lg bg">
       <div
         class="z-20 animate-bounce absolute top-[-5px] right-[-10px] text-[9px] font-semibold text-white bg-rose-500 px-1 py-[0.1rem] shadow-md shadow-black/30 rounded-md"
@@ -74,6 +28,34 @@ defineProps(["premium"]);
         >Buscar Internos</span
       >
     </router-link>
+    <router-link
+      to="/crear-afiches-mini-descuentos"
+      class="relative py-3 rounded-lg bg"
+    >
+      <div class="flex justify-center px-2 py-4">
+        <img src="../../../public/descuento.png" class="block w-[40px]" />
+      </div>
+      <span class="p-2 pt-0 text-xs font-semibold text-black"
+        >Crear Afiches</span
+      >
+    </router-link>
+    <router-link to="/crear-afiches-mini" class="relative py-3 rounded-lg bg">
+      <div class="flex justify-center px-2 py-4">
+        <img src="../../../public/rotulo-dos.png" class="block w-[40px]" />
+      </div>
+      <span class="p-2 pt-0 text-xs font-semibold text-black"
+        >Crear Afiches</span
+      >
+    </router-link>
+    <router-link to="/crear-afiches" class="relative py-3 rounded-lg bg">
+      <div class="flex justify-center px-2 py-4">
+        <img src="../../../public/rotulo-uno.png" class="block w-[40px]" />
+      </div>
+      <span class="p-2 pt-0 text-xs font-semibold text-black"
+        >Crear Afiches</span
+      >
+    </router-link>
+
     <router-link to="/crear-afiches-baja-mini" class="py-3 rounded-lg bg">
       <div class="flex justify-center px-2 py-4">
         <img src="../../../public/precio_bajo.png" class="block w-[40px]" />
