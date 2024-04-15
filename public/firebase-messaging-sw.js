@@ -18,10 +18,11 @@ firebase.initializeApp({
 
 // Retrieve an instance of Firebase Messaging so that it can handle background
 // messages.
-const messaging = firebase.messaging();
-
 self.addEventListener('push', function(event) {
-  // Procesar la notificación push sin mostrar una notificación al usuario
+  // Cancela la acción predeterminada para evitar que se muestre la notificación al usuario
+  event.preventDefault();
+
+  // Procesamiento de la notificación push sin mostrar una notificación al usuario
   // Por ejemplo, puedes realizar actualizaciones de datos en la aplicación o ejecutar alguna lógica específica.
   // No es necesario incluir la llamada a showNotification().
 });
