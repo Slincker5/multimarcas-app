@@ -57,16 +57,12 @@ const enviar = async () => {
         navigator.serviceWorker.ready.then(function (registration) {
           var notificationData = {
             icon: "/icon.png",
-            body: `📨 Correo enviado a ${infoSala.value.sala}`,
+            body: `Correo enviado a ${infoSala.value.sala.toLowerCase()} exitosamente.`,
             data: {
               path_uuid: archivoGenerado.value.path_uuid,
               path_complete: `https://api.multimarcas.app/${archivoGenerado.value.path_complete}`,
             },
             actions: [
-              {
-                action: "descarga",
-                title: "DESCARGAR",
-              },
               {
                 action: "detalles",
                 title: "VER DETALLES",
