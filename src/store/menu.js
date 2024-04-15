@@ -2,8 +2,6 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import axios from "axios";
 
-import { Client } from "@pusher/push-notifications-web";
-
 export const useNavBar = defineStore("navBar", () => {
   const userData = ref(null);
 
@@ -20,17 +18,16 @@ export const useNavBar = defineStore("navBar", () => {
       const script = document.createElement("script");
       script.src = "https://pagos.wompi.sv/js/wompi.pagos.js";
       document.head.appendChild(script);
-      const beamsClient = new Client({
-        instanceId: "b963f891-0b89-4e01-84a8-698b97373219",
-      });
       if (userData.value.profile[0].suscripcion === 1) {
-        beamsClient
-          .start()
-          .then(() =>
-            beamsClient.addDeviceInterest(`${userData.value.profile[0].user_uuid}`)
-          )
-          .then(() => console.log("Successfully registered and subscribed!"))
-          .catch(console.error);
+        if (Notification.permission !== "granted") {
+          Notification.requestPermission().then(function (permission) {
+            if (permission === "granted") {
+              console.log("Permiso de notificaciones concedido");
+            } else {
+              console.warn("Permiso de notificaciones denegado");
+            }
+          });
+        }
       }
     } catch (error) {
       console.log(error);
