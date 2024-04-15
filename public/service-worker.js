@@ -11,12 +11,12 @@ self.addEventListener("fetch", function (event) {
 });
 
 self.addEventListener("notificationclick", function (event) {
-  if (event.action === "detalles") {
+  if (event.notification.actions[1] === "detalles") {
     const ruta = `/cintillo/${event.notification.data.path_uuid}`;
     event.notification.close();
     event.waitUntil(clients.openWindow(ruta));
   }
-  if (event.action === "descarga") {
+  if (event.notification.actions[0] === "descarga") {
     event.notification.close();
     event.waitUntil(clients.openWindow(event.notification.data.path_complete));
   }
