@@ -58,11 +58,18 @@ const enviar = async () => {
           var notificationData = {
             icon: "/icon.png",
             body: `📨 Correo enviado a ${infoSala.value.sala}`,
-            data: { uuid: archivoGenerado.value.path_uuid },
+            data: {
+              path_uuid: archivoGenerado.value.path_uuid,
+              path_complete: `https://api.multimarcas.app/${archivoGenerado.value.path_complete}`,
+            },
             actions: [
               {
+                action: "descarga",
+                title: "DESCARGAR",
+              },
+              {
                 action: "detalles",
-                title: archivoGenerado.value.path_uuid,
+                title: "VER DETALLES",
               },
             ],
           };
