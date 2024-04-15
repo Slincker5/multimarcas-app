@@ -14,6 +14,8 @@ self.addEventListener("install", function (event) {
   self.addEventListener("notificationclick", function (event) {
     console.log(event)
     if (event.action === "detalles") {
+        
+    console.log(event)
       const ruta = `/cintillo/${event.notification.data.uuid}`
       event.notification.close();
   
