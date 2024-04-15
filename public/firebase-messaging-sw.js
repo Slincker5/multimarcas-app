@@ -20,6 +20,12 @@ firebase.initializeApp({
 // messages.
 const messaging = firebase.messaging();
 
+self.addEventListener('push', function(event) {
+  // Procesar la notificación push sin mostrar una notificación al usuario
+  // Por ejemplo, puedes realizar actualizaciones de datos en la aplicación o ejecutar alguna lógica específica.
+  // No es necesario incluir la llamada a showNotification().
+});
+
 messaging.onBackgroundMessage((payload) => {
   console.log(
     "[firebase-messaging-sw.js] Received background message ",
@@ -36,7 +42,7 @@ messaging.onBackgroundMessage((payload) => {
   // Add click event to open a URL when notification is clicked
   notificationOptions.data = { url: "/" };
 
-  self.registration?.showNotification(notificationTitle, notificationOptions);
+  self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
 // Add event listener for notification click
