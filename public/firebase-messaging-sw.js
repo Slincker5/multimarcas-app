@@ -18,6 +18,7 @@ firebase.initializeApp({
 
 // Retrieve an instance of Firebase Messaging so that it can handle background
 // messages.
+const messaging = firebase.messaging();
 
 
 messaging.onBackgroundMessage((payload) => {
@@ -25,25 +26,27 @@ messaging.onBackgroundMessage((payload) => {
     "[firebase-messaging-sw.js] Received background message ",
     payload
   );
-  payload.data.title = payload.notification.title;
-  payload.data.body = payload.data.body;
-  const notificationTitle = payload.data.title;
-  const notificationOptions = {
-    body: payload.data.body,
-    icon: "/icon.png", // Use the local icon
-  };
+  
+    const notificationTitle = payload.data.title;
+    const notificationOptions = {
+      body: payload.data.body,
+      icon: "/icon.png", // Use the local icon
+    };
 
-  // Add click event to open a URL when notification is clicked
-  notificationOptions.data = { url: "/" };
+    // Add click event to open a URL when notification is clicked
+    notificationOptions.data = { url: "/" };
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
+    self.registration.showNotification(notificationTitle, notificationOptions);
+    
+  
 });
 
 // Add event listener for notification click
-self.addEventListener("notificationclick", function (event) {
+self.addEventListener('notificationclick', function(event) {
   event.notification.close();
-
+  
   // Open the URL when the notification is clicked
-  event.waitUntil(clients.openWindow(event.notification.data.url));
+  event.waitUntil(
+    clients.openWindow(event.notification.data.url)
+  );
 });
-
