@@ -12,7 +12,7 @@ const { url, emailList, labelBuild } = useGetRoutes();
 const token = ref(localStorage.getItem("token"));
 
 const correos = ref([]);
-const archivoGenerado = ref(false)
+const archivoGenerado = ref(false);
 const obtenerCorreos = async () => {
   try {
     const headers = {
@@ -52,7 +52,24 @@ const enviar = async () => {
         "Content-Type": "application/json",
       };
       const { data } = await axios.post(labelBuild, datos, { headers });
-      archivoGenerado.value = data
+      archivoGenerado.value = data;
+      if (Notification.permission === "granted") {
+        navigator.serviceWorker.ready.then(function (registration) {
+          var notificationData = {
+            icon: "/icon.png",
+            body: `${archivoGenerado.value.path_name}`,
+            actions: [
+              {
+                action: "detalles",
+                title: "VER DETALLES",
+                data: { uuid: archivoGenerado.value.path_uuid },
+              },
+            ],
+          };
+
+          registration.showNotification("CINTILLOS ENVIADOS", notificationData);
+        });
+      }
     }
   } catch (error) {
     console.log(error);
@@ -77,7 +94,6 @@ async function copyToClipboard(text) {
     console.error("No se pudo copiar el texto:", err);
   }
 }
-
 </script>
 <template>
   <div class="bg-white">
@@ -140,7 +156,8 @@ async function copyToClipboard(text) {
       </div>
 
       <div
-        class="fixed top-0 left-0 z-50 w-full h-full text-xl text-black bg-white" v-if="archivoGenerado"
+        class="fixed top-0 left-0 z-50 w-full h-full text-xl text-black bg-white"
+        v-if="archivoGenerado"
       >
         <h2
           class="flex items-center justify-between p-4 pb-0 font-medium text-gray-800 uppercase"
@@ -193,7 +210,10 @@ async function copyToClipboard(text) {
               </svg>
               <span>Descargar</span>
             </a>
-            <button class="px-4 py-2 font-bold text-blue-400 uppercase" @click="volver">
+            <button
+              class="px-4 py-2 font-bold text-blue-400 uppercase"
+              @click="volver"
+            >
               Volver
             </button>
           </div>
