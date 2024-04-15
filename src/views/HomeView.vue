@@ -45,6 +45,7 @@ onMessage(messaging, (payload) => {
       });
     }
     console.log("Message received. ", payload);
+    return messaging.subscribeToTopic('global');
   }
 });
 
