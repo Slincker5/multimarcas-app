@@ -9,15 +9,24 @@ self.addEventListener("install", function (event) {
 self.addEventListener("fetch", function (event) {
   event.respondWith(fetch(event.request));
 });
-
 self.addEventListener("notificationclick", function (event) {
-  if (event.notification.actions[1] === "detalles") {
-    const ruta = `/cintillo/${event.notification.data.path_uuid}`;
-    event.notification.close();
-    event.waitUntil(clients.openWindow(ruta));
-  }
-  if (event.notification.actions[0] === "descarga") {
-    event.notification.close();
-    event.waitUntil(clients.openWindow(event.notification.data.path_complete));
-  }
-});
+    // Obtener la acción que se hizo clic
+    const clickedAction = event.action;
+  
+    // Dependiendo de la acción, realizar la operación correspondiente
+    switch(clickedAction) {
+      case 'detalles':
+        const rutaDetalles = `/cintillo/${event.notification.data.path_uuid}`;
+        event.notification.close();
+        event.waitUntil(clients.openWindow(rutaDetalles));
+        break;
+      case 'descarga':
+        event.notification.close();
+        event.waitUntil(clients.openWindow(event.notification.data.path_complete));
+        break;
+      default:
+        // No hacemos nada en caso de una acción desconocida
+        break;
+    }
+  });
+  
