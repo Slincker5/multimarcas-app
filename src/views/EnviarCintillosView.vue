@@ -58,11 +58,11 @@ const enviar = async () => {
           var notificationData = {
             icon: "/icon.png",
             body: `📨 Correo enviado a ${infoSala.value.sala}`,
+            data: { uuid: archivoGenerado.value.path_uuid },
             actions: [
               {
                 action: "detalles",
                 title: archivoGenerado.value.path_uuid,
-                data: { uuid: archivoGenerado.value.path_uuid },
               },
             ],
           };
