@@ -13,7 +13,7 @@ self.addEventListener("fetch", function (event) {
 // Add event listener for notification click
 self.addEventListener("notificationclick", function (event) {
   if (event.action === "detalles") {
-    const ruta = `/cintillo/${event.data.uuid}`
+    const ruta = `/cintillo/${event.notification.data.uuid}`
     event.notification.close();
 
     // Open the URL when the notification is clicked
