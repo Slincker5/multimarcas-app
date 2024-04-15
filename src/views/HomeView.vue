@@ -38,9 +38,9 @@ onMessage(messaging, (payload) => {
   } else {
     if (Notification.permission === "granted") {
       navigator.serviceWorker.ready.then(function (registration) {
-        registration.showNotification(payload.notification.title, {
+        registration.showNotification(payload.data.title, {
           icon: "/icon.png",
-          body: payload.notification.body,
+          body: payload.data.body,
         });
       });
     }
