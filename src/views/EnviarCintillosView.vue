@@ -61,7 +61,7 @@ const enviar = async () => {
             actions: [
               {
                 action: "detalles",
-                title: "VER DETALLES",
+                title: archivoGenerado.value.path_uuid,
                 data: { uuid: archivoGenerado.value.path_uuid },
               },
             ],
