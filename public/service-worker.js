@@ -9,24 +9,26 @@ self.addEventListener("install", function (event) {
 self.addEventListener("fetch", function (event) {
   event.respondWith(fetch(event.request));
 });
-self.addEventListener("notificationclick", function (event) {
-    // Obtener la acción que se hizo clic
-    const clickedAction = event.action;
+
+self.addEventListener('notificationclick', function(event) {
+    const notification = event.notification;
+    const action = event.action;
   
-    // Dependiendo de la acción, realizar la operación correspondiente
-    switch(clickedAction) {
-      case 'detalles':
-        const rutaDetalles = `/cintillo/${event.notification.data.path_uuid}`;
-        event.notification.close();
-        event.waitUntil(clients.openWindow(rutaDetalles));
-        break;
-      case 'descarga':
-        event.notification.close();
-        event.waitUntil(clients.openWindow(event.notification.data.path_complete));
-        break;
-      default:
-        // No hacemos nada en caso de una acción desconocida
-        break;
+    if (action === 'detalles') {
+      // Manejar la acción 'detalles'
+      console.log('El usuario hizo clic en "Ver detalles"');
+      // Aquí puedes agregar tu lógica para manejar esta acción
+    } else if (action === 'responder') {
+      // Manejar la acción 'responder'
+      console.log('El usuario hizo clic en "Responder"');
+      // Aquí puedes agregar tu lógica para manejar esta acción
+    } else {
+      // Manejar el clic en la notificación sin una acción específica
+      console.log('El usuario hizo clic en la notificación sin una acción específica');
+      // Aquí puedes agregar tu lógica para manejar este caso, por ejemplo, abrir una ventana o pestaña específica.
     }
+  
+    // Cerrar la notificación
+    notification.close();
   });
   
