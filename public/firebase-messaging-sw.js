@@ -47,36 +47,3 @@ self.addEventListener("notificationclick", function (event) {
   event.waitUntil(clients.openWindow(event.notification.data.url));
 });
 
-
-
-self.addEventListener('push', (e) => {
-  console.log("PUSH");
-  // Skip if event is our own custom event
-  if (e.custom) return;
-
-  // Keep old event data to override
-  let oldNotificationWrapper = e.data
-
-  // Create a new event to dispatch, pull values from notification key and put it in data key,
-  // and then remove notification key
-  let newEvent = new CustomPushEvent({
-      data: {
-          json() {
-              let newNotificationWrapper= oldNotificationWrapper.json()
-              newNotificationWrapper.data = {
-                  ...newNotificationWrapper.data,
-                  ...newNotificationWrapper.notification
-              }
-              delete newNotificationWrapper.notification
-              return newNotificationWrapper
-          },
-      },
-      waitUntil: e.waitUntil.bind(e),
-  })
-
-  // Stop event propagation
-  e.stopImmediatePropagation()
-
-  // Dispatch the new wrapped event
-  dispatchEvent(newEvent)
-});
