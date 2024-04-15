@@ -29,6 +29,6 @@ self.addEventListener('notificationclick', function(event) {
     }
   
     // Cerrar la notificación
-    notification.close();
+   // notification.close();
   });
   
