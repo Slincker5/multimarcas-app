@@ -26,7 +26,7 @@ messaging.onBackgroundMessage((payload) => {
     "[firebase-messaging-sw.js] Received background message ",
     payload
   );
-  
+  delete payload.notification;
     const notificationTitle = payload.data.title;
     const notificationOptions = {
       body: payload.data.body,
