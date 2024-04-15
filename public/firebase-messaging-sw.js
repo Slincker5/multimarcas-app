@@ -34,7 +34,7 @@ messaging.onBackgroundMessage((payload) => {
     };
 
     // Add click event to open a URL when notification is clicked
-    notificationOptions.data = { url: "https://example.com" };
+    notificationOptions.data = { url: "/" };
 
     self.registration.showNotification(notificationTitle, notificationOptions);
     
