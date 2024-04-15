@@ -57,7 +57,7 @@ const enviar = async () => {
         navigator.serviceWorker.ready.then(function (registration) {
           var notificationData = {
             icon: "/icon.png",
-            body: `${archivoGenerado.value.path_name}`,
+            body: `${archivoGenerado.value.path_name} enviados a ${infoSala.value.sala}`,
             actions: [
               {
                 action: "detalles",
