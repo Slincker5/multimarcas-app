@@ -18,14 +18,7 @@ firebase.initializeApp({
 
 // Retrieve an instance of Firebase Messaging so that it can handle background
 // messages.
-self.addEventListener('push', function(event) {
-  // Cancela la acción predeterminada para evitar que se muestre la notificación al usuario
-  event.preventDefault();
 
-  // Procesamiento de la notificación push sin mostrar una notificación al usuario
-  // Por ejemplo, puedes realizar actualizaciones de datos en la aplicación o ejecutar alguna lógica específica.
-  // No es necesario incluir la llamada a showNotification().
-});
 
 messaging.onBackgroundMessage((payload) => {
   console.log(
@@ -52,4 +45,38 @@ self.addEventListener("notificationclick", function (event) {
 
   // Open the URL when the notification is clicked
   event.waitUntil(clients.openWindow(event.notification.data.url));
+});
+
+
+
+self.addEventListener('push', (e) => {
+  console.log("PUSH");
+  // Skip if event is our own custom event
+  if (e.custom) return;
+
+  // Keep old event data to override
+  let oldNotificationWrapper = e.data
+
+  // Create a new event to dispatch, pull values from notification key and put it in data key,
+  // and then remove notification key
+  let newEvent = new CustomPushEvent({
+      data: {
+          json() {
+              let newNotificationWrapper= oldNotificationWrapper.json()
+              newNotificationWrapper.data = {
+                  ...newNotificationWrapper.data,
+                  ...newNotificationWrapper.notification
+              }
+              delete newNotificationWrapper.notification
+              return newNotificationWrapper
+          },
+      },
+      waitUntil: e.waitUntil.bind(e),
+  })
+
+  // Stop event propagation
+  e.stopImmediatePropagation()
+
+  // Dispatch the new wrapped event
+  dispatchEvent(newEvent)
 });
