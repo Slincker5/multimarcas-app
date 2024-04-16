@@ -53,6 +53,16 @@ const enviar = async () => {
       };
       const { data } = await axios.post(posterSmallBuild, datos, { headers });
       archivoGenerado.value = data;
+      if (Notification.permission === "granted") {
+        navigator.serviceWorker.ready.then(function (registration) {
+          var notificationData = {
+            icon: "/icon.png",
+            body: `Se enviaron ${archivoGenerado.value.cantidad} afiches a ${infoSala.value.sala.toLowerCase()} exitosamente.`,
+          };
+
+          registration.showNotification("AFICHES ENVIADOS", notificationData);
+        });
+      }
     }
   } catch (error) {
     console.log(error);
