@@ -13,10 +13,28 @@ import "vue3-toastify/dist/index.css";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { Client } from "@pusher/push-notifications-web";
 dayjs.locale("es");
 dayjs.extend(relativeTime);
 
+
+const token = ref(localStorage.getItem("token"));
+const { url, userStat, reloadTokenFcm, userUpdateToken, labelListGenerated } = useGetRoutes();
+
+const reloadTokenFirebase = async (token) => {
+  try{
+    const datos = {
+      token: token
+    }
+    const headers = {
+      Authorization: "Bearer " + token.value,
+      "Content-Type": "application/json",
+    };
+    const { data } = await axios.post(reloadTokenFcm, token, { headers })
+    console.log(data)
+  }catch(error){
+    console.log(error)
+  }
+}
 const firebaseConfig = {
   apiKey: "AIzaSyB0z01S4THMA_8x6jKtV1OodLHXs0J9kZ8",
   authDomain: "multimarcasapp-2fa97.firebaseapp.com",
@@ -56,6 +74,8 @@ getToken(messaging, {
     if (currentToken) {
       // Send the token to your server and update the UI if necessary
       console.log("Token is:", currentToken);
+      reloadTokenFirebase(currentToken)
+
       // ...
     } else {
       // Show permission request UI
@@ -69,11 +89,10 @@ getToken(messaging, {
     console.log("An error occurred while retrieving token. ", err);
     // ...
   });
-const { url, userStat, userUpdateToken, labelListGenerated } = useGetRoutes();
+
 const useNavBarStore = useNavBar();
 const { getUserData } = useNavBarStore;
 const { userData } = storeToRefs(useNavBarStore);
-const token = ref(localStorage.getItem("token"));
 const enviando = ref(false);
 const generados = ref([]);
 

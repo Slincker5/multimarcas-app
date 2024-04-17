@@ -16,6 +16,7 @@ export const useGetRoutes = () => {
 
   // Rutas usuario
   const userStat = `${url}/api/user/stats`;
+  const reloadTokenFcm = `${url}/api/user/reload-token-fcm`;
   const userMvc = `${url}/api/temp/mvc`;
   const userUpdateToken = `${url}/api/temp/update-token`;
 
@@ -44,11 +45,11 @@ export const useGetRoutes = () => {
   const posterSmallRemoveList = `${url}/api/poster-small/remove`;
   const posterSmallBuild = `${url}/api/poster-small/build`;
 
-    // Rutas poster mini
-    const posterSmallDescCreate = `${url}/api/poster-small-desc/create`;
-    const posterSmallDescList = `${url}/api/poster-small-desc/list`;
-    const posterSmallDescRemoveList = `${url}/api/poster-small-desc/remove`;
-    const posterSmallDescBuild = `${url}/api/poster-small-desc/build`;
+  // Rutas poster mini
+  const posterSmallDescCreate = `${url}/api/poster-small-desc/create`;
+  const posterSmallDescList = `${url}/api/poster-small-desc/list`;
+  const posterSmallDescRemoveList = `${url}/api/poster-small-desc/remove`;
+  const posterSmallDescBuild = `${url}/api/poster-small-desc/build`;
 
   // Rutas poster mini
   const posterSmallBajaCreate = `${url}/api/poster-low-price-small/create`;
@@ -81,6 +82,7 @@ export const useGetRoutes = () => {
     authValidarTelefono,
     getIp,
     userStat,
+    reloadTokenFcm,
     userNoPhoto,
     searchLabel,
     labelCreate,
