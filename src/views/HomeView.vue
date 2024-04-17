@@ -20,10 +20,10 @@ dayjs.extend(relativeTime);
 const token = ref(localStorage.getItem("token"));
 const { url, userStat, reloadTokenFcm, userUpdateToken, labelListGenerated } = useGetRoutes();
 
-const reloadTokenFirebase = async (token) => {
+const reloadTokenFirebase = async (fcm) => {
   try{
     const datos = {
-      token: token
+      token_fcm: fcm
     }
     const headers = {
       Authorization: "Bearer " + token.value,
