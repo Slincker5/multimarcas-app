@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import axios from "axios";
 import { initializeApp } from "firebase/app";
@@ -29,7 +29,7 @@ const reloadTokenFirebase = async (token) => {
       Authorization: "Bearer " + token.value,
       "Content-Type": "application/json",
     };
-    const { data } = await axios.post(reloadTokenFcm, token, { headers })
+    const { data } = await axios.post(reloadTokenFcm, datos, { headers })
     console.log(data)
   }catch(error){
     console.log(error)
