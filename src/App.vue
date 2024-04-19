@@ -169,7 +169,7 @@ window.addEventListener("online", (e) => {
     @openCupon="openCupon"
   ></FinSuscripcion>
   <CargarFoto v-if="userData" :modal="modal" @cerrarModal="cerrarModal"></CargarFoto>
-  <div class="sticky bottom-0 p-6 font-medium text-white bg-red-500" v-if="offline"><font-awesome-icon :icon="['fas', 'wifi']" /> Sin conexion a internet</div>
+  <Transition><div class="sticky bottom-0 p-4 font-medium text-white bg-red-500" v-if="offline"><font-awesome-icon :icon="['fas', 'wifi']" /> Sin conexion a internet</div></Transition>
 </template>
 <style>
 .bgheader {
