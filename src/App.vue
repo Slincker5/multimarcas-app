@@ -76,12 +76,23 @@ watch(
 );
 
 if (token.value !== null) getUserData(userStat);
+
+const offline = ref(null)
+window.addEventListener("offline", (e) => {
+  offline.value = true
+});
+
+window.addEventListener("online", (e) => {
+  offline.value = false
+});
+
 </script>
 
 <template>
   <div
     class="grid h-screen overflow-y-scroll bg-white grid-rows-auto-1fr-auto grid-cols-auto-1fr contenedor-sin-scrollbar"
   >
+  
     <MenuPrincipal
       :token="token"
       @openMenu="openMenu"
@@ -158,6 +169,7 @@ if (token.value !== null) getUserData(userStat);
     @openCupon="openCupon"
   ></FinSuscripcion>
   <CargarFoto v-if="userData" :modal="modal" @cerrarModal="cerrarModal"></CargarFoto>
+  <div class="sticky bottom-0 text-white bg-red-500" v-if="offline"><font-awesome-icon :icon="['fas', 'wifi']" /> Sin conexion a internet</div>
 </template>
 <style>
 .bgheader {
