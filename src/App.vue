@@ -4,6 +4,7 @@ import { useRoute, useRouter } from "vue-router";
 import { RouterLink, RouterView } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useNavBar } from "@/store/menu";
+import Instalar from "@/components/Instalar.vue";
 import Footer from "@/components/Footer.vue";
 import MenuPrincipal from "@/components/menu/MenuPrincipal.vue";
 import NavbarPrincipal from "@/components/menu/NavbarPrincipal.vue";
@@ -89,6 +90,7 @@ window.addEventListener("online", (e) => {
 </script>
 
 <template>
+  <Instalar></Instalar>
   <div
     class="grid h-screen overflow-y-scroll bg-white grid-rows-auto-1fr-auto grid-cols-auto-1fr contenedor-sin-scrollbar"
   >
