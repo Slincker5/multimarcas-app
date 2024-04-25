@@ -250,6 +250,16 @@ const router = createRouter({
         title: "Subir Foto",
       },
     },
+    
+    {
+      path: "/create-notification",
+      name: "create-notification",
+      component: () => import("@/views/CreateNotificationView.vue"),
+      meta: {
+        requiresAuth: true,
+        title: "Crear Notificacion",
+      },
+    },
     {
       path: "/login",
       name: "login",

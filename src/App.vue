@@ -67,7 +67,7 @@ const cerrarModal = () => {
 watch(
   () => route.path,
   (newPath) => {
-    if (newPath === "/" || newPath === "/crear-cintillos" || newPath === '/login' || newPath === '/crear-enlace') {
+    if (newPath === "/" || newPath === "/crear-cintillos" || newPath === '/login' || newPath === '/crear-enlace' || newPath === '/create-notification') {
       hideFooter();
     } else {
       showFooter();

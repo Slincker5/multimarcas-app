@@ -82,6 +82,12 @@ const emit = defineEmits([
           {{ finallySub }}</b
         >
       </div>
+      <router-link to="/create-notification"
+        class="text-left p-4 pl-5 text-sm border-t border-solid border-[#ddd]/50 text-gray-600 w-full block"
+        v-if="userData.profile[0].rol === 'Admin'"
+      >
+      <font-awesome-icon :icon="['fas', 'message']" /> Crear notificacion
+    </router-link>
       <button
         class="text-left p-4 pl-5 text-sm border-t border-solid border-[#ddd]/50 text-gray-600 w-full block"
         @click.prevent="emit('openCrearCupon')"

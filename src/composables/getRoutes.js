@@ -73,6 +73,9 @@ export const useGetRoutes = () => {
   const generarCupon = `${url}/api/premiun/cupon`;
   const crearCupon = `${url}/api/premiun/nuevo-cupon`;
 
+  // Notificaciones 
+  const notificationPremiumEnd = `${url}/api/notification/premium-create`;
+  const notificationGlobal = `${url}/api/notification/global-create`;
   return {
     url,
     authLogin,
@@ -122,5 +125,7 @@ export const useGetRoutes = () => {
     canjearCupon,
     generarCupon,
     crearCupon,
+    notificationPremiumEnd,
+    notificationGlobal
   };
 };
