@@ -263,6 +263,9 @@ const closeModalTop = () => {
         </div>
       </div>
     </div>
+    <CompletarOrden
+      v-if="userData && userData.profile[0].suscripcion === 0"
+    ></CompletarOrden>
     <div
       class="p-4 text-sm font-medium bg-gray-200">
       TOP USUARIOS CON MEJOR ACTIVIDAD
@@ -397,9 +400,7 @@ const closeModalTop = () => {
         </div>
       </div>
     </div>
-    <CompletarOrden
-      v-if="userData && userData.profile[0].suscripcion === 0"
-    ></CompletarOrden>
+    
     <div>
       <h3 class="p-4 pb-0 font-medium">HISTORIAL CINTILLOS</h3>
 
