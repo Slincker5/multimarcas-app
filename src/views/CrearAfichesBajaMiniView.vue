@@ -300,7 +300,7 @@ const cerrarPreview = () => {
           <div class="inline-block bg-black text-[#a5ac6f] px-14 py-1 tracking-wider font-semibold">NUEVO PRECIO</div>
         </div>
         <div
-          class="flex items-center justify-center text-5xl lg:text-7xl font-medium bg-[#a5ac6f] pt-[50px] lg:pt-[0p7x] pb-[30px] lg:pb-[40px]"
+          class="flex items-center justify-center text-5xl lg:text-7xl font-medium bg-[#a5ac6f] pt-[50px] lg:pt-[0px] pb-[30px] lg:pb-[40px]"
         >
           {{ precio }}
         </div>

@@ -188,6 +188,18 @@ const getUserTop = async () => {
   }
 };
 getUserTop();
+
+// modal estadisticas usuario
+
+const userModal = ref(null);
+
+const openModalTop = (stat) => {
+  userModal.value = stat;
+};
+
+const closeModalTop = () => {
+  userModal.value = null
+}
 </script>
 <template>
   <div class="overflow-auto">
@@ -250,7 +262,9 @@ getUserTop();
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-between px-4 py-3 bg-gray-200 border-l-4 border-black border-solid">
+    <div
+      class="flex items-center justify-between px-4 py-3 bg-gray-200 border-l-4 border-black border-solid"
+    >
       TOP 5 MEJORES USUARIOS
     </div>
     <div class="p-4 pb-0 bg-white">
@@ -260,15 +274,23 @@ getUserTop();
         v-for="user in userTop"
         :key="user.user_uuid"
       >
-        <div class="w-[40px] flex-shrink-0 relative">
+        <div class="w-[40px] h-[40px] flex-shrink-0 relative">
           <img
             :src="user.photo === null ? userNoPhoto : user.photo"
             alt="user.user_uuid"
-            class="w-full rounded-full shadow shadow-black/20"
+            class="inline-block object-cover w-full h-full rounded-full shadow shadow-black/30"
           />
           <div
             class="absolute bottom-0 right-[-5px] text-white w-[18px] h-[18px] flex items-center justify-center rounded-full text-[10px] sombra-blanca"
-            :class="user.top === 1 ? 'bg-[#FF9529]' : user.top === 2 ? 'bg-[#FDCC0D]' : user.top === 3 ? 'bg-[#FFDF00]' : 'bg-black'"
+            :class="
+              user.top === 1
+                ? 'bg-[#FF9529]'
+                : user.top === 2
+                ? 'bg-[#FDCC0D]'
+                : user.top === 3
+                ? 'bg-[#FFDF00]'
+                : 'bg-black'
+            "
           >
             #{{ user.top }}
           </div>
@@ -281,7 +303,97 @@ getUserTop();
           }}
         </div>
         <div class="text-xs font-medium">{{ user.sala }}</div>
-        <div class="cursor-pointer text-cyan-600 hover:text-cyan-900"><font-awesome-icon :icon="['fas', 'chevron-right']" /></div>
+        <button
+          class="cursor-pointer text-cyan-600 hover:text-cyan-900"
+          @click="openModalTop(user)"
+        >
+          <font-awesome-icon :icon="['fas', 'chevron-right']" />
+        </button>
+      </div>
+    </div>
+
+    <div
+      class="fixed top-0 left-0 z-30 flex items-center justify-center w-full h-full bg-black/80"
+      v-if="userModal"
+    >
+      <div class="bg-white w-[80%] max-w-screen-sm rounded-lg shadow-2xl">
+        <h3
+          class="flex items-center justify-between p-4 pb-0 text-sm font-medium"
+        >
+          <button @click="closeModalTop"><font-awesome-icon :icon="['fas', 'arrow-left']" /></button>
+          ESTADISTICA DEL USUARIO
+        </h3>
+        <div
+          class="flex items-center justify-between p-4 gap-x-4 border-b border-[#ddd] border-solid"
+        >
+          <div class="w-[60px] h-[60px] flex-shrink-0 relative">
+            <img
+              :src="userModal.photo === null ? userNoPhoto : userModal.photo"
+              :alt="userModal.user_uuid"
+              class="object-cover w-full h-full rounded-full shadow shadow-black/30"
+            />
+            <div
+              class="absolute bottom-0 right-[-5px] text-white w-[24px] h-[24px] flex items-center justify-center rounded-full text-xs sombra-blanca"
+              :class="
+                userModal.top === 1
+                  ? 'bg-[#FF9529]'
+                  : userModal.top === 2
+                  ? 'bg-[#FDCC0D]'
+                  : userModal.top === 3
+                  ? 'bg-[#FFDF00]'
+                  : 'bg-black'
+              "
+            >
+              #{{ userModal.top }}
+            </div>
+          </div>
+          <div class="flex-1 truncate">
+            <div class="truncate">
+              {{
+                userModal.username === null
+                  ? `${userModal.nombre} ${userModal.apellido}`
+                  : userModal.username
+              }}
+            </div>
+            <div class="text-sm text-green-500">({{ userModal.sala }})</div>
+          </div>
+        </div>
+        <div
+          class="p-4 text-sm text-center text-gray-700 border-b border-[#ddd] border-solid"
+        >
+          Se registro el: {{ userModal.registro }}
+        </div>
+        <div class="p-4 text-sm font-medium uppercase bg-gray-300">
+          Estadisticas semana pasada:
+        </div>
+        <div class="p-4 pb-0 text-sm">
+          <b class="text-sm font-medium">CINTILLOS CREADOS:</b>
+          {{ userModal.total_codigos }}
+        </div>
+        <div class="flex items-center justify-around p-4">
+          <div class="w-[70px] h-[70px] sombra relative inline-block">
+            <div
+              class="absolute flex items-center justify-center w-full h-full pt-3 text-lg font-extrabold"
+            >
+              {{ userModal.total_rotulos_mini }}
+            </div>
+            <img
+              src="../../public/top_afiches_mini.png"
+              class="w-full h-full"
+            />
+          </div>
+          <div class="w-[70px] h-[70px] sombra relative inline-block">
+            <div
+              class="absolute flex items-center justify-center w-full h-full pt-3 text-lg font-extrabold"
+            >
+              {{ userModal.total_rotulos_mini_baja }}
+            </div>
+            <img
+              src="../../public/top_afiches_mini_baja.png"
+              class="w-full h-full"
+            />
+          </div>
+        </div>
       </div>
     </div>
     <CompletarOrden
@@ -444,5 +556,14 @@ getUserTop();
 }
 .sombra-blanca {
   box-shadow: 0px 0px 0px 2px rgb(255, 255, 255);
+}
+
+@font-face {
+  font-family: "oferta";
+  src: url("../../public/oferta.ttf") format("truetype");
+}
+
+.oferta {
+  font-family: "oferta", sans-serif;
 }
 </style>
