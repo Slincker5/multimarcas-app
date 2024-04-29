@@ -76,6 +76,11 @@ export const useGetRoutes = () => {
   // Notificaciones 
   const notificationPremiumEnd = `${url}/api/notification/premium-create`;
   const notificationGlobal = `${url}/api/notification/global-create`;
+
+  // Usuarios [tops. estadisticas. etc ...]
+
+  const usersTopGlobal = `${url}/api/user/top-global`
+
   return {
     url,
     authLogin,
@@ -126,6 +131,7 @@ export const useGetRoutes = () => {
     generarCupon,
     crearCupon,
     notificationPremiumEnd,
-    notificationGlobal
+    notificationGlobal,
+    usersTopGlobal
   };
 };

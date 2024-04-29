@@ -16,25 +16,32 @@ import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.locale("es");
 dayjs.extend(relativeTime);
 
-
 const token = ref(localStorage.getItem("token"));
-const { url, userStat, reloadTokenFcm, userUpdateToken, labelListGenerated } = useGetRoutes();
+const {
+  userNoPhoto,
+  url,
+  userStat,
+  reloadTokenFcm,
+  userUpdateToken,
+  labelListGenerated,
+  usersTopGlobal,
+} = useGetRoutes();
 
 const reloadTokenFirebase = async (fcm) => {
-  try{
+  try {
     const datos = {
-      token_fcm: fcm
-    }
+      token_fcm: fcm,
+    };
     const headers = {
       Authorization: "Bearer " + token.value,
       "Content-Type": "application/json",
     };
-    const { data } = await axios.post(reloadTokenFcm, datos, { headers })
-    console.log(data)
-  }catch(error){
-    console.log(error)
+    const { data } = await axios.post(reloadTokenFcm, datos, { headers });
+    console.log(data);
+  } catch (error) {
+    console.log(error);
   }
-}
+};
 const firebaseConfig = {
   apiKey: "AIzaSyB0z01S4THMA_8x6jKtV1OodLHXs0J9kZ8",
   authDomain: "multimarcasapp-2fa97.firebaseapp.com",
@@ -74,7 +81,7 @@ getToken(messaging, {
     if (currentToken) {
       // Send the token to your server and update the UI if necessary
       console.log("Token is:", currentToken);
-      reloadTokenFirebase(currentToken)
+      reloadTokenFirebase(currentToken);
 
       // ...
     } else {
@@ -162,6 +169,25 @@ getUserData(userStat);
 const script = document.createElement("script");
 script.src = "https://pagos.wompi.sv/js/wompi.pagos.js";
 document.head.appendChild(script);
+
+// Funciones obtener el top de usuarios
+
+const userTop = ref([]);
+
+const getUserTop = async () => {
+  try {
+    const headers = {
+      Authorization: "Bearer " + token.value,
+      "Content-Type": "application/json",
+    };
+    const { data } = await axios.get(usersTopGlobal, { headers });
+    userTop.value = data;
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+getUserTop();
 </script>
 <template>
   <div class="overflow-auto">
@@ -199,38 +225,70 @@ document.head.appendChild(script);
       v-if="userData"
       :premium="userData.profile[0].suscripcion"
     ></Herramientas>
-    <div>
+    <div
+      class="flex items-start justify-between bg-indigo-400 border-l-4 border-indigo-700 border-solid"
+    >
+      <img
+        src="../../public/support.png"
+        alt="atención al cliente"
+        class="w-[75px] block p-4"
+      />
+      <div class="w-full p-4 pl-0">
+        <h3 class="text-sm font-medium text-white uppercase">
+          Atención al cliente
+        </h3>
+        <p class="text-sm font-light text-white">
+          Tienes problemas con la app puedes contactarnos.
+        </p>
+        <div class="flex justify-end p-1">
+          <a
+            href="https://wa.me/+50374329014"
+            class="px-4 py-2 text-xs font-medium text-indigo-400 bg-white rounded-lg"
+          >
+            Escribir mensaje
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="flex items-center justify-between px-4 py-3 bg-gray-200 border-l-4 border-black border-solid">
+      TOP 5 MEJORES USUARIOS
+    </div>
+    <div class="p-4 pb-0 bg-white">
       <div
-        class="flex items-start justify-between bg-indigo-400 border-l-4 border-indigo-700 border-solid"
+        class="flex items-center justify-between p-4 py-2 mb-2 gap-x-3 sombra"
+        v-if="userTop"
+        v-for="user in userTop"
+        :key="user.user_uuid"
       >
-        <img
-          src="../../public/support.png"
-          alt="atención al cliente"
-          class="w-[75px] block p-4"
-        />
-        <div class="w-full p-4 pl-0">
-          <h3 class="text-sm font-medium text-white uppercase">
-            Atención al cliente
-          </h3>
-          <p class="text-sm font-light text-white">
-            Tienes problemas con la app puedes contactarnos.
-          </p>
-          <div class="flex justify-end p-1">
-            <a
-              href="https://wa.me/+50374329014"
-              class="px-4 py-2 text-xs font-medium text-indigo-400 bg-white rounded-lg"
-            >
-              Escribir mensaje
-            </a>
+        <div class="w-[40px] flex-shrink-0 relative">
+          <img
+            :src="user.photo === null ? userNoPhoto : user.photo"
+            alt="user.user_uuid"
+            class="w-full rounded-full shadow shadow-black/20"
+          />
+          <div
+            class="absolute bottom-0 right-[-5px] text-white w-[18px] h-[18px] flex items-center justify-center rounded-full text-[10px] sombra-blanca"
+            :class="user.top === 1 ? 'bg-[#FF9529]' : user.top === 2 ? 'bg-[#FDCC0D]' : user.top === 3 ? 'bg-[#FFDF00]' : 'bg-black'"
+          >
+            #{{ user.top }}
           </div>
         </div>
+        <div class="flex-grow text-sm truncate">
+          {{
+            user.username === null
+              ? `${user.nombre} ${user.apellido}`
+              : user.username
+          }}
+        </div>
+        <div class="text-xs font-medium">{{ user.sala }}</div>
+        <div class="cursor-pointer text-cyan-600 hover:text-cyan-900"><font-awesome-icon :icon="['fas', 'chevron-right']" /></div>
       </div>
     </div>
     <CompletarOrden
       v-if="userData && userData.profile[0].suscripcion === 0"
     ></CompletarOrden>
     <div>
-      <h3 class="p-4 font-medium">HISTORIAL CINTILLOS</h3>
+      <h3 class="p-4 pb-0 font-medium">HISTORIAL CINTILLOS</h3>
 
       <div
         class="grid grid-cols-1 gap-1 p-4 sm:gap-2 md:grid-cols-2 lg:grid-cols-3"
@@ -371,5 +429,20 @@ document.head.appendChild(script);
 
 .bg:hover {
   background-color: #ddd;
+}
+/*.rank {
+  position: relative;
+}*/
+.rank {
+  background-image: url(../../public/bg-cuadro.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  opacity: 0.5;
+}
+.sombra {
+  box-shadow: 0px 0px 3px 2px rgba(0, 0, 0, 0.1);
+}
+.sombra-blanca {
+  box-shadow: 0px 0px 0px 2px rgb(255, 255, 255);
 }
 </style>
