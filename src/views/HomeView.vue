@@ -200,6 +200,7 @@ const openModalTop = (stat) => {
 const closeModalTop = () => {
   userModal.value = null
 }
+
 </script>
 <template>
   <div class="overflow-auto">
@@ -263,9 +264,8 @@ const closeModalTop = () => {
       </div>
     </div>
     <div
-      class="flex items-center justify-between px-4 py-3 bg-gray-200 border-l-4 border-black border-solid"
-    >
-      TOP 5 MEJORES USUARIOS
+      class="p-4 text-sm font-medium bg-gray-200">
+      TOP USUARIOS CON MEJOR ACTIVIDAD
     </div>
     <div class="p-4 pb-0 bg-white">
       <div
@@ -302,7 +302,7 @@ const closeModalTop = () => {
               : user.username
           }}
         </div>
-        <div class="text-xs font-medium">{{ user.sala }}</div>
+        <div class="text-xs font-medium">{{ user.sala.split("_").length === 1 ? user.sala : user.sala.split("_")[1].toUpperCase() }}</div>
         <button
           class="cursor-pointer text-cyan-600 hover:text-cyan-900"
           @click="openModalTop(user)"
@@ -316,9 +316,9 @@ const closeModalTop = () => {
       class="fixed top-0 left-0 z-30 flex items-center justify-center w-full h-full bg-black/80"
       v-if="userModal"
     >
-      <div class="bg-white w-[80%] max-w-screen-sm rounded-lg shadow-2xl">
+      <div class="bg-white w-[80%] md:w-[400px] max-w-screen-sm rounded-lg shadow-2xl">
         <h3
-          class="flex items-center justify-between p-4 pb-0 text-sm font-medium"
+          class="flex items-center justify-between p-4 pb-1 text-sm font-medium"
         >
           <button @click="closeModalTop"><font-awesome-icon :icon="['fas', 'arrow-left']" /></button>
           ESTADISTICA DEL USUARIO
@@ -355,16 +355,17 @@ const closeModalTop = () => {
                   : userModal.username
               }}
             </div>
-            <div class="text-sm text-green-500">({{ userModal.sala }})</div>
+            <div class="text-sm text-green-500">({{ userModal.sala.split("_").length === 1 ? userModal.sala : userModal.sala.split("_")[1].toUpperCase() }})</div>
           </div>
         </div>
         <div
-          class="p-4 text-sm text-center text-gray-700 border-b border-[#ddd] border-solid"
+          class="p-4 text-sm text-center text-gray-700"
         >
           Se registro el: {{ userModal.registro }}
         </div>
-        <div class="p-4 text-sm font-medium uppercase bg-gray-300">
-          Estadisticas semana pasada:
+        <div class="p-4 text-sm font-medium uppercase bg-gray-200">
+          PERIODO DE LAS ESTADISTICAS: <br><span class="pt-3 text-sm font-normal lowercase">
+            ({{ userModal.periodo_top }})</span>
         </div>
         <div class="p-4 pb-0 text-sm">
           <b class="text-sm font-medium">CINTILLOS CREADOS:</b>
