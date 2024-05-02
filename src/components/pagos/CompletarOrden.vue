@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from "vue";
-
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 const toggle = ref(false);
 
 const abrir = () => {
@@ -13,6 +14,20 @@ const abrir = () => {
 const cerrar = () => {
   toggle.value = false;
 };
+
+async function copyToClipboard(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    toast.success("No. de cuenta copiado al portapapeles.", {
+      theme: "colored",
+      autoClose: 1500,
+      position: toast.POSITION.BOTTOM_LEFT,
+      transition: toast.TRANSITIONS.ZOOM,
+    });
+  } catch (err) {
+    console.error("No se pudo copiar el texto:", err);
+  }
+}
 </script>
 <template>
   <div>
@@ -46,7 +61,7 @@ const cerrar = () => {
     <Transition>
       <div
         v-if="toggle"
-        class="fixed top-0 left-0 z-40 w-full h-full p-4 transition-all bg-white"
+        class="fixed top-0 left-0 z-40 w-full h-full p-4 overflow-y-scroll transition-all bg-white"
       >
         <h3
           class="flex items-center justify-between pb-4 font-medium text-black"
@@ -56,17 +71,7 @@ const cerrar = () => {
             <font-awesome-icon :icon="['fas', 'xmark']" />
           </button>
         </h3>
-        <div
-          class="flex items-center justify-between p-4 text-sm font-medium rounded-md text-neutral-700 bg-amber-100"
-        >
-          ¿Como pagar?
-          <button
-            class="px-4 py-1 text-sm text-white bg-blue-500 rounded-md"
-            @click.prevent="abrirModalTuto"
-          >
-            Ver tutorial
-          </button>
-        </div>
+       
         <p class="p-4 text-sm font-light text-gray-500">
           Todas las transacciones son seguras y estan encriptadas.
         </p>
@@ -75,7 +80,7 @@ const cerrar = () => {
             class="border border-b-0 border-solid border-[#ddd] p-4 flex items-center justify-between"
           >
             <div class="text-sm font-light">
-              Suscripcion Premium<br />
+              <b class="text-xs font-medium">(OPCION #1) </b>Suscripcion Premium<br />
               <span class="text-xs text-gray-400">(Duracion por 30 dias)</span>
             </div>
             <div class="text-sm font-semibold">$1.10</div>
@@ -122,6 +127,35 @@ const cerrar = () => {
             ></div>
           </div>
         </div>
+        <div
+            class="mt-4 border border-b-0 border-solid border-[#ddd] p-4 flex items-center justify-between"
+          >
+            <div class="text-sm font-light">
+              <b class="text-xs font-medium">(OPCION #2) </b>Tansferencia Bancaria<br />
+              <span class="text-xs text-gray-400"><b class="text-xs font-medium">Cupon Premium </b>(Duracion por 30 dias)</span>
+            </div>
+            <div class="text-sm font-semibold">$1.10</div>
+          </div>
+          <div class="border border-t-0 border-solid border-[#ddd] bg-gray-100">
+            <h3 class="p-4 text-sm font-medium uppercase">DATOS DE TRANSFERENCIA</h3>
+            <div class="p-4 py-0 text-xs"><b class="text-sm font-medium">Titular:</b> GERSON VLADIMIR BORJA ALVAREZ</div>
+            <div class="p-4 text-sm"><b class="text-sm font-medium">Entidad Bancaria:</b> BANCO AGRICOLA</div>
+            <div class="flex items-center justify-between px-4">
+              <div class="text-sm"><b class="text-sm font-medium">No. Cuenta:</b> #3112321411</div>
+              <button class="text-sm font-medium text-cyan-600" @click.prevent="copyToClipboard(3112321411)">COPIAR</button>
+            </div>
+            <div class="px-4 py-0">
+              <a
+        href="https://wa.me/+50374329014"
+        class="block px-6 py-2 mx-auto text-sm text-center border border-solid rounded-sm shadow-lg mt-7 border-neutral-700"
+        ><font-awesome-icon :icon="['fas', 'receipt']" /> Enviar Comprobante</a
+      >
+            </div>
+            <p class="block p-4 text-xs font-medium text-center text-gray-700">
+            Luego de hacer la transferencia envianos captura o comprobante al whatsapp.
+          </p>
+          </div>
+
       </div>
     </Transition>
   </div>
