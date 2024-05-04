@@ -395,7 +395,7 @@ const closeModalTop = () => {
           </div>
           <div class="p-4 text-sm text-center text-gray-700">
             Se registro el
-            {{ dayjs(userModal.registro).format("D [de] MMMM de YYYY") }}
+            {{ dayjs(userModal.registro).format("D [de] MMMM [de] YYYY") }}
           </div>
           <div class="p-4 text-sm font-medium uppercase bg-gray-200">
             PERIODO DE LAS ESTADISTICAS:
