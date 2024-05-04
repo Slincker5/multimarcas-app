@@ -192,9 +192,11 @@ getUserTop();
 // modal estadisticas usuario
 
 const userModal = ref(null);
+const fechasPeriodo = ref("")
 
 const openModalTop = (stat) => {
   userModal.value = stat;
+  fechasPeriodo.value = userModal.value.periodo_top.split(" ")
 };
 
 const closeModalTop = () => {
@@ -320,7 +322,7 @@ const closeModalTop = () => {
       class="fixed top-0 left-0 z-30 flex items-center justify-center w-full h-full bg-black/80"
       v-if="userModal"
     >
-      <div class="bg-white w-[80%] md:w-[400px] max-w-screen-sm rounded-lg shadow-2xl">
+      <div class="bg-white w-[85%] md:w-[450px] max-w-screen-sm rounded-lg shadow-2xl">
         <h3
           class="flex items-center justify-between p-4 pb-1 text-sm font-medium"
         >
@@ -365,11 +367,11 @@ const closeModalTop = () => {
         <div
           class="p-4 text-sm text-center text-gray-700"
         >
-          Se registro el: {{ userModal.registro }}
+          Se registro el {{ dayjs(userModal.registro).format("D [de] MMMM de YYYY") }}
         </div>
         <div class="p-4 text-sm font-medium uppercase bg-gray-200">
-          PERIODO DE LAS ESTADISTICAS: <br><span class="pt-3 text-sm font-normal lowercase">
-            ({{ userModal.periodo_top }})</span>
+          PERIODO DE LAS ESTADISTICAS: <span class="block pt-2 text-sm font-normal lowercase md:inline">
+            ({{ dayjs(fechasPeriodo[0], "DD-MM-YYYY").format("D [de] MMMM") }} al {{ dayjs(fechasPeriodo[2], "DD-MM-YYYY").format("D [de] MMMM") }})</span>
         </div>
         <div class="p-4 pb-0 text-sm">
           <b class="text-sm font-medium">CINTILLOS CREADOS:</b>

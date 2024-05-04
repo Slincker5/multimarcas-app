@@ -21,7 +21,7 @@ const emit = defineEmits(["openCupon"]);
     >
       <img src="../../../public/sad.png" class="w-[30%] block m-auto" />
       <h3 class="pt-4 font-medium text-center text-black uppercase text-nomal">
-        Tu membresia ha vencido!
+        Tu membresia ha terminado!
       </h3>
       <p class="py-4 text-sm text-center text-gray-500" v-if="userData">
         Vencio el
