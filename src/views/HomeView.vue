@@ -265,6 +265,7 @@ const closeModalTop = () => {
     </div>
     <CompletarOrden
       v-if="userData && userData.profile[0].suscripcion === 0"
+      :btnOnly="false"
     ></CompletarOrden>
     <div
       class="p-4 text-sm font-medium bg-gray-200">

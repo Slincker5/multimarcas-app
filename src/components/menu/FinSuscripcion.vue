@@ -1,11 +1,12 @@
 <script setup>
-import { ref } from 'vue'
-const token = ref(localStorage.getItem("token"))
-defineProps(["userData", "vencio"])
-const emit = defineEmits(["openCupon"])
+import { ref } from "vue";
+import CompletarOrden from "@/components/pagos/CompletarOrden.vue";
+const token = ref(localStorage.getItem("token"));
+defineProps(["userData", "vencio"]);
+const emit = defineEmits(["openCupon"]);
 </script>
 <template>
-    <!-- div que muestra la suscripcion vencida -->
+  <!-- div que muestra la suscripcion vencida -->
   <div
     class="fixed top-0 left-0 z-40 flex items-center justify-center w-full h-full bg-black/80"
     v-if="
@@ -13,7 +14,8 @@ const emit = defineEmits(["openCupon"])
       token &&
       userData.profile[0].suscripcion === 0 &&
       userData.profile[0].fin_suscripcion !== null
-    ">
+    "
+  >
     <div
       class="bg-white w-[80%] md:w-[450px] py-6 px-4 max-w-screen-sm rounded-lg shadow-2xl"
     >
@@ -23,9 +25,7 @@ const emit = defineEmits(["openCupon"])
       </h3>
       <p class="py-4 text-sm text-center text-gray-500" v-if="userData">
         Vencio el
-        {{
-          vencio
-        }}<br />
+        {{ vencio }}<br />
         <span class="text-xs">
           Puedes renovarla haciendo el pago en linea o escribiendo a atencion al
           cliente.</span
@@ -40,10 +40,10 @@ const emit = defineEmits(["openCupon"])
         </button>
 
         <div class="flex items-center justify-center">
-          <div
-            class="wompi_button_widget"
-            data-url-pago="https://lk.wompi.sv/ixtR"
-          ></div>
+          <CompletarOrden
+            v-if="userData && userData.profile[0].suscripcion === 0"
+            :btnOnly="true"
+          ></CompletarOrden>
         </div>
       </div>
       <a
