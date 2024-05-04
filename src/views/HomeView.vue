@@ -287,11 +287,11 @@ const closeModalTop = () => {
       >
         <div class="w-[40px] h-[40px] flex-shrink-0 relative">
           <img
-                src="../../public/vip.png"
-                alt="premiun"
-                class="w-[12px] inline-block shadow-lg shadow-yellow-500 top-[-5px] right-[-3px] absolute rotate-45"
-                v-if="user.top === 1"
-            />
+            src="../../public/vip.png"
+            alt="premiun"
+            class="w-[12px] inline-block shadow-lg shadow-yellow-500 top-[-5px] right-[-3px] absolute rotate-45"
+            v-if="user.top === 1"
+          />
           <img
             :src="user.photo === null ? userNoPhoto : user.photo"
             alt="user.user_uuid"
@@ -355,7 +355,8 @@ const closeModalTop = () => {
                 src="../../public/vip.png"
                 alt="premiun"
                 class="w-[15px] inline-block shadow-lg shadow-yellow-500 top-[-5px] right-[-3px] absolute rotate-45"
-            />
+                v-if="userModal.top === 1"
+              />
               <img
                 :src="userModal.photo === null ? userNoPhoto : userModal.photo"
                 :alt="userModal.user_uuid"
