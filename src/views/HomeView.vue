@@ -270,15 +270,19 @@ const closeModalTop = () => {
       :btnOnly="false"
     ></CompletarOrden>
     <div
-      class="p-4 text-sm font-medium bg-gray-200">
+      class="p-4 text-sm font-medium text-yellow-700 bg-yellow-200 border-b border-yellow-600 border-dashed">
       TOP USUARIOS CON MEJOR ACTIVIDAD
+    </div>
+    <div class="p-4 text-sm text-yellow-700 bg-yellow-200">
+      Usuarios con mayor actividad durante la semana pasada, en hora buena! este top se actualizara cada semana.
     </div>
     <div class="p-4 pb-0 bg-white">
       <div
-        class="flex items-center justify-between p-4 py-2 mb-2 gap-x-3 sombra"
+        class="flex items-center justify-between p-4 py-2 mb-2 cursor-pointer gap-x-3 sombra"
         v-if="userTop"
         v-for="user in userTop"
         :key="user.user_uuid"
+        @click="openModalTop(user)"
       >
         <div class="w-[40px] h-[40px] flex-shrink-0 relative">
           <img
@@ -311,7 +315,6 @@ const closeModalTop = () => {
         <div class="text-xs font-medium">{{ user.sala.split("_").length === 1 ? user.sala : user.sala.split("_")[1].toUpperCase() }}</div>
         <button
           class="cursor-pointer text-cyan-600 hover:text-cyan-900"
-          @click="openModalTop(user)"
         >
           <font-awesome-icon :icon="['fas', 'chevron-right']" />
         </button>
