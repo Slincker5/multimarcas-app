@@ -192,17 +192,16 @@ getUserTop();
 // modal estadisticas usuario
 
 const userModal = ref(null);
-const fechasPeriodo = ref("")
+const fechasPeriodo = ref("");
 
 const openModalTop = (stat) => {
   userModal.value = stat;
-  fechasPeriodo.value = userModal.value.periodo_top.split(" ")
+  fechasPeriodo.value = userModal.value.periodo_top.split(" ");
 };
 
 const closeModalTop = () => {
-  userModal.value = null
-}
-
+  userModal.value = null;
+};
 </script>
 <template>
   <div class="overflow-auto">
@@ -270,11 +269,13 @@ const closeModalTop = () => {
       :btnOnly="false"
     ></CompletarOrden>
     <div
-      class="p-4 text-sm font-medium text-yellow-700 bg-yellow-200 border-b border-yellow-600 border-dashed">
+      class="p-4 text-sm font-medium text-yellow-700 bg-yellow-100 border-b border-yellow-600 border-dashed"
+    >
       TOP USUARIOS CON MEJOR ACTIVIDAD
     </div>
-    <div class="p-4 text-sm text-yellow-700 bg-yellow-200">
-      Usuarios con mayor actividad durante la semana pasada, en hora buena! este top se actualizara cada semana.
+    <div class="p-4 text-sm text-yellow-700 bg-yellow-100">
+      Usuarios con mayor actividad durante la semana pasada, en hora buena! este
+      top se actualizara cada semana.
     </div>
     <div class="p-4 pb-0 bg-white">
       <div
@@ -285,6 +286,12 @@ const closeModalTop = () => {
         @click="openModalTop(user)"
       >
         <div class="w-[40px] h-[40px] flex-shrink-0 relative">
+          <img
+                src="../../public/vip.png"
+                alt="premiun"
+                class="w-[12px] inline-block shadow-lg shadow-yellow-500 top-[-5px] right-[-3px] absolute rotate-45"
+                v-if="user.top === 1"
+            />
           <img
             :src="user.photo === null ? userNoPhoto : user.photo"
             alt="user.user_uuid"
@@ -312,101 +319,126 @@ const closeModalTop = () => {
               : user.username
           }}
         </div>
-        <div class="text-xs font-medium">{{ user.sala.split("_").length === 1 ? user.sala : user.sala.split("_")[1].toUpperCase() }}</div>
-        <button
-          class="cursor-pointer text-cyan-600 hover:text-cyan-900"
-        >
+        <div class="text-xs font-medium">
+          {{
+            user.sala.split("_").length === 1
+              ? user.sala
+              : user.sala.split("_")[1].toUpperCase()
+          }}
+        </div>
+        <button class="cursor-pointer text-cyan-600 hover:text-cyan-900">
           <font-awesome-icon :icon="['fas', 'chevron-right']" />
         </button>
       </div>
     </div>
-
-    <div
-      class="fixed top-0 left-0 z-30 flex items-center justify-center w-full h-full bg-black/80"
-      v-if="userModal"
-    >
-      <div class="bg-white w-[85%] md:w-[450px] max-w-screen-sm rounded-lg shadow-2xl">
-        <h3
-          class="flex items-center justify-between p-4 pb-1 text-sm font-medium"
-        >
-          <button @click="closeModalTop"><font-awesome-icon :icon="['fas', 'arrow-left']" /></button>
-          ESTADISTICA DEL USUARIO
-        </h3>
+    <Transition>
+      <div
+        class="fixed top-0 left-0 z-30 flex items-center justify-center w-full h-full bg-black/80"
+        v-if="userModal"
+      >
         <div
-          class="flex items-center justify-between p-4 gap-x-4 border-b border-[#ddd] border-solid"
+          class="bg-white w-[85%] md:w-[450px] max-w-screen-sm rounded-lg shadow-2xl"
         >
-          <div class="w-[60px] h-[60px] flex-shrink-0 relative">
-            <img
-              :src="userModal.photo === null ? userNoPhoto : userModal.photo"
-              :alt="userModal.user_uuid"
-              class="object-cover w-full h-full rounded-full shadow shadow-black/30"
+          <h3
+            class="flex items-center justify-between p-4 pb-1 text-sm font-medium"
+          >
+            <button @click="closeModalTop">
+              <font-awesome-icon :icon="['fas', 'arrow-left']" />
+            </button>
+            ESTADISTICA DEL USUARIO
+          </h3>
+          <div
+            class="flex items-center justify-between p-4 gap-x-4 border-b border-[#ddd] border-solid"
+          >
+            <div class="w-[60px] h-[60px] flex-shrink-0 relative">
+              <img
+                src="../../public/vip.png"
+                alt="premiun"
+                class="w-[15px] inline-block shadow-lg shadow-yellow-500 top-[-5px] right-[-3px] absolute rotate-45"
             />
-            <div
-              class="absolute bottom-0 right-[-5px] text-white w-[24px] h-[24px] flex items-center justify-center rounded-full text-xs sombra-blanca"
-              :class="
-                userModal.top === 1
-                  ? 'bg-[#FF9529]'
-                  : userModal.top === 2
-                  ? 'bg-[#FDCC0D]'
-                  : userModal.top === 3
-                  ? 'bg-[#FFDF00]'
-                  : 'bg-black'
-              "
-            >
-              #{{ userModal.top }}
+              <img
+                :src="userModal.photo === null ? userNoPhoto : userModal.photo"
+                :alt="userModal.user_uuid"
+                class="object-cover w-full h-full rounded-full shadow shadow-black/30"
+              />
+              <div
+                class="absolute bottom-0 right-[-5px] text-white w-[24px] h-[24px] flex items-center justify-center rounded-full text-xs sombra-blanca"
+                :class="
+                  userModal.top === 1
+                    ? 'bg-[#FF9529]'
+                    : userModal.top === 2
+                    ? 'bg-[#FDCC0D]'
+                    : userModal.top === 3
+                    ? 'bg-[#FFDF00]'
+                    : 'bg-black'
+                "
+              >
+                #{{ userModal.top }}
+              </div>
+            </div>
+            <div class="flex-1 truncate">
+              <div class="truncate">
+                {{
+                  userModal.username === null
+                    ? `${userModal.nombre} ${userModal.apellido}`
+                    : userModal.username
+                }}
+              </div>
+              <div class="text-sm text-green-500">
+                ({{
+                  userModal.sala.split("_").length === 1
+                    ? userModal.sala
+                    : userModal.sala.split("_")[1].toUpperCase()
+                }})
+              </div>
             </div>
           </div>
-          <div class="flex-1 truncate">
-            <div class="truncate">
+          <div class="p-4 text-sm text-center text-gray-700">
+            Se registro el
+            {{ dayjs(userModal.registro).format("D [de] MMMM de YYYY") }}
+          </div>
+          <div class="p-4 text-sm font-medium uppercase bg-gray-200">
+            PERIODO DE LAS ESTADISTICAS:
+            <span class="block pt-2 text-sm font-normal lowercase md:inline">
+              ({{ dayjs(fechasPeriodo[0], "DD-MM-YYYY").format("D [de] MMMM") }}
+              al
               {{
-                userModal.username === null
-                  ? `${userModal.nombre} ${userModal.apellido}`
-                  : userModal.username
-              }}
-            </div>
-            <div class="text-sm text-green-500">({{ userModal.sala.split("_").length === 1 ? userModal.sala : userModal.sala.split("_")[1].toUpperCase() }})</div>
-          </div>
-        </div>
-        <div
-          class="p-4 text-sm text-center text-gray-700"
-        >
-          Se registro el {{ dayjs(userModal.registro).format("D [de] MMMM de YYYY") }}
-        </div>
-        <div class="p-4 text-sm font-medium uppercase bg-gray-200">
-          PERIODO DE LAS ESTADISTICAS: <span class="block pt-2 text-sm font-normal lowercase md:inline">
-            ({{ dayjs(fechasPeriodo[0], "DD-MM-YYYY").format("D [de] MMMM") }} al {{ dayjs(fechasPeriodo[2], "DD-MM-YYYY").format("D [de] MMMM") }})</span>
-        </div>
-        <div class="p-4 pb-0 text-sm">
-          <b class="text-sm font-medium">CINTILLOS CREADOS:</b>
-          {{ userModal.total_codigos }}
-        </div>
-        <div class="flex items-center justify-around p-4">
-          <div class="w-[70px] h-[70px] sombra relative inline-block">
-            <div
-              class="absolute flex items-center justify-center w-full h-full pt-3 text-lg font-extrabold"
+                dayjs(fechasPeriodo[2], "DD-MM-YYYY").format("D [de] MMMM")
+              }})</span
             >
-              {{ userModal.total_rotulos_mini }}
-            </div>
-            <img
-              src="../../public/top_afiches_mini.png"
-              class="w-full h-full"
-            />
           </div>
-          <div class="w-[70px] h-[70px] sombra relative inline-block">
-            <div
-              class="absolute flex items-center justify-center w-full h-full pt-3 text-lg font-extrabold"
-            >
-              {{ userModal.total_rotulos_mini_baja }}
+          <div class="p-4 pb-0 text-sm">
+            <b class="text-sm font-medium">CINTILLOS CREADOS:</b>
+            {{ userModal.total_codigos }}
+          </div>
+          <div class="flex items-center justify-around p-4">
+            <div class="w-[70px] h-[70px] sombra relative inline-block">
+              <div
+                class="absolute flex items-center justify-center w-full h-full pt-3 text-lg font-extrabold"
+              >
+                {{ userModal.total_rotulos_mini }}
+              </div>
+              <img
+                src="../../public/top_afiches_mini.png"
+                class="w-full h-full"
+              />
             </div>
-            <img
-              src="../../public/top_afiches_mini_baja.png"
-              class="w-full h-full"
-            />
+            <div class="w-[70px] h-[70px] sombra relative inline-block">
+              <div
+                class="absolute flex items-center justify-center w-full h-full pt-3 text-lg font-extrabold"
+              >
+                {{ userModal.total_rotulos_mini_baja }}
+              </div>
+              <img
+                src="../../public/top_afiches_mini_baja.png"
+                class="w-full h-full"
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    
+    </Transition>
+
     <div>
       <h3 class="p-4 pb-0 font-medium">HISTORIAL CINTILLOS</h3>
 
