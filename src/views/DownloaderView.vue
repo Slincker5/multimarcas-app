@@ -13,6 +13,17 @@ const buscar = async() => {
     }
 }
 
+const download = async(id) => {
+    try{
+        const datos = {
+            id: id
+        }
+        const { data } = await axios.post('https://api.multimarcas.app/api/youtube/download', datos)
+        console.log(data)
+    }catch(error){
+        console.log(error)
+    }
+}
 </script>
 <template>
     <div class="overflow-y-scroll">
@@ -27,6 +38,7 @@ const buscar = async() => {
                 <div class="font-medium truncate block p-4 border-b border-dashed border-[#ddd]">{{  song.title }}</div>
                 <div class="flex items-center justify-between p-4">
                     <div><b class="font-medium">Duracion:</b> {{ song.duration }}</div>
+                    <div><button @click="download(song.id)">Descargar</button>{{ song.id }}</div>
                 </div>
             </div>
         </div>
