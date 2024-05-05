@@ -302,6 +302,15 @@ const router = createRouter({
         title: "Pago Exitoso",
       },
     },
+    {
+      path: "/buscar-musica",
+      name: "ytdownloader",
+      component: () => import("../views/DownloaderView.vue"),
+      meta: {
+        requiresAuth: false,
+        title: "Descarga musica gratis",
+      },
+    }
   ],
 });
 
