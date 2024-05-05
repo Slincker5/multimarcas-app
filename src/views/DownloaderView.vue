@@ -1,22 +1,32 @@
 <script setup>
 import { ref } from "vue";
 import axios from "axios";
+import CargandoFrom from "@/components/globales/CargandoForm.vue";
+
 const busqueda = ref("");
 const resultados = ref([]);
+const enviando = ref(false);
+const texto = ref("")
 
 const buscar = async () => {
   try {
+    enviando.value = true;
+    texto.value = "Realizando busqueda ..."
     const { data } = await axios.get(
       `https://api.multimarcas.app/api/youtube/search/${busqueda.value}`
     );
     resultados.value = data.result;
   } catch (error) {
     console.log(error);
+  } finally {
+    enviando.value = false;
   }
 };
 
 const download = async (id, name) => {
   try {
+    enviando.value = true
+    texto.value = "Procesando descarga..."
     const datos = {
       id: id,
     };
@@ -39,11 +49,14 @@ const download = async (id, name) => {
     window.URL.revokeObjectURL(url);
   } catch (error) {
     console.log(error);
+  } finally {
+    enviando.value = false
   }
 };
 </script>
 <template>
   <div class="overflow-y-scroll">
+    <CargandoFrom :enviando="enviando" :textoCarga="texto"></CargandoFrom>
     <h2 class="p-4 pb-0 font-medium text-white uppercase bg-black">
       Descarga Musica Gratis
     </h2>
@@ -52,6 +65,7 @@ const download = async (id, name) => {
         type="text"
         class="block w-full px-4 py-2 font-medium transition-all rounded-md outline-none focus:shadow-lg bg-white/70 placeholder:text-black placeholder:font-medium focus:shadow-cyan-500/20"
         placeholder="Escribe tu busqueda musical.."
+        required
         v-model="busqueda"
       />
       <input
@@ -62,20 +76,18 @@ const download = async (id, name) => {
     </form>
 
     <div class="p-4">
-      <div
-        class="border border-solid border-[#ddd] mb-4"
-        v-for="song in resultados"
-        :key="song.id"
-      >
-        <div
-          class="font-medium truncate block p-4 border-b border-dashed border-[#ddd]"
-        >
-          {{ song.title }}
-        </div>
-        <div class="flex items-center justify-between p-4">
-          <div><b class="font-medium">Duracion:</b> {{ song.duration }}</div>
-          <div>
-            <button @click="download(song.id, song.title)">Descargar</button>
+      <div v-for="song in resultados" :key="song.id">
+        <div class="border border-solid border-[#ddd] mb-4">
+          <div
+            class="font-medium truncate block p-4 border-b border-dashed border-[#ddd]"
+          >
+            {{ song.title }}
+          </div>
+          <div class="flex items-center justify-between p-4">
+            <div><b class="font-medium">Duracion:</b> {{ song.duration }}</div>
+            <div>
+              <button @click="download(song.id, song.title)">Descargar</button>
+            </div>
           </div>
         </div>
       </div>
