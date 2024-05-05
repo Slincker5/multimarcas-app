@@ -53,6 +53,13 @@ const download = async (id, name) => {
     enviando.value = false
   }
 };
+
+
+
+const filtroTime  = (duracion) => {
+    const time = duracion.split(":")
+    return  parseInt(time.join(''));
+}
 </script>
 <template>
   <div class="overflow-y-scroll">
@@ -77,14 +84,14 @@ const download = async (id, name) => {
 
     <div class="p-4">
       <div v-for="song in resultados" :key="song.id">
-        <div class="border border-solid border-[#ddd] mb-4">
+        <div class="border border-solid border-[#ddd] mb-4" v-if="song.duration !== null && filtroTime(song.duration) < 1100">
           <div
             class="font-medium truncate block p-4 border-b border-dashed border-[#ddd]"
           >
             {{ song.title }}
           </div>
           <div class="flex items-center justify-between p-4">
-            <div><b class="font-medium">Duracion:</b> {{ song.duration }}</div>
+            <div><b class="font-medium">Duracion:</b> {{ song.duration === null ? 'Desconocida' : song.duration }}</div>
             <div>
               <button @click="download(song.id, song.title)">Descargar</button>
             </div>
