@@ -38,7 +38,7 @@ const notifyBody = [
 const body = ref("");
 const titulo = ref("MULTIMARCAS APP");
 const selectBody = (index) => {
-  body.value = notifyBody[index].text;
+  body.value = notifyBody[index].text
 };
 
 const send = async () => {
@@ -122,6 +122,7 @@ const send = async () => {
             type="text"
             placeholder="Escribe un comentario al contralor"
             autocomplete="off"
+            v-model="body"
             >{{ body }}</textarea
           >
         </div>
