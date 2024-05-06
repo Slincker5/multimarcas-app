@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import axios from "axios";
 import { useGetRoutes } from "@/composables/getRoutes";
-
+import CargandoFrom from "@/components/globales/CargandoForm.vue";
 const token = ref(localStorage.getItem("token"));
 const { notificationGlobal, notificationPremiumEnd } = useGetRoutes();
 const items = [
@@ -35,34 +35,41 @@ const notifyBody = [
   },
 ];
 
+const enviando = ref(false);
 const body = ref("");
 const titulo = ref("MULTIMARCAS APP");
 const selectBody = (index) => {
-  body.value = notifyBody[index].text
+  body.value = notifyBody[index].text;
 };
 
 const send = async () => {
-  const url =
-    selected.value === 0
-      ? notificationGlobal
-      : notificationPremiumEnd;
-  const dataNotify = {
-    title: titulo.value,
-    body: body.value,
-  };
-  const headers = {
-    Authorization: "Bearer " + token.value,
-    "Content-Type": "application/json",
-  };
-  const { data } = await axios.post(url, dataNotify, { headers });
-  console.log(data)
-  console.log(url);
-  console.log(body.value);
-  console.log(titulo.value);
+  try {
+    enviando.value = true;
+    const url =
+      selected.value === 0 ? notificationGlobal : notificationPremiumEnd;
+    const dataNotify = {
+      title: titulo.value,
+      body: body.value,
+    };
+    const headers = {
+      Authorization: "Bearer " + token.value,
+      "Content-Type": "application/json",
+    };
+    const { data } = await axios.post(url, dataNotify, { headers });
+    alert(data);
+  } catch (error) {
+    console.log(error);
+  } finally{
+    enviando.value = false
+  }
 };
 </script>
 <template>
   <div class="grid h-full grid-cols-1 sm:grid-cols-2 gap-x-4">
+    <CargandoFrom
+      :enviando="enviando"
+      :textoCarga="' Enviando notificaciones'"
+    ></CargandoFrom>
     <div>
       <h3
         class="flex items-center justify-between p-4 pb-0 text-sm font-medium text-black uppercase"
