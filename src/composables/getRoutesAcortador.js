@@ -30,5 +30,6 @@ export const useGetRoutesAcortador = () => {
     viewCountryLink,
     loggerView,
     validateView,
+    getIp
   };
 };
