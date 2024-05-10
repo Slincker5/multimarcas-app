@@ -32,10 +32,7 @@ const getData = async () => {
       link_uuid: route.params.uuid,
       date: date.value,
     };
-    const { data: info } = await fetchData(
-        viewLink,
-      param
-    );
+    const { data: info } = await fetchData(viewLink, param);
     total.value = info;
 
     if (info.length > 0) {
@@ -80,6 +77,8 @@ const getData = async () => {
           .getElementById("doughnutChart")
           .getContext("2d");
         doughnutChartInstance.value = new Chart(ctxDoughnut, {
+          responsive: true,
+          maintainAspectRatio: false,
           type: "doughnut",
           data: data,
           options: {
@@ -156,8 +155,8 @@ const getData = async () => {
         pieChartInstance.value.data = datados;
         pieChartInstance.value.update();
       }
-    }else{
-      grafica.value = false
+    } else {
+      grafica.value = false;
     }
   } catch (error) {
     console.error(error);
@@ -169,10 +168,7 @@ onMounted(getData);
 const eliminar = async () => {
   try {
     const params = { link_uuid: route.params.uuid };
-    const { data } = await fetchData(
-        removeLink,
-      params
-    );
+    const { data } = await fetchData(removeLink, params);
 
     if (data.status === "OK") {
       toast.success(data.message, {
@@ -187,61 +183,83 @@ const eliminar = async () => {
     console.error(error);
   }
 };
-const deleteItem = ref(false)
+const deleteItem = ref(false);
 const show = async () => {
-  deleteItem.value = true
+  deleteItem.value = true;
 };
 const noshow = async () => {
-  deleteItem.value = false
+  deleteItem.value = false;
 };
 </script>
 
 <template>
-  <div
-    class="p-4 text-4xl font-extrabold text-center text-gray-900 bg-gray-200"
-  >
-    <div v-if="grafica">{{ total[0].clics }} clics</div>
-    <div v-else>Sin datos aun</div>
-  </div>
+  <div>
+    <div
+      class="p-4 text-4xl font-extrabold text-center text-gray-900 bg-gray-200"
+    >
+      <div v-if="grafica">{{ total[0].clics }} clics</div>
+      <div v-else>Sin datos aun</div>
+    </div>
 
-  <div class="w-1/2 mt-4 text-left">
-    <nav aria-label="breadcrumb" class="w-max">
-      <ol
-        class="flex flex-wrap items-center w-full px-4 py-2 rounded-md bg-blue-gray-50 bg-opacity-60"
-      >
-        <li
-          class="flex items-center font-sans text-sm antialiased font-normal leading-normal transition-colors duration-300 cursor-pointer text-blue-gray-900 hover:text-pink-500"
+    <div class="w-1/2 mt-4 text-left">
+      <nav aria-label="breadcrumb" class="w-max">
+        <ol
+          class="flex flex-wrap items-center w-full px-4 py-2 rounded-md bg-blue-gray-50 bg-opacity-60"
         >
-          <router-link to="/" class="opacity-60"> Inicio </router-link>
-          <span
-            class="mx-2 font-sans text-sm antialiased font-normal leading-normal pointer-events-none select-none text-blue-gray-500"
-            >/</span
+          <li
+            class="flex items-center font-sans text-sm antialiased font-normal leading-normal transition-colors duration-300 cursor-pointer text-blue-gray-900 hover:text-pink-500"
           >
-        </li>
-        <li
-          class="flex items-center font-sans text-sm antialiased font-normal leading-normal transition-colors duration-300 cursor-pointer text-blue-gray-900 hover:text-pink-500"
-        >
-          <span class="opacity-60"><span>Estadistica</span></span>
-        </li>
-      </ol>
-    </nav>
-  </div>
+            <router-link to="/" class="opacity-60"> Inicio </router-link>
+            <span
+              class="mx-2 font-sans text-sm antialiased font-normal leading-normal pointer-events-none select-none text-blue-gray-500"
+              >/</span
+            >
+          </li>
+          <li
+            class="flex items-center font-sans text-sm antialiased font-normal leading-normal transition-colors duration-300 cursor-pointer text-blue-gray-900 hover:text-pink-500"
+          >
+            <span class="opacity-60"><span>Estadistica</span></span>
+          </li>
+        </ol>
+      </nav>
+    </div>
 
-  <div class="flex items-center justify-between gap-4">
-    <button class="p-4" @click="show"><font-awesome-icon :icon="['fas', 'trash-can']" /> Eliminar enlace</button>
-    <input type="date" v-model="date" @change="getData" />
-  </div>
-  <div
-    class="fixed top-0 left-0 flex items-center justify-center w-full h-full text-lg text-black z-5 bg-white/90"
-    v-if="deleteItem"
-  >
-    <div class="w-[80%] bg-white shadow-lg"><p class="p-6 pb-0">¿Realmente quieres eliminar el acortador?</p>
-      <div class="flex items-center justify-between p-6">
-       <button class="px-3 py-1 mt-4 text-sm border border-solid border-slate-900" @click="noshow">Cancelar</button> 
-       <button class="px-3 py-1 mt-4 text-sm text-white border border-solid bg-slate-900 border-slate-900" @click="eliminar">Eliminar</button>
+    <div class="flex items-center justify-between gap-4">
+      <button class="p-4" @click="show">
+        <font-awesome-icon :icon="['fas', 'trash-can']" /> Eliminar enlace
+      </button>
+      <input type="date" v-model="date" @change="getData" />
+    </div>
+    <div
+      class="fixed top-0 left-0 flex items-center justify-center w-full h-full text-lg text-black z-5 bg-white/90"
+      v-if="deleteItem"
+    >
+      <div class="w-[80%] bg-white shadow-lg">
+        <p class="p-6 pb-0">¿Realmente quieres eliminar el acortador?</p>
+        <div class="flex items-center justify-between p-6">
+          <button
+            class="px-3 py-1 mt-4 text-sm border border-solid border-slate-900"
+            @click="noshow"
+          >
+            Cancelar
+          </button>
+          <button
+            class="px-3 py-1 mt-4 text-sm text-white border border-solid bg-slate-900 border-slate-900"
+            @click="eliminar"
+          >
+            Eliminar
+          </button>
+        </div>
       </div>
+    </div>
+    <div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
+  <div class="p-4">
+    <canvas id="doughnutChart"></canvas>
   </div>
- </div> 
-  <canvas id="doughnutChart" width="200" height="200"></canvas><br><br><br>
-  <canvas id="pieChart" width="200" height="400"></canvas>
+  <div class="p-4">
+    <canvas id="pieChart"></canvas>
+  </div>
+</div>
+
+  </div>
 </template>
