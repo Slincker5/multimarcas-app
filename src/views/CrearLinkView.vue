@@ -58,6 +58,8 @@ const agregarAcortador = async () => {
 };
 </script>
 <template>
+<div>
+
   <div class="w-1/2 mt-4 text-left">
     <nav aria-label="breadcrumb" class="w-max">
       <ol
@@ -141,6 +143,7 @@ const agregarAcortador = async () => {
       value="Generar enlace"
     />
   </form>
+</div>
 </template>
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");

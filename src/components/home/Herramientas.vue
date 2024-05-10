@@ -64,7 +64,12 @@ defineProps(["premium"]);
         >Crear Afiches</span
       >
     </router-link>
-    <router-link to="/acortador" class="relative hidden py-3 rounded-lg bg">
+    <router-link to="/acortador" class="relative py-3 rounded-lg bg">
+      <div
+        class="z-20 animate-bounce absolute top-[-5px] right-[-10px] text-[9px] font-semibold text-white bg-rose-500 px-1 py-[0.1rem] shadow-md shadow-black/30 rounded-md"
+      >
+        NUEVO
+      </div>
       <span
         class="absolute top-0 right-0 inline-flex w-3 h-3 font-black rounded-full opacity-75 animate-ping bg-rose-700"
       ></span>
