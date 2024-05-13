@@ -2,8 +2,10 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useReSend = defineStore("reSend", () => {
+  
   const toggle = ref(false);
   const enviando = ref(false)
+
   const formReenviarOpen = () => {
     toggle.value = true;
   };

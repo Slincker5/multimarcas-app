@@ -5,10 +5,9 @@ import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
 import { useBarPagination } from "@/composables/barPagination";
 import { useReSend } from "@/store/resend";
-import ListaCintillos from "@/components/cintillos/ListaCintillos.vue";
 import ReenvioCintillos from "@/components/cintillos/ReenvioCintillos.vue";
+import ReenviarLista from "@/components/cintillos/ReenviarLista.vue";
 import CargandoFrom from "@/components/globales/CargandoForm.vue";
-import PaginateCintillos from "@/components/cintillos/PaginateCintillos.vue";
 import { useGetRoutes } from "@/composables/getRoutes";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
@@ -16,69 +15,63 @@ import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.locale("es");
 dayjs.extend(relativeTime);
 
+const route = useRoute();
+const token = localStorage.getItem("token");
+const { labelDocument } = useGetRoutes();
+const path_uuid = route.params.path_uuid;
 const documento = ref(null);
 
-const { labelDocument } = useGetRoutes();
-const useReSendStore = useReSend();
-const { formReenviarOpen, formReenviarClose, enviandoTrue, enviandoFalse, } = useReSendStore;
-const { toggle, enviando } = storeToRefs(useReSendStore);
-const route = useRoute();
-const token = ref(localStorage.getItem("token"));
 const modal = ref(false);
-async function getDocument (param) {
+const useReSendStore = useReSend();
+const { formReenviarOpen, formReenviarClose, enviandoTrue, enviandoFalse } =
+  useReSendStore;
+const { toggle, enviando } = storeToRefs(useReSendStore);
+
+// obtener datos de los archivos
+const getInfoFile = async () => {
   try {
-    const { data } = await axios.get(`${labelDocument}${param}`, {
-      headers: {
-        Authorization: `Bearer ${token.value}`,
-      },
+    const headers = {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
+    };
+    const { data } = await axios.get(`${labelDocument}${path_uuid}`, {
+      headers,
     });
     documento.value = data;
   } catch (error) {
     console.log(error);
   }
 };
-getDocument(route.params.path_uuid);
+
+getInfoFile();
+const { data } = documento;
 const { inicio, fin, siguiente, anterior } = useBarPagination();
 
 const closeModal = () => {
   modal.value = false;
 };
-
-
 </script>
 
 <template>
   <div class="grid grid-cols-1">
-    <ReenvioCintillos :toggle="toggle" :documento="documento" :enviando="enviando" @formReenviarOpen="formReenviarOpen" @formReenviarClose="formReenviarClose" @enviandoFalse="enviandoFalse" @enviandoTrue="enviandoTrue"></ReenvioCintillos>
+    <ReenvioCintillos
+      v-if="documento"
+      :toggle="toggle"
+      :documento="documento"
+      :enviando="enviando"
+      :total="documento.total[0].total"
+      @formReenviarOpen="formReenviarOpen"
+      @formReenviarClose="formReenviarClose"
+      @enviandoFalse="enviandoFalse"
+      @enviandoTrue="enviandoTrue"
+    ></ReenvioCintillos>
+
     <div>
       <CargandoFrom
         :enviando="enviando"
         :textoCarga="' Reenviando documento ..'"
       ></CargandoFrom>
-      <div
-        class="fixed top-0 left-0 z-40 flex items-center justify-center w-full h-full bg-black/80"
-        v-if="modal"
-      >
-        <div
-          class="bg-white w-[80%] md:w-[450px] py-6 px-4 max-w-screen-sm rounded-lg shadow-2xl"
-        >
-          <img src="../../public/share.gif" class="w-[30%] block m-auto" />
-          <h3 class="pt-4 font-medium text-center text-black uppercase">
-            Documento reenviado!
-          </h3>
-          <div class="p-4 pt-0">
-            Puedes volver a pedirlo usando el mismo codigo de referencia
-          </div>
-          <div class="py-4 border-y border-dashed border-[#ddd]">
-            <button
-              class="block px-6 py-2 mx-auto text-sm text-center border border-solid rounded-sm shadow-lg border-neutral-700"
-              @click.prevent="closeModal"
-            >
-              Aceptar
-            </button>
-          </div>
-        </div>
-      </div>
+
       <div
         class="flex items-center justify-between gap-4 px-4 p-2 border-b border-dashed border-[#ddd]"
       >
@@ -87,7 +80,10 @@ const closeModal = () => {
         >
           <img src="../../public/excel.svg" class="w-[40px]" />
         </div>
-        <div class="flex-1 overflow-hidden font-medium text-ellipsis-container">
+        <div
+          class="flex-1 overflow-hidden font-medium text-ellipsis-container"
+          v-if="documento"
+        >
           {{ documento.detalles[0].path_name }}
         </div>
       </div>
@@ -97,6 +93,7 @@ const closeModal = () => {
       >
         <div
           class="inline-flex items-center px-3 py-1 text-sm text-gray-800 bg-gray-200 rounded-md"
+          v-if="documento"
         >
           <font-awesome-icon :icon="['fas', 'at']" class="pr-1" />{{
             documento.detalles[0].receptor === "Desconocido"
@@ -106,6 +103,7 @@ const closeModal = () => {
         </div>
         <div
           class="inline-flex items-center px-3 py-1 text-sm text-gray-800 uppercase bg-gray-200 border rounded-md"
+          v-if="documento"
         >
           <font-awesome-icon
             :icon="
@@ -120,12 +118,16 @@ const closeModal = () => {
         </div>
         <div
           class="inline-flex items-center px-3 py-1 text-sm text-gray-800 uppercase bg-gray-200 rounded-md"
+          v-if="documento"
         >
           <font-awesome-icon :icon="['fas', 'calendar']" class="pr-2" />
           {{ dayjs(documento.detalles[0].fecha).fromNow() }}
         </div>
       </div>
-      <div class="flex items-center justify-between p-4 pt-0 gap-x-4">
+      <div
+        class="flex items-center justify-between p-4 pt-0 gap-x-4"
+        v-if="documento"
+      >
         <a
           :href="`https://api.multimarcas.app/${documento.detalles[0].path}`"
           download
@@ -143,7 +145,7 @@ const closeModal = () => {
           REENVIAR
         </button>
       </div>
-      <div class="p-4 pt-0">
+      <div class="p-4 pt-0" v-if="documento">
         <div class="pb-2 text-sm">
           <b class="font-medium">Codigo de referencia: </b> #{{
             documento.detalles[0].code
@@ -155,30 +157,10 @@ const closeModal = () => {
         </div>
       </div>
 
-      <ListaCintillos
+      <ReenviarLista
         v-if="documento"
-        v-for="producto in documento.cintillos.slice(inicio, fin)"
-        :key="producto.uuid"
-        :uuid="producto.uuid"
-        :descripcion="producto.descripcion"
-        :precio="producto.precio"
-        :cantidad="producto.cantidad"
-        :fecha="dayjs(producto.fecha).fromNow()"
-        :loading="loading"
-        :urlRemoveLabel="labelRemove"
-        :token="token"
-        :mostrar="false"
-        @eliminar="eliminar"
-      ></ListaCintillos>
-
-      <PaginateCintillos
-        v-if="documento.cintillos.length >= 7"
-        :inicio="inicio"
-        :fin="fin"
-        :maxLength="documento.cintillos.length"
-        @siguiente="siguiente"
-        @anterior="anterior"
-      ></PaginateCintillos>
+        :cintillo="documento.cintillos"
+      ></ReenviarLista>
     </div>
   </div>
 </template>

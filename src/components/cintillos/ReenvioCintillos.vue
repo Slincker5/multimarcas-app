@@ -3,13 +3,15 @@ import { ref } from "vue";
 import axios from "axios";
 import { useGetRoutes } from "@/composables/getRoutes";
 
-let { toggle, documento } = defineProps(["toggle", "enviando", "documento"]);
-const emit = defineEmits(
+let { toggle, documento, total } = defineProps(["toggle", "enviando", "total", "documento"]);
+
+const emit = defineEmits([
   "formReenviarOpen",
   "formReenviarClose",
   "enviandoTrue",
-  "enviandoFalse"
-);
+  "enviandoFalse",
+]);
+
 const email = ref(
   documento.detalles[0].email === null
     ? documento.detalles[0].receptor
@@ -18,6 +20,7 @@ const email = ref(
     : documento.detalles[0].email
 );
 const comentario = ref(documento.detalles[0].comentario);
+const cantidad = total
 const modal = ref(false);
 const token = ref(localStorage.getItem("token"));
 const { labelDocumentReSend } = useGetRoutes();
@@ -36,7 +39,7 @@ async function resend() {
       email: email.value,
       path: documento.detalles[0].path,
       comentario: comentario.value,
-      cantidad: documento.detalles[0].cantidad,
+      cantidad: cantidad,
       code: documento.detalles[0].code,
     };
 
@@ -99,9 +102,9 @@ const cerrar = () => {
         </h3>
         <div class="p-4 text-sm text-yellow-700 bg-yellow-200">
           Puedes editar la informacion de envio para enviarlo a otro correo o
-          seguir usando el mismo destino
+          seguir usando el mismo destino {{  cantidad }}
         </div>
-        <form class="p-4">
+        <form class="p-4" @submit.prevent="resend">
           <div class="mb-4">
             <label
               class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
@@ -118,6 +121,7 @@ const cerrar = () => {
                 type="text"
                 placeholder="example@example.com"
                 autocomplete="off"
+                required
                 v-model="email"
               />
               <button
@@ -144,12 +148,10 @@ const cerrar = () => {
               v-model="comentario"
             ></textarea>
           </div>
-          <button
+          <input type="submit"
             class="w-full px-6 py-2 mb-4 text-sm text-center text-white bg-indigo-800 border border-indigo-900 border-solid rounded-md shadow-lg shadow-black/20"
-            @click.prevent="resend"
+             value="Reenviar documento"
           >
-            Reenviar Documento
-          </button>
         </form>
       </div>
     </div>
