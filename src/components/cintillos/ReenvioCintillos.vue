@@ -102,7 +102,7 @@ const cerrar = () => {
         </h3>
         <div class="p-4 text-sm text-yellow-700 bg-yellow-200">
           Puedes editar la informacion de envio para enviarlo a otro correo o
-          seguir usando el mismo destino {{  cantidad }}
+          seguir usando el mismo destino.
         </div>
         <form class="p-4" @submit.prevent="resend">
           <div class="mb-4">
