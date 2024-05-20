@@ -160,9 +160,9 @@ async function copyToClipboard(text) {
   }
 }
 
-const anuncioTmp = ref(localStorage.getItem("resend"));
+const anuncioTmp = ref(localStorage.getItem("duedate"));
 const cerrarVentana = () => {
-  anuncioTmp.value = localStorage.setItem("resend", "true");
+  anuncioTmp.value = localStorage.setItem("duedate", "true");
 };
 
 getUserData(userStat);
@@ -523,23 +523,27 @@ const closeModalTop = () => {
     </div>
 
     <div
-      class="fixed top-0 left-0 z-30 flex items-center justify-center w-full h-full bg-black/80"
+      class="fixed top-0 left-0 z-30 flex items-center justify-center w-full h-full bg-black/90"
       v-if="anuncioTmp === null"
     >
       <div
         class="bg-white w-[80%] py-6 px-4 max-w-screen-sm rounded-lg shadow-2xl"
       >
-        <img src="../../public/resend-event.png" class="w-[30%] block m-auto" />
+        <img src="../../public/calendar.gif" class="w-[30%] block m-auto" />
         <h3
           class="pt-4 font-medium text-center text-black uppercase text-nomal"
         >
-          NUEVA FUNCION
+          PROXIMAMENTE
         </h3>
-        <p class="py-4 text-sm text-center text-gray-500">
-          ¡Emociónate! Ahora puedes reenviar tus cintillos fácilmente. ¿Quieres
-          volver a enviarlos al mismo correo o compartirlos con otros contactos?
-          ¡Hazlo en un instante y comparte tus creaciones con quien desees!
+        <p class="p-4 pb-0 text-sm text-gray-600">
+          Tendremos una nueva funcion, <b class="font-medium underline">Gestor de fechas de vencimineto</b>
         </p>
+       <ul class="p-4">
+       <li class="text-sm text-gray-600">✅ Control de las fechas</li>
+       <li class="text-sm text-gray-600">✅ Te notificaremos con antelacion a tu celular</li>
+       <li class="text-sm text-gray-600">✅ Sistema compartido entre la comunidad</li> 
+       </ul> 
+       <p class="p-4 pt-0 text-sm text-gray-600">Porque sabemos que un trabajo eficiente ahorra tiempo, siempre buscamos agilizar procesos rutinarios y repetitivos.</p>
         <div class="py-4 pb-0 border-t border-dashed border-[#ddd]">
           <button
             class="block px-6 py-2 mx-auto mb-4 text-sm text-center border border-solid rounded-sm shadow-lg border-neutral-700"
