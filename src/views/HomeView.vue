@@ -206,28 +206,18 @@ const closeModalTop = () => {
 </script>
 <template>
   <div class="overflow-auto">
-    <div
-      class="fixed top-0 left-0 z-50 hidden w-full h-full p-4 overflow-hidden transition-all bg-white"
-    >
+    <div class="fixed top-0 left-0 z-50 hidden w-full h-full p-4 overflow-hidden transition-all bg-white">
       <div class="flex items-center justify-between py-4">
-        <button
-          class="inline-block px-5 py-2 text-sm text-white bg-green-500 rounded-md shadow-md"
-          @click.prevent="reproducir"
-        >
+        <button class="inline-block px-5 py-2 text-sm text-white bg-green-500 rounded-md shadow-md"
+          @click.prevent="reproducir">
           Reproducir
         </button>
-        <button
-          class="inline-block px-5 py-2 text-sm text-white rounded-md shadow-md bg-amber-500"
-          @click.prevent="cerrarModalTuto"
-        >
+        <button class="inline-block px-5 py-2 text-sm text-white rounded-md shadow-md bg-amber-500"
+          @click.prevent="cerrarModalTuto">
           Volver a mi compra
         </button>
       </div>
-      <video
-        controls
-        class="block m-auto w-[90%] sm:w-[150px] md:w-[300px]"
-        id="videoTuto"
-      >
+      <video controls class="block m-auto w-[90%] sm:w-[150px] md:w-[300px]" id="videoTuto">
         <source src="../../public/tutorial.mp4" type="video/mp4" />
       </video>
     </div>
@@ -236,19 +226,10 @@ const closeModalTop = () => {
       <source src="../../public/tap-like.mp3" type="audio/mp3" />
       Tu navegador no soporta el elemento de audio.
     </audio>
-    <Herramientas
-      v-if="userData"
-      :premium="userData.profile[0].suscripcion"
-    ></Herramientas>
-    <VencimientosCard :usuario="userData.profile[0].username"></VencimientosCard>
-    <div
-      class="flex items-start justify-between bg-indigo-400 border-l-4 border-indigo-700 border-solid"
-    >
-      <img
-        src="../../public/support.png"
-        alt="atención al cliente"
-        class="w-[75px] block p-4"
-      />
+    <Herramientas v-if="userData" :premium="userData.profile[0].suscripcion"></Herramientas>
+    <VencimientosCard v-if="userData" :usuario="userData.profile[0].username"></VencimientosCard>
+    <div class="flex items-start justify-between bg-indigo-400 border-l-4 border-indigo-700 border-solid">
+      <img src="../../public/support.png" alt="atención al cliente" class="w-[75px] block p-4" />
       <div class="w-full p-4 pl-0">
         <h3 class="text-sm font-medium text-white uppercase">
           Atención al cliente
@@ -257,22 +238,15 @@ const closeModalTop = () => {
           Tienes problemas con la app puedes contactarnos.
         </p>
         <div class="flex justify-end p-1">
-          <a
-            href="https://wa.me/+50374329014"
-            class="px-4 py-2 text-xs font-medium text-indigo-400 bg-white rounded-lg"
-          >
+          <a href="https://wa.me/+50374329014"
+            class="px-4 py-2 text-xs font-medium text-indigo-400 bg-white rounded-lg">
             Escribir mensaje
           </a>
         </div>
       </div>
     </div>
-    <CompletarOrden
-      v-if="userData && userData.profile[0].suscripcion === 0"
-      :btnOnly="false"
-    ></CompletarOrden>
-    <div
-      class="p-4 text-sm font-medium text-yellow-700 bg-yellow-100 border-b border-yellow-600 border-dashed"
-    >
+    <CompletarOrden v-if="userData && userData.profile[0].suscripcion === 0" :btnOnly="false"></CompletarOrden>
+    <div class="p-4 text-sm font-medium text-yellow-700 bg-yellow-100 border-b border-yellow-600 border-dashed">
       TOP USUARIOS CON MEJOR ACTIVIDAD
     </div>
     <div class="p-4 text-sm text-yellow-700 bg-yellow-100">
@@ -280,37 +254,24 @@ const closeModalTop = () => {
       top se actualizara cada semana.
     </div>
     <div class="p-4 pb-0 bg-white">
-      <div
-        class="flex items-center justify-between p-4 py-2 mb-2 cursor-pointer gap-x-3 sombra"
-        v-if="userTop"
-        v-for="user in userTop"
-        :key="user.user_uuid"
-        @click="openModalTop(user)"
-      >
+      <div class="flex items-center justify-between p-4 py-2 mb-2 cursor-pointer gap-x-3 sombra" v-if="userTop"
+        v-for="user in userTop" :key="user.user_uuid" @click="openModalTop(user)">
         <div class="w-[40px] h-[40px] flex-shrink-0 relative">
-          <img
-            src="../../public/vip.png"
-            alt="premiun"
+          <img src="../../public/vip.png" alt="premiun"
             class="w-[12px] inline-block shadow-lg shadow-yellow-500 top-[-5px] right-[-3px] absolute rotate-45"
-            v-if="user.top === 1"
-          />
-          <img
-            :src="user.photo === null ? userNoPhoto : user.photo"
-            alt="user.user_uuid"
-            class="inline-block object-cover w-full h-full rounded-full shadow shadow-black/30"
-          />
+            v-if="user.top === 1" />
+          <img :src="user.photo === null ? userNoPhoto : user.photo" alt="user.user_uuid"
+            class="inline-block object-cover w-full h-full rounded-full shadow shadow-black/30" />
           <div
             class="absolute bottom-0 right-[-5px] text-white w-[18px] h-[18px] flex items-center justify-center rounded-full text-[10px] sombra-blanca"
-            :class="
-              user.top === 1
+            :class="user.top === 1
                 ? 'bg-[#FF9529]'
                 : user.top === 2
-                ? 'bg-[#FDCC0D]'
-                : user.top === 3
-                ? 'bg-[#FFDF00]'
-                : 'bg-black'
-            "
-          >
+                  ? 'bg-[#FDCC0D]'
+                  : user.top === 3
+                    ? 'bg-[#FFDF00]'
+                    : 'bg-black'
+              ">
             #{{ user.top }}
           </div>
         </div>
@@ -334,48 +295,31 @@ const closeModalTop = () => {
       </div>
     </div>
     <Transition>
-      <div
-        class="fixed top-0 left-0 z-30 flex items-center justify-center w-full h-full bg-black/80"
-        v-if="userModal"
-      >
-        <div
-          class="bg-white w-[85%] md:w-[450px] max-w-screen-sm rounded-lg shadow-2xl"
-        >
-          <h3
-            class="flex items-center justify-between p-4 pb-1 text-sm font-medium"
-          >
+      <div class="fixed top-0 left-0 z-30 flex items-center justify-center w-full h-full bg-black/80" v-if="userModal">
+        <div class="bg-white w-[85%] md:w-[450px] max-w-screen-sm rounded-lg shadow-2xl">
+          <h3 class="flex items-center justify-between p-4 pb-1 text-sm font-medium">
             <button @click="closeModalTop">
               <font-awesome-icon :icon="['fas', 'arrow-left']" />
             </button>
             ESTADISTICA DEL USUARIO
           </h3>
-          <div
-            class="flex items-center justify-between p-4 gap-x-4 border-b border-[#ddd] border-solid"
-          >
+          <div class="flex items-center justify-between p-4 gap-x-4 border-b border-[#ddd] border-solid">
             <div class="w-[60px] h-[60px] flex-shrink-0 relative">
-              <img
-                src="../../public/vip.png"
-                alt="premiun"
+              <img src="../../public/vip.png" alt="premiun"
                 class="w-[15px] inline-block shadow-lg shadow-yellow-500 top-[-5px] right-[-3px] absolute rotate-45"
-                v-if="userModal.top === 1"
-              />
-              <img
-                :src="userModal.photo === null ? userNoPhoto : userModal.photo"
-                :alt="userModal.user_uuid"
-                class="object-cover w-full h-full rounded-full shadow shadow-black/30"
-              />
+                v-if="userModal.top === 1" />
+              <img :src="userModal.photo === null ? userNoPhoto : userModal.photo" :alt="userModal.user_uuid"
+                class="object-cover w-full h-full rounded-full shadow shadow-black/30" />
               <div
                 class="absolute bottom-0 right-[-5px] text-white w-[24px] h-[24px] flex items-center justify-center rounded-full text-xs sombra-blanca"
-                :class="
-                  userModal.top === 1
+                :class="userModal.top === 1
                     ? 'bg-[#FF9529]'
                     : userModal.top === 2
-                    ? 'bg-[#FDCC0D]'
-                    : userModal.top === 3
-                    ? 'bg-[#FFDF00]'
-                    : 'bg-black'
-                "
-              >
+                      ? 'bg-[#FDCC0D]'
+                      : userModal.top === 3
+                        ? 'bg-[#FFDF00]'
+                        : 'bg-black'
+                  ">
                 #{{ userModal.top }}
               </div>
             </div>
@@ -407,8 +351,7 @@ const closeModalTop = () => {
               al
               {{
                 dayjs(fechasPeriodo[2], "DD-MM-YYYY").format("D [de] MMMM")
-              }})</span
-            >
+              }})</span>
           </div>
           <div class="p-4 pb-0 text-sm">
             <b class="text-sm font-medium">CINTILLOS CREADOS:</b>
@@ -416,26 +359,16 @@ const closeModalTop = () => {
           </div>
           <div class="flex items-center justify-around p-4">
             <div class="w-[70px] h-[70px] sombra relative inline-block">
-              <div
-                class="absolute flex items-center justify-center w-full h-full pt-3 text-lg font-extrabold"
-              >
+              <div class="absolute flex items-center justify-center w-full h-full pt-3 text-lg font-extrabold">
                 {{ userModal.total_rotulos_mini }}
               </div>
-              <img
-                src="../../public/top_afiches_mini.png"
-                class="w-full h-full"
-              />
+              <img src="../../public/top_afiches_mini.png" class="w-full h-full" />
             </div>
             <div class="w-[70px] h-[70px] sombra relative inline-block">
-              <div
-                class="absolute flex items-center justify-center w-full h-full pt-3 text-lg font-extrabold"
-              >
+              <div class="absolute flex items-center justify-center w-full h-full pt-3 text-lg font-extrabold">
                 {{ userModal.total_rotulos_mini_baja }}
               </div>
-              <img
-                src="../../public/top_afiches_mini_baja.png"
-                class="w-full h-full"
-              />
+              <img src="../../public/top_afiches_mini_baja.png" class="w-full h-full" />
             </div>
           </div>
         </div>
@@ -445,46 +378,28 @@ const closeModalTop = () => {
     <div>
       <h3 class="p-4 pb-0 font-medium">HISTORIAL CINTILLOS</h3>
 
-      <div
-        class="grid grid-cols-1 gap-1 p-4 sm:gap-2 md:grid-cols-2 lg:grid-cols-3"
-        v-if="generados.length > 0"
-      >
-        <div
-          class="bg-white border border-solid border-[#ddd] mb-4 sh"
-          v-for="generado in generados"
-        >
+      <div class="grid grid-cols-1 gap-1 p-4 sm:gap-2 md:grid-cols-2 lg:grid-cols-3" v-if="generados.length > 0">
+        <div class="bg-white border border-solid border-[#ddd] mb-4 sh" v-for="generado in generados">
           <div class="p-4 text-sm font-medium text-neutral-700">
-            <img
-              src="../../public/excel.png"
-              class="w-[16px] inline-block align-middle"
-            />
+            <img src="../../public/excel.png" class="w-[16px] inline-block align-middle" />
             {{ generado.path_name }}
           </div>
           <div class="border-t border-solid border-[#ddd] p-4">
             <div class="overflow-hidden">
-              <b class="pr-1 text-sm font-medium">Enviado:</b
-              ><span
-                class="text-sm text-gray-500"
-                v-if="generado.email === null"
-              >
-                {{ generado.receptor }}</span
-              ><span class="text-sm text-gray-500" v-else>{{
-                generado.email
-              }}</span>
+              <b class="pr-1 text-sm font-medium">Enviado:</b><span class="text-sm text-gray-500"
+                v-if="generado.email === null">
+                {{ generado.receptor }}</span><span class="text-sm text-gray-500" v-else>{{
+                  generado.email
+                }}</span>
             </div>
           </div>
           <div class="p-4 pt-0">
             <div class="flex items-center justify-between">
               <div>
-                <b class="pr-1 text-sm font-medium">Codigo ref:</b
-                ><span class="text-sm text-green-500">
-                  #{{ generado.code }}</span
-                >
+                <b class="pr-1 text-sm font-medium">Codigo ref:</b><span class="text-sm text-green-500">
+                  #{{ generado.code }}</span>
               </div>
-              <button
-                @click="copyToClipboard(generado.code)"
-                class="text-sm text-neutral-500"
-              >
+              <button @click="copyToClipboard(generado.code)" class="text-sm text-neutral-500">
                 <font-awesome-icon :icon="['fas', 'clipboard']" /> COPIAR
               </button>
             </div>
@@ -495,20 +410,13 @@ const closeModalTop = () => {
               dayjs(generado.fecha).fromNow()
             }}</span>
           </div>
-          <div
-            class="p-4 border-t border-dashed border-[#ddd] flex items-center justify-between gap-4"
-          >
-            <a
-              :href="`${url}/${generado.path}`"
-              download
-              class="block w-full px-4 py-2 text-xs font-medium leading-6 text-center text-black uppercase transition bg-gray-100 rounded shadow focus:bg-gray-300 hover:bg-gray-300 ripple hover:shadow-lg focus:outline-none"
-            >
+          <div class="p-4 border-t border-dashed border-[#ddd] flex items-center justify-between gap-4">
+            <a :href="`${url}/${generado.path}`" download
+              class="block w-full px-4 py-2 text-xs font-medium leading-6 text-center text-black uppercase transition bg-gray-100 rounded shadow focus:bg-gray-300 hover:bg-gray-300 ripple hover:shadow-lg focus:outline-none">
               DESCARGAR
             </a>
-            <router-link
-              :to="`cintillo/${generado.path_uuid}`"
-              class="relative block w-full px-4 py-2 text-xs font-medium leading-6 text-center text-black uppercase transition bg-gray-100 rounded shadow focus:bg-gray-300 hover:bg-gray-300 ripple hover:shadow-lg focus:outline-none"
-            >
+            <router-link :to="`cintillo/${generado.path_uuid}`"
+              class="relative block w-full px-4 py-2 text-xs font-medium leading-6 text-center text-black uppercase transition bg-gray-100 rounded shadow focus:bg-gray-300 hover:bg-gray-300 ripple hover:shadow-lg focus:outline-none">
               Ver detalles
             </router-link>
           </div>
@@ -516,41 +424,32 @@ const closeModalTop = () => {
       </div>
       <div class="flex items-center justify-center p-4 h-52" v-else>
         <div class="text-xl text-neutral-700">
-          <img
-            src="../../public/sad.gif"
-            class="w-[27px] inline-block align-middle"
-          />Esto parece un desierto.
+          <img src="../../public/sad.gif" class="w-[27px] inline-block align-middle" />Esto parece un desierto.
         </div>
       </div>
     </div>
 
-    <div
-      class="fixed top-0 left-0 z-30 flex items-center justify-center w-full h-full bg-black/90"
-      v-if="anuncioTmp === null"
-    >
-      <div
-        class="bg-white w-[80%] py-6 px-4 max-w-screen-sm rounded-lg shadow-2xl"
-      >
+    <div class="fixed top-0 left-0 z-30 flex items-center justify-center w-full h-full bg-black/90"
+      v-if="anuncioTmp === null">
+      <div class="bg-white w-[80%] py-6 px-4 max-w-screen-sm rounded-lg shadow-2xl">
         <img src="../../public/calendar.gif" class="w-[30%] block m-auto" />
-        <h3
-          class="pt-4 font-medium text-center text-black uppercase text-nomal"
-        >
+        <h3 class="pt-4 font-medium text-center text-black uppercase text-nomal">
           PROXIMAMENTE
         </h3>
         <p class="p-4 pb-0 text-sm text-gray-600">
           Tendremos una nueva funcion, <b class="font-medium underline">Gestor de fechas de vencimineto</b>
         </p>
-       <ul class="p-4">
-       <li class="text-sm text-gray-600">✅ Control de las fechas</li>
-       <li class="text-sm text-gray-600">✅ Te notificaremos con antelacion a tu celular</li>
-       <li class="text-sm text-gray-600">✅ Sistema compartido entre la comunidad</li> 
-       </ul> 
-       <p class="p-4 pt-0 text-sm text-gray-600">Porque sabemos que un trabajo eficiente ahorra tiempo, siempre buscamos agilizar procesos rutinarios y repetitivos.</p>
+        <ul class="p-4">
+          <li class="text-sm text-gray-600">✅ Control de las fechas</li>
+          <li class="text-sm text-gray-600">✅ Te notificaremos con antelacion a tu celular</li>
+          <li class="text-sm text-gray-600">✅ Sistema compartido entre la comunidad</li>
+        </ul>
+        <p class="p-4 pt-0 text-sm text-gray-600">Porque sabemos que un trabajo eficiente ahorra tiempo, siempre
+          buscamos agilizar procesos rutinarios y repetitivos.</p>
         <div class="py-4 pb-0 border-t border-dashed border-[#ddd]">
           <button
             class="block px-6 py-2 mx-auto mb-4 text-sm text-center border border-solid rounded-sm shadow-lg border-neutral-700"
-            @click.prevent="cerrarVentana"
-          >
+            @click.prevent="cerrarVentana">
             Cerrar ventana
           </button>
         </div>
@@ -562,16 +461,16 @@ const closeModalTop = () => {
 <style>
 .b {
   background: rgb(56, 62, 66);
-  background: linear-gradient(
-    180deg,
-    rgba(56, 62, 66, 0.5) 0%,
-    rgba(56, 62, 66, 1) 50%
-  );
+  background: linear-gradient(180deg,
+      rgba(56, 62, 66, 0.5) 0%,
+      rgba(56, 62, 66, 1) 50%);
 }
 
 .acciones::-webkit-scrollbar {
-  display: none; /* Oculta la barra de desplazamiento en navegadores WebKit (como Chrome/Safari) */
+  display: none;
+  /* Oculta la barra de desplazamiento en navegadores WebKit (como Chrome/Safari) */
 }
+
 .shimg {
   filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.3));
 }
@@ -579,6 +478,7 @@ const closeModalTop = () => {
 .sh {
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
 }
+
 .bg {
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
   background-image: url("../../public/bg.png");
@@ -589,6 +489,7 @@ const closeModalTop = () => {
 .bg:hover {
   background-color: #ddd;
 }
+
 /*.rank {
   position: relative;
 }*/
@@ -598,9 +499,11 @@ const closeModalTop = () => {
   background-size: 100%;
   opacity: 0.5;
 }
+
 .sombra {
   box-shadow: 0px 0px 3px 2px rgba(0, 0, 0, 0.1);
 }
+
 .sombra-blanca {
   box-shadow: 0px 0px 0px 2px rgb(255, 255, 255);
 }

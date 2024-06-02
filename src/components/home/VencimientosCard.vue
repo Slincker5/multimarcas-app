@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watchEffect, computed } from "vue";
 
-defineProps(["username"])
+defineProps(['usuario'])
 // Definir las diapositivas y el índice actual
 const slides = [
   "Escanea para capturar datos automáticamente.",
@@ -25,7 +25,7 @@ watchEffect((onInvalidate) => {
 });
 </script>
 <template>
-  <div class="p-4" v-if="username == 'Multimarcas'">
+  <div class="p-4" v-if="usuario == 'Multimarcas'">
     <h2 class="font-medium text-sm flex items-center justify-between">GESTOR FECHAS DE VENCIMIENTO
       <span
         class="z-20 text-[9px] font-semibold text-white bg-rose-500 px-1 py-[0.1rem] shadow-md shadow-black/30 rounded-md">NUEVO</span>
