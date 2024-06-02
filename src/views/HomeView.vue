@@ -6,6 +6,7 @@ import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { useGetRoutes } from "@/composables/getRoutes";
 import CompletarOrden from "@/components/pagos/CompletarOrden.vue";
+import VencimientosCard from "@/components/home/VencimientosCard.vue";
 import Herramientas from "@/components/home/Herramientas.vue";
 import { useNavBar } from "@/store/menu";
 import { toast } from "vue3-toastify";
@@ -239,6 +240,7 @@ const closeModalTop = () => {
       v-if="userData"
       :premium="userData.profile[0].suscripcion"
     ></Herramientas>
+    <VencimientosCard :usuario="userData.profile[0].username"></VencimientosCard>
     <div
       class="flex items-start justify-between bg-indigo-400 border-l-4 border-indigo-700 border-solid"
     >
