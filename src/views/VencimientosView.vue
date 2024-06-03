@@ -129,6 +129,20 @@ const reestablecerFormulario = () => {
 </script>
 <template>
     <div>
+        <div
+      class="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50"
+      v-if="scan"
+    >
+      <div class="relative p-4 bg-white">
+        <div class="flex items-center justify-between pb-4">
+          <h2 class="text-xl">Escanear Producto</h2>
+          <button @click.prevent="resetScanner">
+            <font-awesome-icon :icon="['fas', 'xmark']" />
+          </button>
+        </div>
+        <video id="video" width="300" height="200"></video>
+      </div>
+    </div>
         <form class="p-4">
             <audio class="hidden" id="audioPlayer">
                 <source src="../../public/beep.mp3" type="audio/mp3" />
@@ -145,7 +159,7 @@ const reestablecerFormulario = () => {
                         id="barra" type="text" placeholder="Ej. 1234567890123" autocomplete="off" v-model="barra" />
                     <div>
                         <a class="flex items-center justify-center h-full px-4 leading-tight text-gray-700 bg-gray-200 border rounded-r"
-                            @click.prevent="resetScanner">
+                        @click.prevent="startScanner">
                             <img src="../../public/barcode.png" class="w-[25px] block" />
                         </a>
                     </div>
