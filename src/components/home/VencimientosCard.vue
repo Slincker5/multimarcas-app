@@ -37,7 +37,7 @@ watchEffect((onInvalidate) => {
       <Transition name="slide-fade" mode="out-in">
         <p class="text-sm" :key="currentSlideIndex">{{ currentSlide }}</p>
       </Transition>
-      <router-link to="/" class="text-sm font-medium text-black border border-solid border-gray-600 py-1 px-3 rounded-sm shadow-md shadow-black/30">Usar</router-link>
+      <router-link to="/gestor-de-fechas" class="text-sm font-medium text-black border border-solid border-gray-600 py-1 px-3 rounded-sm shadow-md shadow-black/30">Usar</router-link>
     </div>
   </div>
 </template>

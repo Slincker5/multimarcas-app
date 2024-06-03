@@ -40,6 +40,15 @@ const router = createRouter({
       },
     },
     {
+      path: "/gestor-de-fechas",
+      name: "gestordefechas",
+      component: () => import("../views/VencimientosView.vue"),
+      meta: {
+        requiresAuth: true,
+        title: "Gestor de Fechas",
+      },
+    },
+    {
       path: '/enlace/:uuid',
       name: 'crear-view',
       component: () => import('@/views/EstadisticaAcortadorView.vue'),
