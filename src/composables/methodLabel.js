@@ -17,17 +17,17 @@ export const useMethodLabel = () => {
 
     // Nuevo paso: Manejar las unidades sin número previo convirtiéndolas a minúsculas directamente.
     description = description.replace(
-      /\b(ML|MG|G|U|L|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|LB|GRS?|UNI|UN|LITROS)\b/g,
+      /\b(ML|MG|G|U|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|LB|GRS?|UNI|UN)\b/g,
       (match) => match.toLowerCase()
     );
 
     // Convierte las unidades a minúsculas para estandarización final, solo cuando siguen a un número para evitar afectar otras palabras.
     description = description.replace(
-      /(\d)\s(ML|MG|G|U|L|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|LB|GRS?|UNI|UN|LITROS)\b/g,
+      /(\d)\s(ML|MG|G|U|KG|CÁPSULAS|CAPSULAS|TABLETAS|PIEZAS|LB|GRS?|UNI|UN|UNIDADES)\b/g,
       (match, p1, p2) => {
         switch (p2) {
-          case "LITROS":
-            return `${p1} L`;
+          case "UNIDADES":
+            return `${p1} u`;
           case "MG":
             return `${p1} mg`; // Convierte específicamente "MG" a "mg".
           default:
@@ -36,6 +36,8 @@ export const useMethodLabel = () => {
       }
     );
 
+    description = description.replace(/\b(NIDAD|NIDADES)\b/g, "");
+    description = description.replace(/\b(u NI|u N)\b/g, "u");
     return description;
 };
 
