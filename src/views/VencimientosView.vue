@@ -4,6 +4,9 @@ import axios from "axios";
 import { useMethodLabel } from "@/composables/methodLabel";
 import { useGetRoutes } from "../composables/getRoutes";
 import { BrowserMultiFormatReader, NotFoundException } from "@zxing/library";
+import dayjs from "dayjs";
+import "dayjs/locale/es";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 const usuario = ref(localStorage.getItem("usuario"));
 const token = ref(localStorage.getItem("token"));
@@ -26,7 +29,7 @@ const precio = ref("");
 const fecha = ref("");
 const total = ref("");
 const estadoTexto = ref(true);
-const aviso = ref(localStorage.getItem("aviso"));
+const fechaGuardar = ref("");
 
 const toggleMayMin = () => {
     estadoTexto.value === true
@@ -126,23 +129,29 @@ const reestablecerFormulario = () => {
     cantidad.value = "";
     precio.value = "";
 };
+
+const calendario = ref(null)
+
+const fechaVencimiento = ref("")
+const abrir = () => {
+    calendario.value.showPicker();
+}
+
 </script>
 <template>
     <div>
-        <div
-      class="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50"
-      v-if="scan"
-    >
-      <div class="relative p-4 bg-white">
-        <div class="flex items-center justify-between pb-4">
-          <h2 class="text-xl">Escanear Producto</h2>
-          <button @click.prevent="resetScanner">
-            <font-awesome-icon :icon="['fas', 'xmark']" />
-          </button>
+        <div class="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50"
+            v-if="scan">
+            <div class="relative p-4 bg-white">
+                <div class="flex items-center justify-between pb-4">
+                    <h2 class="text-xl">Escanear Producto</h2>
+                    <button @click.prevent="resetScanner">
+                        <font-awesome-icon :icon="['fas', 'xmark']" />
+                    </button>
+                </div>
+                <video id="video" width="300" height="200"></video>
+            </div>
         </div>
-        <video id="video" width="300" height="200"></video>
-      </div>
-    </div>
         <form class="p-4">
             <audio class="hidden" id="audioPlayer">
                 <source src="../../public/beep.mp3" type="audio/mp3" />
@@ -156,10 +165,11 @@ const reestablecerFormulario = () => {
                 <div class="flex items-stretch justify-between border border-solid border-[#ddd] focus:border-gray-500">
                     <input
                         class="flex-grow px-4 py-3 leading-tight text-gray-700 border-0 rounded-l appearance-none focus:outline-none focus:bg-white"
-                        id="barra" type="text" placeholder="Ej. 1234567890123" autocomplete="off" v-model="barra" />
+                        id="barra" type="text" inputmode="numeric" placeholder="Ej. 1234567890123" autocomplete="off"
+                        v-model="barra" />
                     <div>
                         <a class="flex items-center justify-center h-full px-4 leading-tight text-gray-700 bg-gray-200 border rounded-r"
-                        @click.prevent="startScanner">
+                            @click.prevent="startScanner">
                             <img src="../../public/barcode.png" class="w-[25px] block" />
                         </a>
                     </div>
@@ -181,6 +191,29 @@ const reestablecerFormulario = () => {
                     class="block w-full px-4 py-3 leading-tight text-gray-700 border border-solid border-[#ddd] rounded appearance-none focus:outline-none focus:border-gray-500"
                     id="descripcion" placeholder="DESCRIPCIÓN COMPLETA" autocomplete="off" v-model="descripcion"
                     @input="handleInput" required></textarea>
+            </div>
+
+
+            <div class="mb-6">
+                <b class="mb-2 block text-xs font-bold tracking-wide text-gray-700 uppercase">FECHA DE VENCIMIENTO</b>
+                <div
+                    class="flex items-center justify-between w-full px-4 py-3 leading-tight text-gray-700 border border-solid border-[#ddd] rounded appearance-none focus:outline-none focus:border-gray-500">
+                    <label class="w-full block" @click.prevent="abrir">
+                        {{ fechaVencimiento === "Invalid Date" || fechaVencimiento === "" ? 'Selecionar fecha' :
+                            dayjs(fechaVencimiento).format("dddd, D [de] MMMM [de] YYYY") }}
+                    </label>
+                    <input type="date" ref="calendario" v-model="fechaVencimiento" class="hidden">
+                    <a href="#" @click.prevent="abrir"><font-awesome-icon :icon="['fas', 'chevron-down']" /></a>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" for="cantidad">
+                    CANTIDAD:
+                </label>
+                <input type="text"
+                    class="block w-full px-4 py-3 leading-tight text-gray-700 border border-solid border-[#ddd] rounded appearance-none focus:outline-none focus:border-gray-500"
+                    id="cantidad" autocomplete="off" inputmode="numeric" placeholder="CANTIDAD">
             </div>
         </form>
     </div>
