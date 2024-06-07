@@ -80,7 +80,7 @@ export const useGetRoutes = () => {
   // Usuarios [tops. estadisticas. etc ...]
 
   const usersTopGlobal = `${url}/api/user/top-global`
-
+  const verifyStaticToken = `${url}/api/user/verify-statict-token`
   return {
     url,
     authLogin,
@@ -132,6 +132,7 @@ export const useGetRoutes = () => {
     crearCupon,
     notificationPremiumEnd,
     notificationGlobal,
-    usersTopGlobal
+    usersTopGlobal,
+    verifyStaticToken
   };
 };

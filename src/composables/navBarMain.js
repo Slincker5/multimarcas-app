@@ -61,7 +61,11 @@ export const useNavBarMain = () => {
   };
   // Opcion de cerrar sesion
   const logout = () => {
-    localStorage.clear();
+    localStorage.removeItem("user_uuid");
+    localStorage.removeItem("usuario");
+    localStorage.removeItem("photo");
+    localStorage.removeItem("token");
+    localStorage.removeItem("rol");
     redireccionar("/login");
   };
 
@@ -122,6 +126,6 @@ export const useNavBarMain = () => {
     genCupon,
     agregarCupon,
     nUsos,
-    nCupon
+    nCupon,
   };
 };
