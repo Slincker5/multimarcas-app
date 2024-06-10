@@ -1,6 +1,6 @@
 <script setup>
-defineProps(["token"])
-const emit = defineEmits(["openMenu"])
+defineProps(["token","userNoPhoto", "userData"])
+const emit = defineEmits(["openMenu", "abrirEditarPerfil"])
 </script>
 <template>
     <header
@@ -13,17 +13,22 @@ const emit = defineEmits(["openMenu"])
         style="font-family: Fjalla One"
         >MULTIMARCAS APP</router-link
       >
-      <nav class="flex gap-2">
-        <router-link to="/buscar-musica" class="relative text-white">
-          <div
-            class="absolute top-[-3px] right-[-6px]">
-            <span class="relative flex w-2 h-2">
-  <span class="absolute inline-flex w-full h-full bg-red-400 rounded-full opacity-75 animate-ping"></span>
-  <span class="relative inline-flex w-2 h-2 bg-red-500 rounded-full"></span>
-</span>
-          </div>
-          <font-awesome-icon :icon="['fas', 'music']" />
-        </router-link>
+      <nav class="flex gap-1">
+        <div class="w-[30px] h-[30px] md:w-[40px] md:h-[40px]" @click="emit('abrirEditarPerfil')">
+          <img
+            :src="
+              userData.profile[0].photo !== null
+                ? userData.profile[0].photo
+                : userNoPhoto
+            "
+            :alt="
+              userData.profile[0].username === null
+                ? userData.profile[0].nombre
+                : userData.profile[0].username
+            "
+            class="object-cover w-full h-full align-middle rounded-full"
+          />
+        </div>
         <button
           class="relative pl-4 pr-2 md:hidden"
           active-class="underline"

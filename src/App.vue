@@ -12,8 +12,11 @@ import NavbarPrincipal from "@/components/menu/NavbarPrincipal.vue";
 import CanjearCupon from "@/components/menu/CanjearCupon.vue";
 import FinSuscripcion from "@/components/menu/FinSuscripcion.vue";
 import CuentaCompartida from "@/components/menu/CuentaCompartida.vue";
+import EditProfile from "@/components/home/EditProfile.vue";
+import EditInfoProfile from "@/components/home/EditInfoProfile.vue";
 import CrearCupon from "@/components/menu/CrearCupon.vue";
 import { useNavBarMain } from "@/composables/navBarMain";
+import { useEditProfile } from "@/composables/editProfile";
 import CargarFoto from "@/components/menu/CargarFoto.vue";
 import { useGetRoutes } from "@/composables/getRoutes";
 import { useFooterStore } from "@/store/useFooterStore";
@@ -52,13 +55,15 @@ const {
   nCupon,
   nUsos,
 } = useNavBarMain();
+const { nombre, apellido, telefono, editarPerfil, guardando } = useEditProfile()
+
 const { userNoPhoto, userStat, canjearCupon, generarCupon, crearCupon, verifyStaticToken } =
   useGetRoutes();
 const footerStore = useFooterStore();
 const { isFooterVisible } = storeToRefs(footerStore);
 const { showFooter, hideFooter } = footerStore;
 const route = useRoute();
-const modal = ref('hidden')
+const modal = ref(false)
 
 const sendTokenDevice = async (tokenDevice) => {
   try {
@@ -93,10 +98,10 @@ const getTokenDevice = () => {
 getTokenDevice()
 
 const abrirModal = () => {
-  modal.value = "block"
+  modal.value = true
 }
 const cerrarModal = () => {
-  modal.value = 'hidden'
+  modal.value = false
 }
 watch(
   () => route.path,
@@ -121,6 +126,30 @@ window.addEventListener("online", (e) => {
   offline.value = false
 });
 
+
+// funciones para editar perfil
+
+const modalProfile = ref(false)
+
+const modalEditProfileInfo = ref(false)
+
+const atrasPerfil = () => {
+  modalProfile.value = false
+}
+
+const abrirEditarPerfil = () => {
+  modalProfile.value = true
+}
+
+const backEditProfileInfo = () => {
+  modalEditProfileInfo.value = false
+}
+
+const openEditProfileInfo = () => {
+  modalEditProfileInfo.value = true
+}
+
+
 </script>
 
 <template>
@@ -128,7 +157,7 @@ window.addEventListener("online", (e) => {
   <div
     class="grid h-screen overflow-y-scroll bg-white grid-rows-auto-1fr-auto grid-cols-auto-1fr contenedor-sin-scrollbar">
 
-    <MenuPrincipal :token="token" @openMenu="openMenu"
+    <MenuPrincipal v-if="userData" :token="token" :userNoPhoto="userNoPhoto" :userData="userData" @abrirEditarPerfil="abrirEditarPerfil" @openMenu="openMenu"
       style="grid-column-start: 2; grid-column-end: 3; grid-row-start: 1"></MenuPrincipal>
     <NavbarPrincipal v-if="userData" :userNoPhoto="userNoPhoto" :options="options" :userData="userData" :finallySub="dayjs(userData.profile[0].fin_suscripcion).format('D [de] MMMM')
       " @openCupon="openCupon" @openCrearCupon="openCrearCupon" @closeMenu="closeMenu" @cambiarFoto="abrirModal"
@@ -163,6 +192,8 @@ window.addEventListener("online", (e) => {
   <CuentaCompartida v-if="userData && token" :userData="userData" :tokenDevice="tokenDevice"
     @logout="logout"></CuentaCompartida>
   <CargarFoto v-if="userData" :modal="modal" @cerrarModal="cerrarModal"></CargarFoto>
+  <EditInfoProfile v-if="userData" :userData="userData" :modalEditProfileInfo="modalEditProfileInfo" v-model:nombre="nombre" v-model:apellido="apellido" v-model:telefono="telefono" @editarPerfil="editarPerfil" @backEditProfileInfo="backEditProfileInfo"></EditInfoProfile>
+  <EditProfile  :modalProfile="modalProfile" @atrasPerfil="atrasPerfil" @cambiarFoto="abrirModal" @openEditProfileInfo="openEditProfileInfo"></EditProfile>
   <Transition>
     <div class="sticky bottom-0 p-4 font-medium text-white bg-red-500" v-if="offline"><font-awesome-icon
         :icon="['fas', 'wifi']" /> Sin conexion a internet</div>

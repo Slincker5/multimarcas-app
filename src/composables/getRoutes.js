@@ -81,6 +81,8 @@ export const useGetRoutes = () => {
 
   const usersTopGlobal = `${url}/api/user/top-global`
   const verifyStaticToken = `${url}/api/user/verify-statict-token`
+  const editProfile = `${url}/api/user/edit-profile`
+  const editPasswordProfile = `${url}/api/user/edit-password`
   return {
     url,
     authLogin,
@@ -133,6 +135,8 @@ export const useGetRoutes = () => {
     notificationPremiumEnd,
     notificationGlobal,
     usersTopGlobal,
-    verifyStaticToken
+    verifyStaticToken,
+    editProfile,
+    editPasswordProfile
   };
 };

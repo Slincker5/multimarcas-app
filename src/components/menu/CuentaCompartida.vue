@@ -11,7 +11,7 @@ const emit = defineEmits(["logout"]);
                 Cuenta en uso.
             </h3>
             <p class="py-4 pt-2 text-sm text-center text-gray-700" v-if="userData">
-                <span class="pb-2 block text-sm">Solo se puede usar en un dispositivo a la vez.</span>
+                <span class="pb-2 block text-sm">Solo se puede usar en un dispositivo.</span>
                 <span class="text-xs">
                     Esta cuenta ya está en uso en otro dispositivo. Para garantizar tu seguridad y privacidad, no es posible acceder desde este dispositivo en este momento.</span>
             </p>

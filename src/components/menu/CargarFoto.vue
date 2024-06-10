@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { Transition, ref } from "vue";
 import axios from "axios";
 
 defineProps(["modal"])
@@ -53,9 +53,10 @@ async function uploadFile() {
 </script>
 <template>
   <!-- div que muestra la suscripcion vencida -->
+   <Transition>
   <div
     class="fixed top-0 left-0 z-40 flex items-center justify-center w-full h-full bg-black/80"
-    :class="`${modal}`"
+    v-if="modal"
   >
     <div
       class="bg-white w-[80%] md:w-[450px] max-w-screen-sm rounded-lg shadow-2xl"
@@ -98,4 +99,5 @@ async function uploadFile() {
       </div>
     </div>
   </div>
+</Transition>
 </template>
