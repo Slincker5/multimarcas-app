@@ -8,7 +8,7 @@ const emit = defineEmits(["openCupon"]);
 <template>
   <!-- div que muestra la suscripcion vencida -->
   <div
-    class="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black/80"
+    class="fixed top-0 left-0 z-40 flex items-center justify-center w-full h-full bg-black/80"
     v-if="
       userData &&
       token &&
