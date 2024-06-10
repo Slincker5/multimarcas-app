@@ -1,5 +1,6 @@
 <script setup>
 import { Transition, ref } from "vue";
+import CargandoFrom from "@/components/globales/CargandoForm.vue";
 import axios from "axios";
 
 defineProps(["modal"])
@@ -24,6 +25,7 @@ function onChange(event) {
   }
 }
 
+const carga = ref(false)
 async function uploadFile() {
   if (!fileInput.value.files.length) return;
 
@@ -31,6 +33,7 @@ async function uploadFile() {
   formData.append("photo", fileInput.value.files[0]);
 
   try {
+    carga.value = true
     const { data } = await axios.post(
       "https://api.multimarcas.app/api/user/upload-photo",
       formData,
@@ -48,6 +51,8 @@ async function uploadFile() {
   } catch (error) {
     console.error("Error al subir el archivo:", error);
     // Maneja el error aquí
+  } finally {
+    carga.value = false
   }
 }
 </script>
@@ -61,6 +66,7 @@ async function uploadFile() {
     <div
       class="bg-white w-[80%] md:w-[450px] max-w-screen-sm rounded-lg shadow-2xl"
     >
+    <CargandoFrom :enviando="carga" :textoCarga="' Subiendo foto..'"></CargandoFrom>
       <h3
         class="flex items-center justify-between p-4 font-medium text-gray-800 border-b border-[#dddddd] border-solid"
       >
