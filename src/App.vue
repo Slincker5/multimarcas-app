@@ -192,7 +192,7 @@ const openEditProfileInfo = () => {
   <CuentaCompartida v-if="userData && token" :userData="userData" :tokenDevice="tokenDevice"
     @logout="logout"></CuentaCompartida>
   <CargarFoto v-if="userData" :modal="modal" @cerrarModal="cerrarModal"></CargarFoto>
-  <EditInfoProfile v-if="userData" :userData="userData" :modalEditProfileInfo="modalEditProfileInfo" v-model:nombre="nombre" v-model:apellido="apellido" v-model:telefono="telefono" @editarPerfil="editarPerfil" @backEditProfileInfo="backEditProfileInfo"></EditInfoProfile>
+  <EditInfoProfile v-if="userData" :userData="userData" :modalEditProfileInfo="modalEditProfileInfo" :guardando="guardando" v-model:nombre="nombre" v-model:apellido="apellido" v-model:telefono="telefono" @editarPerfil="editarPerfil" @backEditProfileInfo="backEditProfileInfo"></EditInfoProfile>
   <EditProfile  :modalProfile="modalProfile" @atrasPerfil="atrasPerfil" @cambiarFoto="abrirModal" @openEditProfileInfo="openEditProfileInfo"></EditProfile>
   <Transition>
     <div class="sticky bottom-0 p-4 font-medium text-white bg-red-500" v-if="offline"><font-awesome-icon

@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue'
-defineProps(["userData", "modalEditProfileInfo"]);
+import CargandoFrom from "@/components/globales/CargandoForm.vue";
+defineProps(["userData", "modalEditProfileInfo", "guardando"]);
 const emit = defineEmits(["editarPerfil", "backEditProfileInfo"])
 const nombre = defineModel("nombre");
 const apellido = defineModel("apellido");
@@ -10,8 +10,10 @@ const telefono = defineModel("telefono");
 <template>
     <!-- div que muestra la edicion del perfil -->
     <Transition>
-        <div class="fixed top-0 left-0 z-40 flex items-center justify-center w-full h-full bg-black/90" v-if="modalEditProfileInfo">
+        <div class="fixed top-0 left-0 z-40 flex items-center justify-center w-full h-full bg-black/90"
+            v-if="modalEditProfileInfo">
             <div class="bg-white w-[80%] md:w-[450px] max-w-screen-sm rounded-lg shadow-2xl">
+                <CargandoFrom :enviando="guardando" :textoCarga="' Guardando informacion..'"></CargandoFrom>
                 <h3 class="p-4 font-medium flex item-center justify-between">
                     <button @click.prevent="emit('backEditProfileInfo')"><font-awesome-icon
                             :icon="['fas', 'arrow-left']" /></button>
@@ -43,7 +45,8 @@ const telefono = defineModel("telefono");
                         </label>
                         <input type="text"
                             class="block w-full px-4 py-3 leading-tight text-gray-700 border border-solid border-[#ddd] rounded appearance-none focus:outline-none focus:border-gray-500"
-                            id="nombre" autocomplete="off" inputmode="numeric" placeholder="Ej. 12345678" v-model="telefono">
+                            id="nombre" autocomplete="off" inputmode="numeric" placeholder="Ej. 12345678"
+                            v-model="telefono">
                     </div>
 
                     <div class="p-4"><input type="submit"

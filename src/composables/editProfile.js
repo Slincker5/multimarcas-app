@@ -14,7 +14,6 @@ export const useEditProfile = () => {
 
   async function getData() {
     try {
-      guardando.value = true;
       const headers = {
         Authorization: "Bearer " + token.value,
         "Content-Type": "application/json",
@@ -32,14 +31,13 @@ export const useEditProfile = () => {
         data.profile[0].telefono === null ? "" : data.profile[0].telefono;
     } catch (error) {
       console.log(error);
-    } finally {
-      guardando.value = false;
     }
   }
   getData();
 
   const editarPerfil = async () => {
     try {
+      guardando.value = true;
       const dataProfile = {
         nombre: nombre.value,
         apellido: apellido.value,
@@ -68,6 +66,8 @@ export const useEditProfile = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      guardando.value = false;
     }
   };
   return {
@@ -75,6 +75,6 @@ export const useEditProfile = () => {
     apellido,
     telefono,
     editarPerfil,
-    guardando
+    guardando,
   };
 };
