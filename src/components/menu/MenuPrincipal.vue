@@ -11,7 +11,7 @@ const emit = defineEmits(["openMenu", "abrirEditarPerfil"])
         to="/"
         class="text-[#ECF0F1] font-medium"
         style="font-family: Fjalla One"
-        >MULTIMARCAS APP🎂</router-link
+        >MULTIMARCAS APP</router-link
       >
       <nav class="flex gap-1">
         <div class="w-[30px] h-[30px] md:w-[40px] md:h-[40px]" @click="emit('abrirEditarPerfil')">

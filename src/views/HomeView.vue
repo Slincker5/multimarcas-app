@@ -430,7 +430,7 @@ const closeModalTop = () => {
     </div>
 
     <div class="fixed top-0 left-0 z-30 flex items-center justify-center w-full h-full bg-black/90"
-      v-if="anuncioTmp === null">
+      v-if="false">
       <div class="bg-white w-[80%] py-6 px-4 max-w-screen-sm rounded-lg shadow-2xl">
         <img src="../../public/email-file.gif" class="w-[30%] block m-auto" />
         <h3 class="pt-4 font-medium text-center text-black uppercase text-nomal">

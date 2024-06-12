@@ -73,16 +73,16 @@ export const useGetRoutes = () => {
   const generarCupon = `${url}/api/premiun/cupon`;
   const crearCupon = `${url}/api/premiun/nuevo-cupon`;
 
-  // Notificaciones 
+  // Notificaciones
   const notificationPremiumEnd = `${url}/api/notification/premium-create`;
   const notificationGlobal = `${url}/api/notification/global-create`;
 
   // Usuarios [tops. estadisticas. etc ...]
 
-  const usersTopGlobal = `${url}/api/user/top-global`
-  const verifyStaticToken = `${url}/api/user/verify-statict-token`
-  const editProfile = `${url}/api/user/edit-profile`
-  const editPasswordProfile = `${url}/api/user/edit-password`
+  const usersTopGlobal = `${url}/api/user/top-global`;
+  const verifyStaticToken = `${url}/api/user/verify-statict-token`;
+  const editProfile = `${url}/api/user/edit-profile`;
+  const editPasswordProfile = `${url}/api/user/edit-password`;
   return {
     url,
     authLogin,
