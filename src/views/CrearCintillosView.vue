@@ -16,6 +16,7 @@ dayjs.extend(relativeTime);
 
 const usuario = ref(localStorage.getItem("usuario"));
 const token = ref(localStorage.getItem("token"));
+const cameras = ref([]);
 
 const { formatearDescription, formatearDescriptionMinusculas } =
   useMethodLabel();
@@ -78,13 +79,23 @@ onMounted(() => {
   codeReader
     .listVideoInputDevices()
     .then((videoInputDevices) => {
-      selectedDeviceId =
-        videoInputDevices[videoInputDevices.length - 1].deviceId;
+      cameras.value = videoInputDevices;
+      selectedDeviceId = videoInputDevices[videoInputDevices.length - 1].deviceId;
     })
     .catch((err) => {
       console.error(err);
     });
 });
+
+const changeCamera = (deviceId) => {
+  selectedDeviceId = deviceId;
+  if (scan.value) {
+    resetScanner();
+    startScanner();
+  }
+};
+
+
 
 const getData = async () => {
   try {
@@ -142,6 +153,7 @@ const startScanner = async () => {
     }
   );
 };
+
 
 const resetScanner = () => {
   scan.value = false;
@@ -282,19 +294,25 @@ watchEffect((onInvalidate) => {
     </div>
 
     <div
-      class="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50"
-      v-if="scan"
-    >
-      <div class="relative p-4 bg-white">
-        <div class="flex items-center justify-between pb-4">
-          <h2 class="text-xl">Escanear Producto</h2>
-          <button @click.prevent="resetScanner">
-            <font-awesome-icon :icon="['fas', 'xmark']" />
-          </button>
-        </div>
-        <video id="video" width="300" height="200"></video>
-      </div>
+  class="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50"
+  v-if="scan"
+>
+  <div class="relative p-4 bg-white">
+    <div class="flex items-center justify-between pb-4">
+      <h2 class="text-xl">Escanear Producto</h2>
+      <button @click.prevent="resetScanner">
+        <font-awesome-icon :icon="['fas', 'xmark']" />
+      </button>
     </div>
+    <select @change="changeCamera($event.target.value)">
+      <option v-for="camera in cameras" :key="camera.deviceId" :value="camera.deviceId">
+        {{ camera.label || `Camera ${camera.deviceId}` }}
+      </option>
+    </select>
+    <video id="video" width="300" height="200"></video>
+  </div>
+</div>
+
 
     <form
       class="w-full p-4 pt-0"
