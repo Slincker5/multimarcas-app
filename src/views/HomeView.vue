@@ -262,7 +262,7 @@ onUnmounted(() => {
     <Herramientas v-if="userData" :premium="userData.profile[0].suscripcion"></Herramientas>
     <VencimientosCard v-if="userData" :usuario="userData.profile[0].username"></VencimientosCard>
     <div class="flex items-start justify-between bg-white fondoOff" v-if="userData && userData.profile[0].suscripcion === 1">
-      <img src="../../public/gift.png" alt="oferta" class="z-20 w-[85px] block p-4 pr-2 animate-pulse" />
+      <img src="../../public/bonus.png" alt="oferta" class="z-20 w-[85px] block p-4 pr-2" />
       <div class="w-full p-4 pl-0 relative">
         <img src="../../public/discount.png" class="z-20 block w-[60px] h-[60px] absolute top-[-1rem] right-1 rotate-12 sombraOff">
         <h3 class="text-sm font-medium text-black uppercase">
@@ -273,7 +273,7 @@ onUnmounted(() => {
         </p>
         <div class="flex items-center justify-between">
           <div class="font-light text-xs text-gray-500">Promocion termina: {{ formatTime(days) }}:{{ formatTime(hours) }}:{{ formatTime(minutes) }}:{{ formatTime(seconds) }}</div>
-          <a href="https://wa.me/50374329014?text=quiero%20comprar%20la%20promocion%20de%207%20cupones%20por%20%244.99"
+          <a href="https://wa.me/50374329014?text=Quiero%20comprar%20la%20promocion%20de%207%20cupones%20por%20%244.99"
             class="bg-[#4666ff] text-white text-xs inline-block px-3 py-1 rounded-sm font-medium z-20">
             Comprar
           </a>
