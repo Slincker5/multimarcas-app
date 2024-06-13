@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onUnmounted, onMounted, computed } from "vue";
 import { storeToRefs } from "pinia";
 import axios from "axios";
 import { initializeApp } from "firebase/app";
@@ -203,6 +203,39 @@ const openModalTop = (stat) => {
 const closeModalTop = () => {
   userModal.value = null;
 };
+
+
+// Fecha de inicio: 13 de junio a las 00:00
+const startDate = new Date('2024-06-13T00:00:00');
+
+// 48 horas en milisegundos
+const countdownDuration = 48 * 60 * 60 * 1000;
+
+// Fecha final: 48 horas después de la fecha de inicio
+const endDate = new Date(startDate.getTime() + countdownDuration);
+
+const remainingTime = ref(Math.max(endDate - new Date(), 0));
+
+const days = computed(() => Math.floor(remainingTime.value / (1000 * 60 * 60 * 24)));
+const hours = computed(() => Math.floor((remainingTime.value % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+const minutes = computed(() => Math.floor((remainingTime.value % (1000 * 60 * 60)) / (1000 * 60)));
+const seconds = computed(() => Math.floor((remainingTime.value % (1000 * 60)) / 1000));
+
+const formatTime = (value) => value.toString().padStart(2, '0');
+
+const countdown = () => {
+  remainingTime.value = Math.max(endDate - new Date(), 0);
+  if (remainingTime.value === 0) clearInterval(interval);
+};
+
+let interval;
+onMounted(() => {
+  interval = setInterval(countdown, 1000);
+});
+
+onUnmounted(() => {
+  clearInterval(interval);
+});
 </script>
 <template>
   <div class="overflow-auto">
@@ -228,6 +261,25 @@ const closeModalTop = () => {
     </audio>
     <Herramientas v-if="userData" :premium="userData.profile[0].suscripcion"></Herramientas>
     <VencimientosCard v-if="userData" :usuario="userData.profile[0].username"></VencimientosCard>
+    <div class="flex items-start justify-between bg-white fondoOff" v-if="userData && userData.profile[0].suscripcion === 1">
+      <img src="../../public/gift.png" alt="oferta" class="z-20 w-[85px] block p-4 pr-2 animate-pulse" />
+      <div class="w-full p-4 pl-0 relative">
+        <img src="../../public/discount.png" class="z-20 block w-[60px] h-[60px] absolute top-[-1rem] right-2 rotate-12 sombraOff">
+        <h3 class="text-sm font-medium text-black uppercase">
+          CONSIGUE 7 CUPONES POR $4.99
+        </h3>
+        <p class="text-sm font-light text-gray-700 pt-1 z-20 ">
+          Ideal para aguilizar a tu equipo de trabajo o compartir con compañeros.
+        </p>
+        <div class="flex items-center justify-between">
+          <div class="font-light text-xs text-gray-500">Promocion termina: {{ formatTime(days) }}:{{ formatTime(hours) }}:{{ formatTime(minutes) }}:{{ formatTime(seconds) }}</div>
+          <a href="https://wa.me/50374329014?text=quiero%20comprar%20la%20promocion%20de%207%20cupones%20por%20%244.99"
+            class="bg-[#4666ff] text-white text-xs inline-block px-3 py-1 rounded-sm font-medium z-20">
+            Comprar
+          </a>
+        </div>
+      </div>
+    </div>
     <div class="flex items-start justify-between bg-indigo-400 border-l-4 border-indigo-700 border-solid">
       <img src="../../public/support.png" alt="atención al cliente" class="w-[75px] block p-4" />
       <div class="w-full p-4 pl-0">
@@ -265,12 +317,12 @@ const closeModalTop = () => {
           <div
             class="absolute bottom-0 right-[-5px] text-white w-[18px] h-[18px] flex items-center justify-center rounded-full text-[10px] sombra-blanca"
             :class="user.top === 1
-                ? 'bg-[#FF9529]'
-                : user.top === 2
-                  ? 'bg-[#FDCC0D]'
-                  : user.top === 3
-                    ? 'bg-[#FFDF00]'
-                    : 'bg-black'
+              ? 'bg-[#FF9529]'
+              : user.top === 2
+                ? 'bg-[#FDCC0D]'
+                : user.top === 3
+                  ? 'bg-[#FFDF00]'
+                  : 'bg-black'
               ">
             #{{ user.top }}
           </div>
@@ -313,12 +365,12 @@ const closeModalTop = () => {
               <div
                 class="absolute bottom-0 right-[-5px] text-white w-[24px] h-[24px] flex items-center justify-center rounded-full text-xs sombra-blanca"
                 :class="userModal.top === 1
-                    ? 'bg-[#FF9529]'
-                    : userModal.top === 2
-                      ? 'bg-[#FDCC0D]'
-                      : userModal.top === 3
-                        ? 'bg-[#FFDF00]'
-                        : 'bg-black'
+                  ? 'bg-[#FF9529]'
+                  : userModal.top === 2
+                    ? 'bg-[#FDCC0D]'
+                    : userModal.top === 3
+                      ? 'bg-[#FFDF00]'
+                      : 'bg-black'
                   ">
                 #{{ userModal.top }}
               </div>
@@ -429,15 +481,15 @@ const closeModalTop = () => {
       </div>
     </div>
 
-    <div class="fixed top-0 left-0 z-30 flex items-center justify-center w-full h-full bg-black/90"
-      v-if="false">
+    <div class="fixed top-0 left-0 z-30 flex items-center justify-center w-full h-full bg-black/90" v-if="false">
       <div class="bg-white w-[80%] py-6 px-4 max-w-screen-sm rounded-lg shadow-2xl">
         <img src="../../public/email-file.gif" class="w-[30%] block m-auto" />
         <h3 class="pt-4 font-medium text-center text-black uppercase text-nomal">
           CORREOS PERSONALIZADOS
         </h3>
         <p class="p-4 pb-0 text-sm text-gray-600">
-          Si usas la funcion de correos personalizados, redacta correctamente los correos para recibir tus cintillos el 100% de las veces.</p>
+          Si usas la funcion de correos personalizados, redacta correctamente los correos para recibir tus cintillos el
+          100% de las veces.</p>
         <div class="py-4 pb-0 border-t border-dashed border-[#ddd]">
           <button
             class="block px-6 py-2 mx-auto mb-4 text-sm text-center border border-solid rounded-sm shadow-lg border-neutral-700"
@@ -507,5 +559,27 @@ const closeModalTop = () => {
 
 .oferta {
   font-family: "oferta", sans-serif;
+}
+
+.sombraOff {
+  filter: drop-shadow(1px 1px 10px rgb(245, 98, 98, .4));
+}
+
+.fondoOff {
+  position: relative;
+}
+.fondoOff::after{
+  content: 'a';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  color: red;
+  background-image: url(../../public/ticket.png);
+  background-repeat: repeat;
+  background-size: 30px;
+  opacity: .185;
+  z-index: 10;
 }
 </style>
