@@ -264,7 +264,7 @@ onUnmounted(() => {
     <div class="flex items-start justify-between bg-white fondoOff" v-if="userData && userData.profile[0].suscripcion === 1">
       <img src="../../public/bonus.png" alt="oferta" class="z-20 w-[85px] block p-4 pr-2" />
       <div class="w-full p-4 pl-0 relative">
-        <img src="../../public/discount.png" class="z-20 block w-[60px] h-[60px] absolute top-[-1rem] right-1 rotate-12 sombraOff">
+        <img src="../../public/discount.png" class="z-20 block w-[55px] h-[55px] absolute top-[-1rem] right-1 rotate-12">
         <h3 class="text-sm font-medium text-black uppercase">
           CONSIGUE 7 CUPONES POR $4.99
         </h3>
