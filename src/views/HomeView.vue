@@ -268,7 +268,7 @@ onUnmounted(() => {
         <h3 class="text-sm font-medium text-black uppercase">
           CONSIGUE 7 CUPONES POR $4.99
         </h3>
-        <p class="text-sm font-light text-gray-700 pt-1 z-20 ">
+        <p class="text-sm font-light text-gray-800 pt-1 z-20 ">
           Ideal para aguilizar a tu equipo de trabajo o compartir con compañeros.
         </p>
         <div class="flex items-center justify-between">
