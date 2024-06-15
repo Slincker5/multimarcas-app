@@ -206,7 +206,7 @@ const closeModalTop = () => {
 
 
 // Fecha de inicio: 13 de junio a las 00:00
-const startDate = new Date('2024-06-13T00:00:00');
+const startDate = new Date('2024-06-14T00:00:00');
 
 // 48 horas en milisegundos
 const countdownDuration = 48 * 60 * 60 * 1000;
