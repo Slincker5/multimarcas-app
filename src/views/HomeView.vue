@@ -206,10 +206,10 @@ const closeModalTop = () => {
 
 
 // Fecha de inicio: 13 de junio a las 00:00
-const startDate = new Date('2024-06-14T00:00:00');
+const startDate = new Date('2024-06-21T00:00:00');
 
 // 48 horas en milisegundos
-const countdownDuration = 48 * 60 * 60 * 1000;
+const countdownDuration = 120 * 60 * 60 * 1000;
 
 // Fecha final: 48 horas después de la fecha de inicio
 const endDate = new Date(startDate.getTime() + countdownDuration);
@@ -264,16 +264,16 @@ onUnmounted(() => {
     <div class="flex items-start justify-between bg-white fondoOff" v-if="userData && userData.profile[0].suscripcion === 1">
       <img src="../../public/bonus.png" alt="oferta" class="z-20 w-[85px] block p-4 pr-2" />
       <div class="w-full p-4 pl-0 relative">
-        <img src="../../public/discount.png" class="z-20 block w-[55px] h-[55px] absolute top-[-1rem] right-1 rotate-12">
+        <img src="../../public/30-percent.png" class="z-20 block w-[55px] h-[55px] absolute top-[-1rem] right-1 rotate-12">
         <h3 class="text-sm font-medium text-black uppercase">
-          CONSIGUE 7 CUPONES POR $4.99
+          CONSIGUE 4 CUPONES POR $3.10
         </h3>
         <p class="text-sm font-light text-gray-800 pt-1 z-20 ">
-          Ideal para aguilizar a tu equipo de trabajo o compartir con compañeros.
+          Aprovecha esta oferta semanal y comparte los beneficios con mas personas.
         </p>
         <div class="flex items-center justify-between">
           <div class="font-light text-xs text-gray-500">Promocion termina: {{ formatTime(days) }}:{{ formatTime(hours) }}:{{ formatTime(minutes) }}:{{ formatTime(seconds) }}</div>
-          <a href="https://wa.me/50374329014?text=Quiero%20comprar%20la%20promocion%20de%207%20cupones%20por%20%244.99"
+          <a href="https://wa.me/50374329014?text=Quiero%20comprar%20la%20promocion%20de%204%20cupones%20por%20%243.10"
             class="bg-[#4666ff] text-white text-xs inline-block px-3 py-1 rounded-sm font-medium z-20">
             Comprar
           </a>
