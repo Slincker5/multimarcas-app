@@ -269,7 +269,7 @@ onUnmounted(() => {
           CONSIGUE 4 CUPONES POR $3.10
         </h3>
         <p class="text-sm font-light text-gray-800 pt-1 z-20 ">
-          Aprovecha esta oferta semanal y comparte los beneficios con mas personas.
+          Aprovecha esta oferta y comparte los beneficios con mas personas.
         </p>
         <div class="flex items-center justify-between">
           <div class="font-light text-xs text-gray-500">Promocion termina: {{ formatTime(days) }}:{{ formatTime(hours) }}:{{ formatTime(minutes) }}:{{ formatTime(seconds) }}</div>
