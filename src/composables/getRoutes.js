@@ -83,6 +83,12 @@ export const useGetRoutes = () => {
   const verifyStaticToken = `${url}/api/user/verify-statict-token`;
   const editProfile = `${url}/api/user/edit-profile`;
   const editPasswordProfile = `${url}/api/user/edit-password`;
+
+
+  // recovery account 
+  const sendCodeEmail = `${url}/api/recovery/password`;
+  const validateCodeEmail = `${url}/api/recovery/validate-code`;
+  const changePassword = `${url}/api/recovery/recovery-password`;
   return {
     url,
     authLogin,
@@ -137,6 +143,9 @@ export const useGetRoutes = () => {
     usersTopGlobal,
     verifyStaticToken,
     editProfile,
-    editPasswordProfile
+    editPasswordProfile,
+    sendCodeEmail,
+    validateCodeEmail,
+    changePassword
   };
 };

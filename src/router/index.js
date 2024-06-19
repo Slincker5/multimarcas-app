@@ -319,6 +319,14 @@ const router = createRouter({
         requiresAuth: false,
         title: "Descarga musica gratis",
       },
+    },
+    {
+      path: "/recuperar-clave",
+      name: "recuperarclave",
+      component: () => import("../views/RecuperarClaveView.vue"),
+      meta: {
+        title: "Recuperar Contraseña",
+      },
     }
   ],
 });
@@ -336,7 +344,7 @@ router.beforeEach((to, from, next) => {
   } else {
     if (
       (to.path === "/register" && localStorage.getItem("token")) ||
-      (to.path === "/login" && localStorage.getItem("token"))
+      (to.path === "/login" && localStorage.getItem("token")) || (to.path === "/recuperar-clave" && localStorage.getItem("token"))
     ) {
       next("/");
       return; // Asegúrate de retornar aquí para evitar que se ejecute el código siguiente

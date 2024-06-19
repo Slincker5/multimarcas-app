@@ -238,9 +238,10 @@ onMounted(() => {
               <font-awesome-icon :icon="['fas', 'eye']" v-else />
             </a>
           </div>
+          <router-link to="recuperar-clave" class="pt-4 text-center block text-sky-500">¿Has olvidado tu contraseña?</router-link>
           <input
             type="submit"
-            class="block mt-8 w-full px-4 py-2 text-sm font-medium rounded text-white bg-[#2E3239] hover:bg-[#37474F] border border-solid border-[#303E46] shadow-lg"
+            class="block mt-4 w-full px-4 py-2 text-sm font-medium rounded text-white bg-[#2E3239] hover:bg-[#37474F] border border-solid border-[#303E46] shadow-lg"
             value="ENTRAR"
           />
         </form>
