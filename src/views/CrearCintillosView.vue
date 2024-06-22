@@ -328,7 +328,7 @@ watchEffect((onInvalidate) => {
     </div>
 
     <div
-  class="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50"
+  class="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50 z-50"
   v-if="scan"
 >
   <div class="relative p-4 bg-white">
@@ -373,7 +373,7 @@ watchEffect((onInvalidate) => {
             v-model="barra"
           />
           <div>
-            <EscanerVainilla @startScannerNew="startScannerNew"></EscanerVainilla>
+            <EscanerVainilla @startScannerNew="startScannerNew" @startScanner="startScanner"></EscanerVainilla>
             <a
               class="flex items-center justify-center h-full px-4 leading-tight text-gray-700 bg-gray-300 border rounded-r" v-if="barcodeOk"
               @click.prevent="startScanner"
