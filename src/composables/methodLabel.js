@@ -37,7 +37,8 @@ export const useMethodLabel = () => {
     );
 
     description = description.replace(/\b(NIDAD|NIDADES)\b/g, "");
-    description = description.replace(/\b(u NI|u N)\b/g, "u");
+    description = description.replace(/\b(u NI|u N|u ND)\b/g, "u");
+    description = description.replace(/\b(g RS|g RAMOS)\b/g, "g");
     return description;
 };
 

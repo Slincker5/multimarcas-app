@@ -3,6 +3,7 @@ import { ref, onMounted, nextTick, watch, watchEffect, computed } from "vue";
 import axios from "axios";
 import { useMethodLabel } from "@/composables/methodLabel";
 import { useGetRoutes } from "../composables/getRoutes";
+import EscanerVainilla from "@/components/globales/EscanerVainilla.vue";
 import { v4 as uuidv4 } from "uuid";
 import { BrowserMultiFormatReader, NotFoundException } from "@zxing/library";
 import dayjs from "dayjs";
@@ -17,6 +18,10 @@ dayjs.extend(relativeTime);
 const usuario = ref(localStorage.getItem("usuario"));
 const token = ref(localStorage.getItem("token"));
 const cameras = ref([]);
+const barcodeOk = ref(true)
+if (('BarcodeDetector' in window)) {
+      barcodeOk.value = false
+    }
 
 const { formatearDescription, formatearDescriptionMinusculas } =
   useMethodLabel();
@@ -154,6 +159,35 @@ const startScanner = async () => {
   );
 };
 
+
+
+const startScannerNew = async (barcode) => {
+        try {
+          const { data } = await axios.get(`${searchLabel}${barcode}`, {
+            headers: {
+              Authorization: `Bearer ${token.value}`,
+            },
+          });
+          audioPlayer.play();
+          
+          barra.value = barcode;
+          if (data.length === 0) {
+            encontrado.value = true;
+            descripcion.value = "";
+            precio.value = "";
+            fecha.value = "";
+          } else {
+            encontrado.value = false;
+            descripcion.value = estadoTexto.value
+              ? formatearDescription(data[0].descripcion)
+              : formatearDescriptionMinusculas(data[0].descripcion);
+            precio.value = data[0].precio == null ? "" : data[0].precio;
+            fecha.value = data[0].fecha == null ? "" : data[0].fecha;
+          }
+        } catch (error) {
+          console.log(error);
+        }
+};
 
 const resetScanner = () => {
   scan.value = false;
@@ -304,7 +338,7 @@ watchEffect((onInvalidate) => {
         <font-awesome-icon :icon="['fas', 'xmark']" />
       </button>
     </div>
-    <select @change="changeCamera($event.target.value)">
+    <select @change="changeCamera($event.target.value)" class="hidden">
       <option v-for="camera in cameras" :key="camera.deviceId" :value="camera.deviceId">
         {{ camera.label || `Camera ${camera.deviceId}` }}
       </option>
@@ -339,8 +373,9 @@ watchEffect((onInvalidate) => {
             v-model="barra"
           />
           <div>
+            <EscanerVainilla @startScannerNew="startScannerNew"></EscanerVainilla>
             <a
-              class="flex items-center justify-center h-full px-4 leading-tight text-gray-700 bg-gray-300 border rounded-r"
+              class="flex items-center justify-center h-full px-4 leading-tight text-gray-700 bg-gray-300 border rounded-r" v-if="barcodeOk"
               @click.prevent="startScanner"
             >
               <img src="../../public/barcode.png" class="w-[25px] block" />
