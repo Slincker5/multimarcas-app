@@ -72,6 +72,7 @@ export const useGetRoutes = () => {
   const canjearCupon = `${url}/api/premiun/canjear-cupon`;
   const generarCupon = `${url}/api/premiun/cupon`;
   const crearCupon = `${url}/api/premiun/nuevo-cupon`;
+  const premios = `${url}/api/premiun/gift-weekend`;
 
   // Notificaciones
   const notificationPremiumEnd = `${url}/api/notification/premium-create`;
@@ -146,6 +147,7 @@ export const useGetRoutes = () => {
     editPasswordProfile,
     sendCodeEmail,
     validateCodeEmail,
-    changePassword
+    changePassword,
+    premios
   };
 };

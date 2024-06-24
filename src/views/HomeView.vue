@@ -14,6 +14,8 @@ import "vue3-toastify/dist/index.css";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
 import relativeTime from "dayjs/plugin/relativeTime";
+import confetti from "https://cdn.skypack.dev/canvas-confetti";
+
 dayjs.locale("es");
 dayjs.extend(relativeTime);
 
@@ -26,7 +28,10 @@ const {
   userUpdateToken,
   labelListGenerated,
   usersTopGlobal,
+  premios
 } = useGetRoutes();
+
+const user_uuid = localStorage.getItem("user_uuid")
 
 const reloadTokenFirebase = async (fcm) => {
   try {
@@ -104,6 +109,22 @@ const { userData } = storeToRefs(useNavBarStore);
 const enviando = ref(false);
 const generados = ref([]);
 
+
+const getPremiosSemanales = async () => {
+  try {
+    const headers = {
+      Authorization: "Bearer " + token.value,
+      "Content-Type": "application/json",
+    };
+    const { data } = await axios.post(premios, null, { headers });
+    console.log(data)
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+getPremiosSemanales()
+
 const updateToken = async () => {
   try {
     const headers = {
@@ -161,9 +182,9 @@ async function copyToClipboard(text) {
   }
 }
 
-const anuncioTmp = ref(localStorage.getItem("ok"));
+const oculto = ref('');
 const cerrarVentana = () => {
-  anuncioTmp.value = localStorage.setItem("duedate", "true");
+  oculto.value = "hidden";
 };
 
 getUserData(userStat);
@@ -236,6 +257,17 @@ onMounted(() => {
 onUnmounted(() => {
   clearInterval(interval);
 });
+
+function obtenerTopPorUUID(user_uuid) {
+  const usuario = userTop.value.find(user => user.user_uuid === user_uuid);
+  if (usuario) {
+      confetti();
+  }
+  return usuario ? usuario.top : false;
+
+}
+
+
 </script>
 <template>
   <div class="overflow-auto">
@@ -261,10 +293,12 @@ onUnmounted(() => {
     </audio>
     <Herramientas v-if="userData" :premium="userData.profile[0].suscripcion"></Herramientas>
     <VencimientosCard v-if="userData" :usuario="userData.profile[0].username"></VencimientosCard>
-    <div class="flex items-start justify-between bg-white fondoOff" v-if="userData && userData.profile[0].suscripcion === 1">
+    <div class="flex items-start justify-between bg-white fondoOff"
+      v-if="userData && userData.profile[0].suscripcion === 1">
       <img src="../../public/bonus.png" alt="oferta" class="z-20 w-[85px] block p-4 pr-2" />
       <div class="w-full p-4 pl-0 relative">
-        <img src="../../public/30-percent.png" class="z-20 block w-[55px] h-[55px] absolute top-[-1rem] right-1 rotate-12">
+        <img src="../../public/30-percent.png"
+          class="z-20 block w-[55px] h-[55px] absolute top-[-1rem] right-1 rotate-12">
         <h3 class="text-sm font-medium text-black uppercase">
           CONSIGUE 4 CUPONES POR $3.10
         </h3>
@@ -272,7 +306,8 @@ onUnmounted(() => {
           Aprovecha esta oferta y comparte los beneficios con mas personas.
         </p>
         <div class="flex items-center justify-between">
-          <div class="font-light text-xs text-gray-500">Promocion termina: {{ formatTime(days) }}:{{ formatTime(hours) }}:{{ formatTime(minutes) }}:{{ formatTime(seconds) }}</div>
+          <div class="font-light text-xs text-gray-500">Promocion termina: {{ formatTime(days) }}:{{ formatTime(hours)
+            }}:{{ formatTime(minutes) }}:{{ formatTime(seconds) }}</div>
           <a href="https://wa.me/50374329014?text=Quiero%20comprar%20la%20promocion%20de%204%20cupones%20por%20%243.10"
             class="bg-[#4666ff] text-white text-xs inline-block px-3 py-1 rounded-sm font-medium z-20">
             Comprar
@@ -481,15 +516,15 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <div class="fixed top-0 left-0 z-30 flex items-center justify-center w-full h-full bg-black/90" v-if="false">
-      <div class="bg-white w-[80%] py-6 px-4 max-w-screen-sm rounded-lg shadow-2xl">
-        <img src="../../public/email-file.gif" class="w-[30%] block m-auto" />
+    <div class="fixed top-0 left-0 z-30 flex items-center justify-center w-full h-full bg-black/90" :class="oculto" v-if="userData && userData['profile'][0]['premio'] === null && obtenerTopPorUUID(user_uuid)">
+      <div class="bg-white w-[80%] py-6 px-4 max-w-xl rounded-lg shadow-2xl">
+        <img src="../../public/gift.gif" class="w-[25%] block m-auto" />
         <h3 class="pt-4 font-medium text-center text-black uppercase text-nomal">
-          CORREOS PERSONALIZADOS
+          LLEGASTE AL TOP SEMANAL
         </h3>
-        <p class="p-4 pb-0 text-sm text-gray-600">
-          Si usas la funcion de correos personalizados, redacta correctamente los correos para recibir tus cintillos el
-          100% de las veces.</p>
+        <p class="p-4 pb-4 text-sm text-gray-600">
+          Felicidades llegaste al top semanal <b>#{{ obtenerTopPorUUID(user_uuid) }}</b>, <b>multmarcas app</b>
+          reconoce tu esfuerzo por eso hemos extendido tu suscripcion 24 horas mas.</p>
         <div class="py-4 pb-0 border-t border-dashed border-[#ddd]">
           <button
             class="block px-6 py-2 mx-auto mb-4 text-sm text-center border border-solid rounded-sm shadow-lg border-neutral-700"
@@ -568,7 +603,8 @@ onUnmounted(() => {
 .fondoOff {
   position: relative;
 }
-.fondoOff::after{
+
+.fondoOff::after {
   content: 'a';
   width: 100%;
   height: 100%;
