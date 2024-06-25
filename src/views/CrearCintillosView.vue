@@ -276,9 +276,9 @@ watchEffect((onInvalidate) => {
       </div>
     </div>
 
-    <div class="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50 z-50"
+    <div class="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black/70 z-50"
       v-if="scan">
-      <div class="relative p-4 bg-white">
+      <div class="relative p-4 bg-white rounded-md">
         <div class="flex items-center justify-between pb-4">
           <h2 class="text-xl">Escanear Producto</h2>
           <button @click.prevent="resetScanner">
@@ -290,7 +290,7 @@ watchEffect((onInvalidate) => {
             {{ camera.label || `Camera ${camera.deviceId}` }}
           </option>
         </select>
-        <video id="video" width="300" height="200"></video>
+        <video id="video" width="300" height="200" class="rounded-md"></video>
       </div>
     </div>
 
