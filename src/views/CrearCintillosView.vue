@@ -3,8 +3,6 @@ import { ref, onMounted, nextTick, watch, watchEffect, computed } from "vue";
 import axios from "axios";
 import { useMethodLabel } from "@/composables/methodLabel";
 import { useGetRoutes } from "../composables/getRoutes";
-import EscanerVainilla from "@/components/globales/EscanerVainilla.vue";
-import { v4 as uuidv4 } from "uuid";
 import { BrowserMultiFormatReader, NotFoundException } from "@zxing/library";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
@@ -15,7 +13,6 @@ import "vue3-toastify/dist/index.css";
 dayjs.locale("es");
 dayjs.extend(relativeTime);
 
-const usuario = ref(localStorage.getItem("usuario"));
 const token = ref(localStorage.getItem("token"));
 const cameras = ref([]);
 
@@ -130,7 +127,7 @@ const startScanner = async () => {
             },
           });
           audioPlayer.play();
-          
+
           barra.value = res.text;
           if (data.length === 0) {
             encontrado.value = true;
@@ -248,23 +245,14 @@ watchEffect((onInvalidate) => {
       </Transition>
     </div>
     <div class="grid py-6 overflow-scroll bg-black place-items-center acciones">
-      <div
-        class="flex items-center justify-between w-[340px] h-[150px] bg-white"
-      >
+      <div class="flex items-center justify-between w-[340px] h-[150px] bg-white">
         <div
-          class="border border-solid border-red-500 h-[150px] bg-white w-[151px] text-center text-[16px] font-semibold text-black grid place-items-center"
-        >
-          <span
-            class="p-2 block w-[153px] break-words whitespace-pre-wrap tipoFuente"
-            >{{ descripcion }}</span
-          >
+          class="border border-solid border-red-500 h-[150px] bg-white w-[151px] text-center text-[16px] font-semibold text-black grid place-items-center">
+          <span class="p-2 block w-[153px] break-words whitespace-pre-wrap tipoFuente">{{ descripcion }}</span>
         </div>
+        <div class="border border-solid border-red-500 h-[150px] bg-gray-400 w-[41px]"></div>
         <div
-          class="border border-solid border-red-500 h-[150px] bg-gray-400 w-[41px]"
-        ></div>
-        <div
-          class="border border-solid border-red-500 h-[150px] bg-black font-semibold flex items-center justify-end p-3 text-right text-white text-3xl w-[148px] tipoFuente"
-        >
+          class="border border-solid border-red-500 h-[150px] bg-black font-semibold flex items-center justify-end p-3 text-right text-white text-3xl w-[148px] tipoFuente">
           $ {{ precio === "" ? "0.00" : precio }}
         </div>
       </div>
@@ -274,17 +262,11 @@ watchEffect((onInvalidate) => {
       Tu navegador no soporta el elemento de audio.
     </audio>
     <div class="p-4 m-auto">
-      <h1
-        class="flex items-center justify-between pb-4 font-medium text-gray-900"
-      >
+      <h1 class="flex items-center justify-between pb-4 font-medium text-gray-900">
         <span>Agregar Cintillos</span>
         <div>
-          <router-link
-            to="/cintillos"
-            class="text-[#e67d22c7]"
-            active-class="underline"
-            >Cintillos ({{ total }})</router-link
-          >
+          <router-link to="/cintillos" class="text-[#e67d22c7]" active-class="underline">Cintillos ({{ total
+            }})</router-link>
         </div>
       </h1>
 
@@ -294,57 +276,39 @@ watchEffect((onInvalidate) => {
       </div>
     </div>
 
-    <div
-  class="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50 z-50"
-  v-if="scan"
->
-  <div class="relative p-4 bg-white">
-    <div class="flex items-center justify-between pb-4">
-      <h2 class="text-xl">Escanear Producto</h2>
-      <button @click.prevent="resetScanner">
-        <font-awesome-icon :icon="['fas', 'xmark']" />
-      </button>
+    <div class="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50 z-50"
+      v-if="scan">
+      <div class="relative p-4 bg-white">
+        <div class="flex items-center justify-between pb-4">
+          <h2 class="text-xl">Escanear Producto</h2>
+          <button @click.prevent="resetScanner">
+            <font-awesome-icon :icon="['fas', 'xmark']" />
+          </button>
+        </div>
+        <select @change="changeCamera($event.target.value)" class="hidden">
+          <option v-for="camera in cameras" :key="camera.deviceId" :value="camera.deviceId">
+            {{ camera.label || `Camera ${camera.deviceId}` }}
+          </option>
+        </select>
+        <video id="video" width="300" height="200"></video>
+      </div>
     </div>
-    <select @change="changeCamera($event.target.value)" class="hidden">
-      <option v-for="camera in cameras" :key="camera.deviceId" :value="camera.deviceId">
-        {{ camera.label || `Camera ${camera.deviceId}` }}
-      </option>
-    </select>
-    <video id="video" width="300" height="200"></video>
-  </div>
-</div>
 
 
-    <form
-      class="w-full p-4 pt-0"
-      @submit.prevent="agregarCintillos"
-      ref="frmCintillo"
-    >
+    <form class="w-full p-4 pt-0" @submit.prevent="agregarCintillos" ref="frmCintillo">
       <div class="mb-6">
-        <label
-          class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-          for="barra"
-        >
+        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" for="barra">
           CODIGO DE BARRA:
         </label>
 
-        <div
-          class="flex items-stretch justify-between border border-solid border-[#ddd] focus:border-gray-500"
-        >
+        <div class="flex items-stretch justify-between border border-solid border-[#ddd] focus:border-gray-500">
           <input
             class="flex-grow px-4 py-3 leading-tight text-gray-700 border-0 rounded-l appearance-none focus:outline-none focus:bg-white"
-            id="barra"
-            type="text"
-            placeholder="Ej. 1234567890123"
-            autocomplete="off"
-            v-model="barra"
-          />
+            id="barra" type="text" placeholder="Ej. 1234567890123" autocomplete="off" v-model="barra" />
           <div>
-           
-            <a
-              class="flex items-center justify-center h-full px-4 leading-tight text-gray-700 bg-gray-300 border rounded-r"
-              @click.prevent="startScanner"
-            >
+
+            <a class="flex items-center justify-center h-full px-4 leading-tight text-gray-700 bg-gray-300 border rounded-r"
+              @click.prevent="startScanner">
               <img src="../../public/barcode.png" class="w-[25px] block" />
             </a>
           </div>
@@ -352,100 +316,59 @@ watchEffect((onInvalidate) => {
       </div>
 
       <div class="mb-6">
-        <label
-          class="flex items-center justify-between mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-          for="descripcion"
-        >
+        <label class="flex items-center justify-between mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
+          for="descripcion">
           DESCRIPCIÓN DEL PRODUCTO:
-          <button
-            class="text-sm"
-            :class="
-              estadoTexto
-                ? 'text-sky-600 font-medium'
-                : 'text-gray-400  font-normal'
-            "
-            @click.prevent="toggleMayMin"
-          >
+          <button class="text-sm" :class="estadoTexto
+              ? 'text-sky-600 font-medium'
+              : 'text-gray-400  font-normal'
+            " @click.prevent="toggleMayMin">
             May.
           </button>
         </label>
         <textarea
           class="block w-full px-4 py-3 leading-tight text-gray-700 border border-solid border-[#ddd] rounded appearance-none focus:outline-none focus:border-gray-500"
-          id="descripcion"
-          placeholder="DESCRIPCIÓN COMPLETA"
-          autocomplete="off"
-          v-model="descripcion"
-          @input="handleInput"
-          required
-        ></textarea>
+          id="descripcion" placeholder="DESCRIPCIÓN COMPLETA" autocomplete="off" v-model="descripcion"
+          @input="handleInput" required></textarea>
       </div>
 
       <div class="mb-6">
-        <label
-          class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-          for="cantidad"
-        >
+        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" for="cantidad">
           CANTIDAD:
         </label>
         <input
           class="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-          id="cantidad"
-          type="number"
-          placeholder="CANTIDAD"
-          autocomplete="off"
-          v-model="cantidad"
-          required
-        />
+          id="cantidad" type="number" placeholder="CANTIDAD" autocomplete="off" v-model="cantidad" required />
       </div>
 
       <div class="">
-        <label
-          class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-          for="grid-password"
-        >
+        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" for="grid-password">
           PRECIO DEL PRODUCTO:
         </label>
-        <div
-          class="pb-3 text-xs font-light text-gray-600"
-          v-if="fecha.length > 0"
-        >
+        <div class="pb-3 text-xs font-light text-gray-600" v-if="fecha.length > 0">
           <font-awesome-icon :icon="['fas', 'bell']" /> Precio usado ultima vez
           el
           {{ dayjs(fecha).format("dddd, D [de] MMMM [de] YYYY") }}
         </div>
         <input
           class="block w-full px-4 py-3 leading-tight text-gray-700 border border-solid border-[#ddd] rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-          id="grid-password"
-          type="text"
-          placeholder="PRECIO"
-          autocomplete="off"
-          v-model="precio"
-          required
-        />
+          id="grid-password" type="text" placeholder="PRECIO" autocomplete="off" v-model="precio" required />
       </div>
       <p class="block mt-2 mb-6 text-sm font-normal text-gray-400 lowercase">
         (No es necesario el signo de dolar)
       </p>
-      <input
-        type="submit"
+      <input type="submit"
         class="w-full px-4 py-2 font-bold text-white border rounded bg-[#383E42] hover:bg-[#1b2024] border-[#1b2024] shadow-md"
-        value="AGREGAR CINTILLO"
-      />
+        value="AGREGAR CINTILLO" />
     </form>
     <div
       class="fixed w-full h-full flex items-center justify-center text-white bg-[#263238] p-4 text-xl top-0 left-0 z-50"
-      v-if="enviando"
-    >
+      v-if="enviando">
       <font-awesome-icon :icon="['fas', 'spinner']" class="fa-pulse" />
       Agregando Cintillos...
     </div>
-    <div
-      class="fixed top-0 left-0 z-50 grid w-full h-full bg-white grid-custom-rows"
-      v-if="aviso === null"
-    >
-      <h3
-        class="px-4 py-6 font-medium text-center uppercase text-normal text-neutral-900"
-      >
+    <div class="fixed top-0 left-0 z-50 grid w-full h-full bg-white grid-custom-rows" v-if="aviso === null">
+      <h3 class="px-4 py-6 font-medium text-center uppercase text-normal text-neutral-900">
         Actualizacion importante
       </h3>
       <div class="px-4 overflow-y-auto info">
@@ -504,7 +427,8 @@ watchEffect((onInvalidate) => {
   position: relative;
   width: 100%;
   height: 0;
-  padding-bottom: 133.33%; /* Para un aspect ratio de 3:4, 4/3 = 1.3333 */
+  padding-bottom: 133.33%;
+  /* Para un aspect ratio de 3:4, 4/3 = 1.3333 */
   overflow: hidden;
 }
 
@@ -525,29 +449,32 @@ watchEffect((onInvalidate) => {
   height: 100%;
   object-fit: cover;
 }
+
 .grid-custom-rows {
   grid-template-rows: auto 1fr auto;
 }
 
 .recomendaciones {
   background: rgb(255, 242, 165);
-  background: linear-gradient(
-    114deg,
-    rgba(255, 242, 165, 1) 36%,
-    rgba(252, 255, 231, 1) 100%
-  );
+  background: linear-gradient(114deg,
+      rgba(255, 242, 165, 1) 36%,
+      rgba(252, 255, 231, 1) 100%);
 }
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s ease;
 }
+
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
 }
+
 .info {
   position: relative;
 }
+
 .info::after {
   content: "";
   position: sticky;
@@ -557,11 +484,9 @@ watchEffect((onInvalidate) => {
   height: 50px;
   width: 100%;
   background: rgb(255, 255, 255);
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0) 10%,
-    rgba(254, 255, 248, 1) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0) 10%,
+      rgba(254, 255, 248, 1) 100%);
 }
 
 .tipoFuente {
@@ -569,6 +494,7 @@ watchEffect((onInvalidate) => {
 }
 
 .acciones::-webkit-scrollbar {
-  display: none; /* Oculta la barra de desplazamiento en navegadores WebKit (como Chrome/Safari) */
+  display: none;
+  /* Oculta la barra de desplazamiento en navegadores WebKit (como Chrome/Safari) */
 }
 </style>
