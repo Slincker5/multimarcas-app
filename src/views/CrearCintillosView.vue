@@ -18,10 +18,6 @@ dayjs.extend(relativeTime);
 const usuario = ref(localStorage.getItem("usuario"));
 const token = ref(localStorage.getItem("token"));
 const cameras = ref([]);
-const barcodeOk = ref(true)
-if (('BarcodeDetector' in window)) {
-      barcodeOk.value = false
-    }
 
 const { formatearDescription, formatearDescriptionMinusculas } =
   useMethodLabel();
@@ -159,35 +155,6 @@ const startScanner = async () => {
   );
 };
 
-
-
-const startScannerNew = async (barcode) => {
-        try {
-          const { data } = await axios.get(`${searchLabel}${barcode}`, {
-            headers: {
-              Authorization: `Bearer ${token.value}`,
-            },
-          });
-          audioPlayer.play();
-          
-          barra.value = barcode;
-          if (data.length === 0) {
-            encontrado.value = true;
-            descripcion.value = "";
-            precio.value = "";
-            fecha.value = "";
-          } else {
-            encontrado.value = false;
-            descripcion.value = estadoTexto.value
-              ? formatearDescription(data[0].descripcion)
-              : formatearDescriptionMinusculas(data[0].descripcion);
-            precio.value = data[0].precio == null ? "" : data[0].precio;
-            fecha.value = data[0].fecha == null ? "" : data[0].fecha;
-          }
-        } catch (error) {
-          console.log(error);
-        }
-};
 
 const resetScanner = () => {
   scan.value = false;
@@ -373,9 +340,9 @@ watchEffect((onInvalidate) => {
             v-model="barra"
           />
           <div>
-            <EscanerVainilla @startScannerNew="startScannerNew" @startScanner="startScanner"></EscanerVainilla>
+           
             <a
-              class="flex items-center justify-center h-full px-4 leading-tight text-gray-700 bg-gray-300 border rounded-r" v-if="barcodeOk"
+              class="flex items-center justify-center h-full px-4 leading-tight text-gray-700 bg-gray-300 border rounded-r"
               @click.prevent="startScanner"
             >
               <img src="../../public/barcode.png" class="w-[25px] block" />
