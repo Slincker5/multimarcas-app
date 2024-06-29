@@ -362,7 +362,7 @@ const closeCog = () => {
         <label class="flex items-center justify-between mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
           for="barra" v-if="userData">
           CODIGO DE BARRA:
-          <button class="inline-block text-sm text-gray-400 font-normal" @click.prevent="openCog"
+          <button class="inline-block text-sm text-gray-700 font-normal" @click.prevent="openCog"
             v-if="barcodeOk"><font-awesome-icon :icon="['fas', 'gear']" /> Ajustes</button>
         </label>
 
