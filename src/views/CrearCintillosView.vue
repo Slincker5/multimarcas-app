@@ -3,7 +3,10 @@ import { ref, onMounted, nextTick, watch, watchEffect, computed } from "vue";
 import axios from "axios";
 import { useMethodLabel } from "@/composables/methodLabel";
 import { useGetRoutes } from "../composables/getRoutes";
+
 import { BrowserMultiFormatReader, NotFoundException } from "@zxing/library";
+import Ajustes from "@/components/cintillos/Ajustes.vue";
+import EscanerVainilla from "@/components/globales/EscanerVainilla.vue";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -18,10 +21,10 @@ const cameras = ref([]);
 
 const { formatearDescription, formatearDescriptionMinusculas } =
   useMethodLabel();
-const { searchLabel, labelCreate, labelList } = useGetRoutes();
+const { searchLabel, labelCreate, labelList, labelScanner, userStat } = useGetRoutes();
 
 const frmCintillo = ref(null);
-
+const userData = ref([])
 // variables reactivas del formulario
 const codeReader = new BrowserMultiFormatReader();
 let selectedDeviceId;
@@ -35,6 +38,10 @@ const fecha = ref("");
 const total = ref("");
 const estadoTexto = ref(true);
 const aviso = ref(localStorage.getItem("aviso"));
+const barcodeOk = ref(false)
+if (('BarcodeDetector' in window)) {
+      barcodeOk.value = true
+    }
 
 const cerrarAviso = () => {
   aviso.value = localStorage.setItem("aviso", "true");
@@ -94,6 +101,22 @@ const changeCamera = (deviceId) => {
 };
 
 
+const getDataUser = async () => {
+  try {
+    const headers = {
+      Authorization: "Bearer " + token.value,
+      "Content-Type": "application/json",
+    };
+    let { data } = await axios.get(userStat, {
+      headers,
+    });
+    userData.value = data
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+getDataUser()
 
 const getData = async () => {
   try {
@@ -152,6 +175,33 @@ const startScanner = async () => {
   );
 };
 
+const startScannerNew = async (barcode) => {
+        try {
+          const { data } = await axios.get(`${searchLabel}${barcode}`, {
+            headers: {
+              Authorization: `Bearer ${token.value}`,
+            },
+          });
+          audioPlayer.play();
+          
+          barra.value = barcode;
+          if (data.length === 0) {
+            encontrado.value = true;
+            descripcion.value = "";
+            precio.value = "";
+            fecha.value = "";
+          } else {
+            encontrado.value = false;
+            descripcion.value = estadoTexto.value
+              ? formatearDescription(data[0].descripcion)
+              : formatearDescriptionMinusculas(data[0].descripcion);
+            precio.value = data[0].precio == null ? "" : data[0].precio;
+            fecha.value = data[0].fecha == null ? "" : data[0].fecha;
+          }
+        } catch (error) {
+          console.log(error);
+        }
+};
 
 const resetScanner = () => {
   scan.value = false;
@@ -238,6 +288,7 @@ watchEffect((onInvalidate) => {
 </script>
 <template>
   <div class="w-full md:w-[650px] m-auto">
+    <Ajustes></Ajustes>
     <div class="p-4 text-black recomendaciones">
       <b class="block mb-2 text-sm font-medium">RECOMENDACIONES</b>
       <Transition name="fade" mode="out-in">
@@ -276,8 +327,7 @@ watchEffect((onInvalidate) => {
       </div>
     </div>
 
-    <div class="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black/70 z-50"
-      v-if="scan">
+    <div class="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black/70 z-50" v-if="scan">
       <div class="relative p-4 bg-white rounded-md">
         <div class="flex items-center justify-between pb-4">
           <h2 class="text-xl">Escanear Producto</h2>
@@ -297,8 +347,9 @@ watchEffect((onInvalidate) => {
 
     <form class="w-full p-4 pt-0" @submit.prevent="agregarCintillos" ref="frmCintillo">
       <div class="mb-6">
-        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" for="barra">
+        <label class="flex items-center justify-between mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" for="barra" v-if="userData">
           CODIGO DE BARRA:
+          <button class="inline-block text-sm text-gray-400 font-normal" v-if="barcodeOk"><font-awesome-icon :icon="['fas', 'gear']" /> Ajustes</button>
         </label>
 
         <div class="flex items-stretch justify-between border border-solid border-[#ddd] focus:border-gray-500">
@@ -307,10 +358,11 @@ watchEffect((onInvalidate) => {
             id="barra" type="text" placeholder="Ej. 1234567890123" autocomplete="off" v-model="barra" />
           <div>
 
-            <a class="flex items-center justify-center h-full px-4 leading-tight text-gray-700 bg-gray-300 border rounded-r"
+            <a class="flex items-center justify-center h-full px-4 leading-tight text-gray-700 bg-gray-300 border rounded-r" v-if="userData && userData['profile'] && userData['profile'][0] && userData['profile'][0]['scanner'] === 0"
               @click.prevent="startScanner">
               <img src="../../public/barcode.png" class="w-[25px] block" />
             </a>
+            <EscanerVainilla @startScannerNew="startScannerNew" @startScanner="startScanner" v-if="userData && userData['profile'] && userData['profile'][0] && userData['profile'][0]['scanner'] === 1"></EscanerVainilla>
           </div>
         </div>
       </div>
@@ -319,12 +371,15 @@ watchEffect((onInvalidate) => {
         <label class="flex items-center justify-between mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
           for="descripcion">
           DESCRIPCIÓN DEL PRODUCTO:
-          <button class="text-sm" :class="estadoTexto
+          <div>
+            <button class="text-sm" :class="estadoTexto
               ? 'text-sky-600 font-medium'
               : 'text-gray-400  font-normal'
-            " @click.prevent="toggleMayMin">
-            May.
-          </button>
+              " @click.prevent="toggleMayMin">
+              May.
+            </button>
+          </div>
+
         </label>
         <textarea
           class="block w-full px-4 py-3 leading-tight text-gray-700 border border-solid border-[#ddd] rounded appearance-none focus:outline-none focus:border-gray-500"

@@ -33,6 +33,7 @@ export const useGetRoutes = () => {
   const labelBuild = `${url}/api/label/build-document`;
   const labelDocumentReSend = `${url}/api/label/resend`;
   const labelDocument = `${url}/api/detail/label/`; //luego va el uuid a buscar
+  const labelScanner = `${url}/api/label/scanner`;
 
   // Rutas poster
   const posterCreate = `${url}/api/poster/create`;
@@ -148,6 +149,7 @@ export const useGetRoutes = () => {
     sendCodeEmail,
     validateCodeEmail,
     changePassword,
-    premios
+    premios,
+    labelScanner
   };
 };
