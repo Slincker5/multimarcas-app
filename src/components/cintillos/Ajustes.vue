@@ -36,6 +36,7 @@ const sendActiveRequest = async () => {
         console.error('Error en la petición activa:', error);
     } finally {
         isLoading.value = false;
+        window.location.reload()
     }
 };
 
@@ -56,6 +57,7 @@ const sendInactiveRequest = async () => {
         console.error('Error en la petición inactiva:', error);
     } finally {
         isLoading.value = false;
+        window.location.reload()
     }
 };
 
