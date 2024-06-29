@@ -1,24 +1,32 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 import axios from 'axios';
-
 import { useGetRoutes } from "@/composables/getRoutes";
 
-const emit = defineEmits(['openCog', 'closeCog'])
- defineProps(['cog'])
+const emit = defineEmits(['openCog', 'closeCog']);
+defineProps(['cog']);
+const token = ref(localStorage.getItem("token"));
 const { labelScanner } = useGetRoutes();
+
 // Definimos una variable reactiva para el estado del checkbox
 const isChecked = ref(false);
 const isLoading = ref(false); // Variable reactiva para manejar el estado de carga
 
 // Computed para obtener el estado del checkbox en forma legible
-const isActive = computed(() => isChecked.value ? 'Activo' : 'Inactivo');
+const isActive = computed(() => isChecked.value ? 1 : 0);
 
 // Función para enviar una petición si el checkbox está activo
 const sendActiveRequest = async () => {
   isLoading.value = true;
   try {
-    const { data } = await axios.post(labelScanner, { scanner: 1 });
+    const headers = {
+      Authorization: "Bearer " + token.value,
+      "Content-Type": "application/json",
+    };
+    const dataScan = {
+      scanner: isActive.value
+    };
+    const { data } = await axios.post(labelScanner, dataScan, { headers });
     console.log(data);
   } catch (error) {
     console.error('Error en la petición activa:', error);
@@ -31,7 +39,14 @@ const sendActiveRequest = async () => {
 const sendInactiveRequest = async () => {
   isLoading.value = true;
   try {
-    const { data } = await axios.post(labelScanner, { scanner: 0 });
+    const headers = {
+      Authorization: "Bearer " + token.value,
+      "Content-Type": "application/json",
+    };
+    const dataScan = {
+      scanner: isActive.value
+    };
+    const { data } = await axios.post(labelScanner, dataScan, { headers });
     console.log(data);
   } catch (error) {
     console.error('Error en la petición inactiva:', error);
@@ -56,7 +71,12 @@ watch(isChecked, async (newValue) => {
 <template>
   <div class="bg-black/40 fixed top-0 left-0 w-full h-full z-4 flex items-center justify-center" v-if="cog">
     <div class="bg-white rounded-md shadow-md shadow-black/70 w-[90%] p-4">
-      <h3 class="font-medium text-base text-black uppercase pb-2"><button class="pr-4" @click.prevent('closeCog')><font-awesome-icon :icon="['fas', 'arrow-left']" /></button>CONFIGURACION CINTILLOS</h3>
+      <h3 class="font-medium text-base text-black uppercase pb-2">
+        <button class="pr-4" @click.prevent="emit('closeCog')">
+          <font-awesome-icon :icon="['fas', 'arrow-left']" />
+        </button>
+        CONFIGURACION CINTILLOS
+      </h3>
 
       <div class="inline-flex items-center">
         <div class="relative inline-block w-[3.2rem] h-4 -mt-5 rounded-full cursor-pointer border border-[#ddd] border-solid">
@@ -73,7 +93,7 @@ watch(isChecked, async (newValue) => {
               Nuevo escaner
             </p>
             <p class="block font-sans text-sm antialiased font-normal leading-normal text-gray-700 ml-2">
-                Prueba el nuevo escáner o desactívalo si prefieres el anterior.
+              Prueba el nuevo escáner o desactívalo si prefieres el anterior.
             </p>
           </div>
         </label>

@@ -358,7 +358,7 @@ const closeCog = () => {
       <div class="mb-6">
         <label class="flex items-center justify-between mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" for="barra" v-if="userData">
           CODIGO DE BARRA:
-          <button class="inline-block text-sm text-gray-400 font-normal" @click.prevent="openCog" v-if="barcodeOk"><font-awesome-icon :icon="['fas', 'gear']" /> Ajustes</button>
+          <button class="inline-block text-sm text-gray-400 font-normal" :cog="cog" @click.prevent="openCog" v-if="barcodeOk"><font-awesome-icon :icon="['fas', 'gear']" /> Ajustes</button>
         </label>
 
         <div class="flex items-stretch justify-between border border-solid border-[#ddd] focus:border-gray-500">
@@ -371,7 +371,7 @@ const closeCog = () => {
               @click.prevent="startScanner">
               <img src="../../public/barcode.png" class="w-[25px] block" />
             </a>
-            <EscanerVainilla :cog="cog" @startScannerNew="startScannerNew" @startScanner="startScanner" @closeCog="closeCog" v-if="userData && userData['profile'] && userData['profile'][0] && userData['profile'][0]['scanner'] === 1"></EscanerVainilla>
+            <EscanerVainilla  @startScannerNew="startScannerNew" @startScanner="startScanner" @closeCog="closeCog" v-if="userData && userData['profile'] && userData['profile'][0] && userData['profile'][0]['scanner'] === 1"></EscanerVainilla>
           </div>
         </div>
       </div>
