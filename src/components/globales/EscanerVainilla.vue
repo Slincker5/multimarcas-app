@@ -11,7 +11,7 @@
         <div class="z-50 absolute top-0 left-0 p-4 bg-black/60 flex items-center justify-between w-full">
           <a class="text-white" @click.prevent="stopCamera"><font-awesome-icon :icon="['fas', 'arrow-left']" />
             REGRESAR</a>
-          <a class="text-white" @click.prevent="openOldScanner"><font-awesome-icon :icon="['fas', 'barcode']" /> OPCION
+          <a class="text-white hidden" @click.prevent="openOldScanner"><font-awesome-icon :icon="['fas', 'barcode']" /> OPCION
             DOS</a>
         </div>
         <div class="line animate-ping"></div>
