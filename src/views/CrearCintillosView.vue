@@ -21,7 +21,7 @@ const cameras = ref([]);
 
 const { formatearDescription, formatearDescriptionMinusculas } =
   useMethodLabel();
-const { searchLabel, labelCreate, labelList, labelScanner, userStat } = useGetRoutes();
+const { searchLabel, labelCreate, labelList, userStat } = useGetRoutes();
 
 const frmCintillo = ref(null);
 const userData = ref([])

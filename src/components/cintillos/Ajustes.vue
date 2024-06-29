@@ -2,6 +2,9 @@
 import { ref, computed, watch } from 'vue';
 import axios from 'axios';
 
+import { useGetRoutes } from "@/composables/getRoutes";
+
+const { labelScanner } = useGetRoutes();
 // Definimos una variable reactiva para el estado del checkbox
 const isChecked = ref(false);
 const isLoading = ref(false); // Variable reactiva para manejar el estado de carga
@@ -13,8 +16,8 @@ const isActive = computed(() => isChecked.value ? 'Activo' : 'Inactivo');
 const sendActiveRequest = async () => {
   isLoading.value = true;
   try {
-    const response = await axios.post('https://tu-api.com/activo', { status: 'activo' });
-    console.log('Respuesta si está activo:', response.data);
+    const { data } = await axios.post(labelScanner, { scanner: 1 });
+    console.log(data);
   } catch (error) {
     console.error('Error en la petición activa:', error);
   } finally {
@@ -26,8 +29,8 @@ const sendActiveRequest = async () => {
 const sendInactiveRequest = async () => {
   isLoading.value = true;
   try {
-    const response = await axios.post('https://tu-api.com/inactivo', { status: 'inactivo' });
-    console.log('Respuesta si no está activo:', response.data);
+    const { data } = await axios.post(labelScanner, { scanner: 0 });
+    console.log(data);
   } catch (error) {
     console.error('Error en la petición inactiva:', error);
   } finally {
