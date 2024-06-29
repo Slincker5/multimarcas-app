@@ -4,6 +4,8 @@ import axios from 'axios';
 
 import { useGetRoutes } from "@/composables/getRoutes";
 
+const emit = defineEmits(['openCog', 'closeCog'])
+const defineProps(['cog'])
 const { labelScanner } = useGetRoutes();
 // Definimos una variable reactiva para el estado del checkbox
 const isChecked = ref(false);
@@ -52,9 +54,9 @@ watch(isChecked, async (newValue) => {
 </script>
 
 <template>
-  <div class="bg-black/40 fixed top-0 left-0 w-full h-full z-4 flex items-center justify-center" v-if="false">
+  <div class="bg-black/40 fixed top-0 left-0 w-full h-full z-4 flex items-center justify-center" v-if="cog">
     <div class="bg-white rounded-md shadow-md shadow-black/70 w-[90%] p-4">
-      <h3 class="font-medium text-base text-black uppercase pb-2"><button class="pr-4"><font-awesome-icon :icon="['fas', 'arrow-left']" /></button>CONFIGURACION CINTILLOS</h3>
+      <h3 class="font-medium text-base text-black uppercase pb-2"><button class="pr-4" @click.prevent('closeCog')><font-awesome-icon :icon="['fas', 'arrow-left']" /></button>CONFIGURACION CINTILLOS</h3>
 
       <div class="inline-flex items-center">
         <div class="relative inline-block w-[3.2rem] h-4 -mt-5 rounded-full cursor-pointer border border-[#ddd] border-solid">
