@@ -68,7 +68,7 @@ watch(isChecked, async (newValue) => {
 </script>
 
 <template>
-    <Transition>
+    
         <div class="bg-black/40 fixed top-0 left-0 w-full h-full z-4 flex items-center justify-center">
             <div class="bg-white rounded-md shadow-md shadow-black/70 w-[90%] p-4">
                 <h3 class="font-medium text-base text-black uppercase pb-2">
@@ -108,6 +108,4 @@ watch(isChecked, async (newValue) => {
                 <p class="mt-4">Estado del escaner: {{ isActive }}</p>
             </div>
         </div>
-    </Transition>
-
 </template>

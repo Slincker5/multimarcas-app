@@ -24,7 +24,8 @@ const { formatearDescription, formatearDescriptionMinusculas } =
 const { searchLabel, labelCreate, labelList, userStat } = useGetRoutes();
 
 const frmCintillo = ref(null);
-const userData = ref([])
+const userData = ref({ profile: [] });
+
 // variables reactivas del formulario
 const codeReader = new BrowserMultiFormatReader();
 let selectedDeviceId;
@@ -40,8 +41,8 @@ const estadoTexto = ref(true);
 const aviso = ref(localStorage.getItem("aviso"));
 const barcodeOk = ref(false)
 if (('BarcodeDetector' in window)) {
-      barcodeOk.value = true
-    }
+  barcodeOk.value = true
+}
 
 const cerrarAviso = () => {
   aviso.value = localStorage.setItem("aviso", "true");
@@ -176,31 +177,31 @@ const startScanner = async () => {
 };
 
 const startScannerNew = async (barcode) => {
-        try {
-          const { data } = await axios.get(`${searchLabel}${barcode}`, {
-            headers: {
-              Authorization: `Bearer ${token.value}`,
-            },
-          });
-          audioPlayer.play();
-          
-          barra.value = barcode;
-          if (data.length === 0) {
-            encontrado.value = true;
-            descripcion.value = "";
-            precio.value = "";
-            fecha.value = "";
-          } else {
-            encontrado.value = false;
-            descripcion.value = estadoTexto.value
-              ? formatearDescription(data[0].descripcion)
-              : formatearDescriptionMinusculas(data[0].descripcion);
-            precio.value = data[0].precio == null ? "" : data[0].precio;
-            fecha.value = data[0].fecha == null ? "" : data[0].fecha;
-          }
-        } catch (error) {
-          console.log(error);
-        }
+  try {
+    const { data } = await axios.get(`${searchLabel}${barcode}`, {
+      headers: {
+        Authorization: `Bearer ${token.value}`,
+      },
+    });
+    audioPlayer.play();
+
+    barra.value = barcode;
+    if (data.length === 0) {
+      encontrado.value = true;
+      descripcion.value = "";
+      precio.value = "";
+      fecha.value = "";
+    } else {
+      encontrado.value = false;
+      descripcion.value = estadoTexto.value
+        ? formatearDescription(data[0].descripcion)
+        : formatearDescriptionMinusculas(data[0].descripcion);
+      precio.value = data[0].precio == null ? "" : data[0].precio;
+      fecha.value = data[0].fecha == null ? "" : data[0].fecha;
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const resetScanner = () => {
@@ -297,7 +298,9 @@ const closeCog = () => {
 </script>
 <template>
   <div class="w-full md:w-[650px] m-auto">
-    <Ajustes @closeCog="closeCog" v-if="cog"></Ajustes>
+    <Transition>
+      <Ajustes @closeCog="closeCog" v-if="cog"></Ajustes>
+    </Transition>
     <div class="p-4 text-black recomendaciones">
       <b class="block mb-2 text-sm font-medium">RECOMENDACIONES</b>
       <Transition name="fade" mode="out-in">
@@ -354,11 +357,13 @@ const closeCog = () => {
     </div>
 
 
-    <form class="w-full p-4 pt-0" @submit.prevent="agregarCintillos" ref="frmCintillo">
+    <form class="w-full p-4 pt-0" @submit.prevent="agregarCintillos" ref="frmCintillo" v-if="userData">
       <div class="mb-6">
-        <label class="flex items-center justify-between mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" for="barra" v-if="userData">
+        <label class="flex items-center justify-between mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
+          for="barra" v-if="userData">
           CODIGO DE BARRA:
-          <button class="inline-block text-sm text-gray-400 font-normal" @click.prevent="openCog" v-if="barcodeOk"><font-awesome-icon :icon="['fas', 'gear']" /> Ajustes</button>
+          <button class="inline-block text-sm text-gray-400 font-normal" @click.prevent="openCog"
+            v-if="barcodeOk"><font-awesome-icon :icon="['fas', 'gear']" /> Ajustes</button>
         </label>
 
         <div class="flex items-stretch justify-between border border-solid border-[#ddd] focus:border-gray-500">
@@ -366,12 +371,14 @@ const closeCog = () => {
             class="flex-grow px-4 py-3 leading-tight text-gray-700 border-0 rounded-l appearance-none focus:outline-none focus:bg-white"
             id="barra" type="text" placeholder="Ej. 1234567890123" autocomplete="off" v-model="barra" />
           <div>
-
-            <a class="flex items-center justify-center h-full px-4 leading-tight text-gray-700 bg-gray-300 border rounded-r" v-if="userData && userData['profile'] && userData['profile'][0] && userData['profile'][0]['scanner'] === 0"
+            <a class="flex items-center justify-center h-full px-4 leading-tight text-gray-700 bg-gray-300 border rounded-r"
+              v-if="userData && userData['profile'] && userData['profile'][0] && userData['profile'][0]['scanner'] == 0"
               @click.prevent="startScanner">
               <img src="../../public/barcode.png" class="w-[25px] block" />
             </a>
-            <EscanerVainilla  @startScannerNew="startScannerNew" @startScanner="startScanner" v-if="userData && userData['profile'] && userData['profile'][0] && userData['profile'][0]['scanner'] === 1"></EscanerVainilla>
+            <EscanerVainilla @startScannerNew="startScannerNew" @startScanner="startScanner"
+              v-if="userData && userData['profile'] && userData['profile'][0] && userData['profile'][0]['scanner'] == 1">
+            </EscanerVainilla>
           </div>
         </div>
       </div>
