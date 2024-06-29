@@ -36,7 +36,7 @@ const sendActiveRequest = async () => {
         console.error('Error en la petición activa:', error);
     } finally {
         isLoading.value = false;
-        window.location.reload()
+        window.location.reload(); // Refresca la página
     }
 };
 
@@ -57,14 +57,14 @@ const sendInactiveRequest = async () => {
         console.error('Error en la petición inactiva:', error);
     } finally {
         isLoading.value = false;
-        window.location.reload()
+        window.location.reload(); // Refresca la página
     }
 };
 
 // Observador para isChecked
-watch(isChecked, async (newValue) => {
-    if (isLoading.value) {
-        return; // Evitar enviar peticiones si una está en curso
+watch(isChecked, async (newValue, oldValue) => {
+    if (isLoading.value || newValue === (props.checke === 1)) {
+        return; // Evitar enviar peticiones si una está en curso o no hay cambio
     }
     if (newValue) {
         await sendActiveRequest();
@@ -86,12 +86,11 @@ watch(isChecked, async (newValue) => {
 
             <div class="inline-flex items-center">
                 <div class="relative inline-block w-[3.2rem] h-4 -mt-5 rounded-full cursor-pointer border border-[#ddd] border-solid">
-                    <input type="checkbox" id="desc" v-model="isChecked" :disabled="isLoading" ref="micheck"
+                    <input type="checkbox" id="desc" v-model="isChecked" :disabled="isLoading"
                         class="absolute w-8 h-4 transition-colors duration-300 rounded-full appearance-none cursor-pointer peer bg-blue-gray-100 checked:bg-gray-900 peer-checked:border-gray-900 peer-checked:before:bg-gray-900" />
                     <label for="desc"
                         class="before:content[''] absolute top-2/4 -left-1 h-5 w-5 -translate-y-2/4 cursor-pointer rounded-full border border-blue-gray-100 bg-white shadow-md transition-all duration-300 before:absolute before:top-2/4 before:left-2/4 before:block before:h-10 before:w-10 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity hover:before:opacity-10 peer-checked:translate-x-full peer-checked:border-gray-900 peer-checked:before:bg-gray-900">
-                        <div
-                            class="inline-block p-5 rounded-full top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">
+                        <div class="inline-block p-5 rounded-full top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">
                         </div>
                     </label>
                 </div>
@@ -106,7 +105,6 @@ watch(isChecked, async (newValue) => {
                     </div>
                 </label>
             </div>
-
         </div>
     </div>
 </template>
