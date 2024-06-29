@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useGetRoutes } from "@/composables/getRoutes";
 
 const emit = defineEmits(['openCog', 'closeCog'])
-const defineProps(['cog'])
+ defineProps(['cog'])
 const { labelScanner } = useGetRoutes();
 // Definimos una variable reactiva para el estado del checkbox
 const isChecked = ref(false);
