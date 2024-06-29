@@ -299,7 +299,7 @@ const closeCog = () => {
 <template>
   <div class="w-full md:w-[650px] m-auto">
     <Transition>
-      <Ajustes @closeCog="closeCog" v-if="cog"></Ajustes>
+      <Ajustes @closeCog="closeCog" :checke="userData['profile'][0]['scanner']" v-if="userData && userData['profile'] && userData['profile'][0] && cog"></Ajustes>
     </Transition>
     <div class="p-4 text-black recomendaciones">
       <b class="block mb-2 text-sm font-medium">RECOMENDACIONES</b>
