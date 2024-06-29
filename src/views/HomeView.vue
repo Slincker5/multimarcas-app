@@ -293,7 +293,7 @@ function obtenerTopPorUUID(user_uuid) {
     </audio>
     <Herramientas v-if="userData" :premium="userData.profile[0].suscripcion"></Herramientas>
     <VencimientosCard v-if="userData" :usuario="userData.profile[0].username"></VencimientosCard>
-    <div class="flex items-start justify-between bg-white fondoOff"
+    <div class="flex items-start justify-between bg-white fondoOff hidden"
       v-if="userData && userData.profile[0].suscripcion === 1">
       <img src="../../public/bonus.png" alt="oferta" class="z-20 w-[85px] block p-4 pr-2" />
       <div class="w-full p-4 pl-0 relative">
